@@ -1,21 +1,23 @@
-var mongoose = require("mongoose");
+import mongodb = require('mongodb');
+import { injectable } from "inversify";
 
-mongoose.connect("mongodb://localhost:27017/HMSBeta");
-
-export class DatabaseAccess {
-    private _dbConnected: boolean;
+@injectable()
+export class MongoDbAccess {
+    private _server: mongodb.Server;
+    private _db: mongodb.Db;
     constructor() {
-        var db = mongoose.connection;
-        db.on('error', function() {
-          console.error.bind(console, 'connection error:');
-          this._dbConnected = false;  
-        });
-        db.once('open', function() {
-            this._dbConnected = true;
+        this._server = new mongodb.Server('localhost', 27017);
+        this._db = new mongodb.Db('HMSBeta', this._server, { w: 1 });
+        this._db.open(function() {
+            console.log("connected to database.");
         });
     }
 
-    getCollection(name: string, dataSchema: any): any {
-        return mongoose.Model(name, dataSchema);
+    public getCollection(collectionName: string, callBack : (collection: mongodb.Collection) => void) {
+        this._db.collection(collectionName, function(err, col ) {
+            if(err) { console.error(err); return; }
+        
+            callBack(col);
+        }); 
     }
 }

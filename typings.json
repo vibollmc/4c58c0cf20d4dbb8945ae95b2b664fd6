@@ -1,7 +1,11 @@
 {
   "globalDependencies": {
     "core-js": "registry:dt/core-js#0.0.0+20160725163759",
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "inversify": "registry:dt/inversify#2.0.0-rc.12+20160830145920",
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
+    "jquery": "registry:dt/jquery#1.10.0+20160908203239",
+    "mongodb": "registry:dt/mongodb#2.1.0+20160602142941",
     "node": "registry:dt/node#6.0.0+20160909174046"
   }
 }

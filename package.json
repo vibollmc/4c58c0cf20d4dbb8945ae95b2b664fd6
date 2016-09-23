@@ -33,7 +33,8 @@
     "jquery": "^3.1.0",
     "jquery.nicescroll": "3.6.8",
     "express": "^4.14.0",
-    "mongoose": "^4.6.1"
+    "mongodb": "^2.2.10",
+    "inversify": "^2.0.0"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",
