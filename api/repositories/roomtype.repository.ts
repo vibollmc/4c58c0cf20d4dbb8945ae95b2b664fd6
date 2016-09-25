@@ -2,30 +2,29 @@ import mongodb = require('mongodb');
 import assert = require('assert');
 import { injectable } from "inversify";
 
-import { MongoDbAccess } from "../../dbservices/database.access";
-import { Roomtype } from "../../models/roomtype";
-import { Status } from "../../models/enum";
+import { MongoDbAccess, Collections } from "../../dbservices/database.access";
+import { Roomtype } from "../../app/hotel/models/roomtype";
+import { Status } from "../../app/hotel/models/enum";
 
 @injectable()
 export class RoomtypeRepository {
-    private _roomtypeCollectionName = "Roomtype";
-    private _mongoDbAccess: MongoDbAccess;
-    constructor(mongoDbAccess: MongoDbAccess)
+    
+    constructor(
+        private mongoDbAccess: MongoDbAccess)
     {
-        this._mongoDbAccess = mongoDbAccess;
     }
 
     public test() {
-        this._mongoDbAccess.getCollection(this._roomtypeCollectionName,
+        this.mongoDbAccess.getCollection(Collections.roomtype,
         (collection) => {
             var testData = new Roomtype();
             //testData._id = new mongodb.ObjectID();
             testData.createdAt = new Date();
             testData.name = "A";
             testData.status = Status.Active;
-            testData.FormulaByDay = "1";
-            testData.FormulaByHalfDay = "12";
-            testData.FormulaByHour = "24";
+            testData.formulaByDay = "1";
+            testData.formulaByHalfDay = "12";
+            testData.formulaByHour = "24";
 
             console.log(testData);
 
@@ -38,7 +37,8 @@ export class RoomtypeRepository {
     }
 
     public addNewRoomtype(roomtype: Roomtype, callBack: (err: mongodb.MongoError) => void) {
-        this._mongoDbAccess.getCollection(this._roomtypeCollectionName, 
+        roomtype.createdAt = new Date();
+        this.mongoDbAccess.getCollection(Collections.roomtype, 
         (collection: mongodb.Collection) => {
             collection.insertOne(roomtype, 
             (err, results) => {
@@ -49,7 +49,8 @@ export class RoomtypeRepository {
     }
 
     public updateRoomtype(roomtype: Roomtype, callBack: (err: mongodb.MongoError) => void) {
-        this._mongoDbAccess.getCollection(this._roomtypeCollectionName,
+        roomtype.updatedAt = new Date();
+        this.mongoDbAccess.getCollection(Collections.roomtype,
         (collection: mongodb.Collection)=> {
             collection.updateOne({_id: roomtype._id}, roomtype, 
             (err, results) => {
@@ -61,11 +62,11 @@ export class RoomtypeRepository {
 
 
     public updateStatus(id: string, status: Status, callBack: (err: mongodb.MongoError) => void ) {
-        this._mongoDbAccess.getCollection(this._roomtypeCollectionName,
+        this.mongoDbAccess.getCollection(Collections.roomtype,
         (collection) => {
             collection.updateOne({_id: id}, 
             {
-                $set: { status: status, updatedAt: new Date(Date.now())}
+                $set: { status: status, updatedAt: new Date()}
             },
             (err, results) => {
                 assert.equal(err, null);
@@ -75,7 +76,7 @@ export class RoomtypeRepository {
     }
 
     public getRoomtype(callBack: (data: any) => void) {
-        this._mongoDbAccess.getCollection(this._roomtypeCollectionName,
+        this.mongoDbAccess.getCollection(Collections.roomtype,
         (collection) => {
             collection.find().toArray().then((result) => {
                 callBack(result);

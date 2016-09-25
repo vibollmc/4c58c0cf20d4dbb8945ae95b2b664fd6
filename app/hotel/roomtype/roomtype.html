@@ -1,8 +1,11 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Danh mục loại phòng</h1>
+        <h1 class="page-header">Danh mục loại phòng 
+            <button type="button" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Thêm mới</button>
+        </h1>
     </div>
 </div>
+
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="table-responsive">
@@ -18,17 +21,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Angeline Mcclain</td>
-                        <td>2004-07-06</td>
-                        <td>dale@chief.info</td>
-                        <td>Rosser</td>
-                        <td>Rosser</td>
+                    <tr *ngFor="let roomtype of vm.lstRoomtype">
+                        <td>{{roomtype.name}}</td>
+                        <td>{{roomtype.formulaByHour}}</td>
+                        <td>{{roomtype.formulaByHalfDay}}</td>
+                        <td>{{roomtype.formulaByDay}}</td>
+                        <td>{{roomtype.status}}</td>
                         <td>
-                            <div class="btn-group">
-                                <a class="btn btn-primary" href="#"><i class="icon_plus_alt2"></i></a>
-                                <a class="btn btn-success" href="#"><i class="icon_check_alt2"></i></a>
-                                <a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
+                            <div class="btn-group btn-group-xs">
+                                <a class="btn btn-primary" href="#"><i class="fa fa-plus"></i></a>
+                                <a class="btn btn-success" href="#"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-danger" href="#"><i class="fa fa-times"></i></a>
                             </div>
                         </td>
                     </tr>

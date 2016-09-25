@@ -3,9 +3,9 @@ import mongodb = require('mongodb');
 
 import kernel from "../ioc/ioc.config";
 import { RoomtypeService } from "../services/roomtype.service";
-import { Roomtype } from "../../models/roomtype";
-import { ResponseResult } from "../../models/responseresults";
-import { ResultCode, Status } from "../../models/enum";
+import { Roomtype } from "../../app/hotel/models/roomtype";
+import { ResponseResult } from "../../app/hotel/models/responseresults";
+import { ResultCode, Status } from "../../app/hotel/models/enum";
 
 var router = express.Router();
 let _roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
