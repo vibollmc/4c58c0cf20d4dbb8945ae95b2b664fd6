@@ -34,8 +34,7 @@ export class RoomtypeModel {
 
     public save() {
         if (this.roomtype._id === undefined
-            || this.roomtype._id === null
-            || this.roomtype._id.toHexString() === "") {
+            || this.roomtype._id === null) {
             this.roomtypeService.addNew(this.roomtype).then(
                 response => {
                     if (response.data === true) {
@@ -59,8 +58,7 @@ export class RoomtypeModel {
     }
     public delete() {
         if (this.roomtype._id === undefined
-            || this.roomtype._id === null
-            || this.roomtype._id.toHexString() === "") return;
+            || this.roomtype._id === null) return;
         
         this.roomtypeService.delete(this.roomtype._id.toHexString()).then(
             response => {

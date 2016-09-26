@@ -5,4 +5,12 @@ export class Roomtype extends MongodbModel {
     formulaByDay: string;
     formulaByHour: string;
     formulaByHalfDay: string;
+
+    constructor() {
+        super();
+        this.name = null;
+        this.formulaByDay = null;
+        this.formulaByHalfDay = null;
+        this.formulaByHour = null;
+    }
 }

@@ -1,7 +1,9 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Danh mục loại phòng 
-            <button type="button" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Thêm mới</button>
+        <h1 class="page-header">Danh mục loại phòng
+            <button type="button" class="btn btn-xs btn-primary" (click)="selectRoomtype(null)" data-toggle="modal" data-target="#roomtypemodal">
+                <i class="fa fa-plus"></i> Thêm mới
+            </button>
         </h1>
     </div>
 </div>
@@ -29,14 +31,62 @@
                         <td>{{roomtype.status}}</td>
                         <td>
                             <div class="btn-group btn-group-xs">
-                                <a class="btn btn-primary" href="#"><i class="fa fa-plus"></i></a>
-                                <a class="btn btn-success" href="#"><i class="fa fa-pencil"></i></a>
-                                <a class="btn btn-danger" href="#"><i class="fa fa-times"></i></a>
+                                <button class="btn btn-primary" (click)="selectRoomtype(null)" data-toggle="modal" data-target="#roomtypemodal"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-success" (click)="selectRoomtype(roomtype)" data-toggle="modal" data-target="#roomtypemodal"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-danger" (click)="deleteRoomtype(roomtype)"><i class="fa fa-times"></i></button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="roomtypemodal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{modalTitle}}</h4>
+            </div>
+            <form (ngSubmit)="saveRoomtype()" #roomtypeForm="ngForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tên loại phòng</label>
+                        <input class="form-control" #name="ngModel" id="name" name="name" required [(ngModel)]="vm.roomtype.name" [ngModelOptions]="{standalone: true}">
+                        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                            Yêu cầu nhập tên loại phòng
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Công thức giá phòng theo giờ</label>
+                        <textarea rows="2" class="form-control" #formulaByHour="ngModel" id="formulaByHour" name="formulaByHour" required [(ngModel)]="vm.roomtype.formulaByHour" [ngModelOptions]="{standalone: true}"></textarea>
+                        <div [hidden]="formulaByHour.valid || formulaByHour.pristine" class="alert alert-danger">
+                            Yêu cầu nhập công thức tính giá phòng theo giờ
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Công thức giá phòng 1/2 ngày</label>
+                        <textarea rows="2" class="form-control" #formulaByHalfDay="ngModel" id="formulaByHalfDay" name="formulaByHalfDay" required [(ngModel)]="vm.roomtype.formulaByHalfDay" [ngModelOptions]="{standalone: true}"></textarea>
+                        <div [hidden]="formulaByHalfDay.valid || formulaByHalfDay.pristine" class="alert alert-danger">
+                            Yêu cầu nhập công thức tính giá phòng 1/2 ngày
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Công thức giá phòng theo ngày</label>
+                        <textarea rows="2" class="form-control" #formulaByDay="ngModel" id="formulaByDay" name="formulaByDay" required [(ngModel)]="vm.roomtype.formulaByDay" [ngModelOptions]="{standalone: true}"></textarea>
+                        <div [hidden]="formulaByDay.valid || formulaByDay.pristine" class="alert alert-danger">
+                            Yêu cầu nhập công thức tính giá phòng theo ngày
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" [disabled]="!roomtypeForm.form.valid" (click)="saveRoomtype()" ><i class="fa fa-save"></i>{{modalTextSave}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

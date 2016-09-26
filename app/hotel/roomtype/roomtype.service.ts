@@ -43,7 +43,7 @@ export class RoomtypeService {
             .catch(this.handleError);
     }
     public delete(id: string): Promise<ResponseResult> {
-        return this.http.get(this.urlGet + "/" + id, )
+        return this.http.get(this.urlGet + "/" + id)
             .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);
