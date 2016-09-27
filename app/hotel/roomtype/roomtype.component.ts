@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, AfterViewChecked} from "@angular/core";
 
 import { RoomtypeModel } from "./roomtype.model";
 import { Roomtype } from "../models/roomtype";
@@ -11,16 +11,21 @@ declare var $: any;
     templateUrl: 'app/hotel/roomtype/roomtype.html'
 })
 
-export class RoomtypeComponent implements OnInit {
+export class RoomtypeComponent implements OnInit, AfterViewChecked {
     modalTitle: string;
     modalTextSave: string;
     constructor(
         public vm : RoomtypeModel
     ) { }
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.vm.loadData();
     }
+    
+    ngAfterViewChecked() {
+        $('input[type=checkbox][data-toggle^=toggle]').bootstrapToggle();
+    }
+    
 
     public selectRoomtype(roomtype: Roomtype) {
         if (roomtype != undefined && roomtype !== null) {
@@ -43,5 +48,9 @@ export class RoomtypeComponent implements OnInit {
     public deleteRoomtype(roomtype: Roomtype) {
         this.vm.roomtype = roomtype;
         this.vm.delete();
+    }
+
+    public updateStatus(id: any, status: any) {
+        alert("id: " + id + " status: " + status);
     }
 }

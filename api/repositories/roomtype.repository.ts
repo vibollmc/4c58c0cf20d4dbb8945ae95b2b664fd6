@@ -43,6 +43,7 @@ export class RoomtypeRepository {
         roomtype.updatedAt = new Date();
         console.log(roomtype);
         var filter = { _id : new mongodb.ObjectID(roomtype._id) };
+        roomtype._id = new mongodb.ObjectID(roomtype._id);
         return dbCollection.replaceOne(filter, roomtype);
     }
 

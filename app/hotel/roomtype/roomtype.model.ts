@@ -8,6 +8,7 @@ import { ResultCode } from "../models/enum";
 import { MessageProvider } from "../shared/message";
 
 declare var toastr: any;
+declare var $: any;
 
 @Injectable()
 export class RoomtypeModel {
@@ -24,7 +25,6 @@ export class RoomtypeModel {
             response => {
                 if (response.code === ResultCode.Success) {
                     this.lstRoomtype = response.data as Roomtype[];
-
                 }
                 else {
                     this.lstRoomtype = null;

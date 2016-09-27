@@ -28,7 +28,10 @@
                         <td>{{roomtype.formulaByHour}}</td>
                         <td>{{roomtype.formulaByHalfDay}}</td>
                         <td>{{roomtype.formulaByDay}}</td>
-                        <td>{{roomtype.status}}</td>
+                        <td>
+                            {{roomtype.status}}
+                            <input data-toggle="toggle" data-size="mini" type="checkbox" (click)="updateStatus(roomtype._id, roomtype.status)">
+                        </td>
                         <td>
                             <div class="btn-group btn-group-xs">
                                 <button class="btn btn-primary" (click)="selectRoomtype(null)" data-toggle="modal" data-target="#roomtypemodal"><i class="fa fa-plus"></i></button>

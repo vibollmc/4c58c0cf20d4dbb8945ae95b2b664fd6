@@ -1,7 +1,7 @@
 import {Status} from '../enum';
 
 export class MongodbModel {
-    _id: string;
+    _id: any;
     status: Status;
 
     createdAt: Date;
