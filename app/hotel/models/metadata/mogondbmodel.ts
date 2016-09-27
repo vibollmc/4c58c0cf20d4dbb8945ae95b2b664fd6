@@ -1,9 +1,7 @@
-import mongodb = require('mongodb');
-
 import {Status} from '../enum';
 
 export class MongodbModel {
-    _id: mongodb.ObjectID;
+    _id: string;
     status: Status;
 
     createdAt: Date;

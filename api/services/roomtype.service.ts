@@ -11,19 +11,19 @@ export class RoomtypeService {
     constructor(private roomtypeRepository: RoomtypeRepository) {
     }
 
-    public addNewRoomtype(roomtype: Roomtype, callBack: (err: mongodb.MongoError) => void) {
-        this.roomtypeRepository.addNewRoomtype(roomtype, callBack);
+    public addNewRoomtype(roomtype: Roomtype): Promise<mongodb.InsertOneWriteOpResult> {
+        return this.roomtypeRepository.addNewRoomtype(roomtype);
     }
 
-    public updateRoomtype(roomtype: Roomtype, callBack: (err: mongodb.MongoError) => void) {
-        this.roomtypeRepository.updateRoomtype(roomtype, callBack);
+    public updateRoomtype(roomtype: Roomtype): Promise<mongodb.UpdateWriteOpResult> {
+        return this.roomtypeRepository.updateRoomtype(roomtype);
     }
 
-    public updateStatus(id: string, status: Status, callBack: (err: mongodb.MongoError) => void ) {
-        this.roomtypeRepository.updateStatus(id, status, callBack);
+    public updateStatus(id: string, status: Status): Promise<mongodb.UpdateWriteOpResult> {
+        return this.roomtypeRepository.updateStatus(id, status);
     } 
-    public getRoomtype(callBack: (data: mongodb.MongoError) => void) {
-        this.roomtypeRepository.getRoomtype(callBack);
+    public getRoomtype(): Promise<Roomtype[]> {
+        return this.roomtypeRepository.getRoomtype();
     }
 
     public test() {

@@ -1,29 +1,25 @@
 import mongodb = require('mongodb');
 import { injectable } from "inversify";
 
-import DatabaseConfig from "./config"; 
+import DatabaseConfig from "./config";
 
 @injectable()
 export class MongoDbAccess {
-    private _server: mongodb.Server;
-    private _db: mongodb.Db;
+    private server: mongodb.Server;
+    private db: mongodb.Db;
     constructor() {
-        this._server = new mongodb.Server(DatabaseConfig.host, DatabaseConfig.port);
-        this._db = new mongodb.Db(DatabaseConfig.databaseName, this._server, { w: 1 });
-        this._db.open(function() {
+        this.server = new mongodb.Server(DatabaseConfig.host, DatabaseConfig.port);
+        this.db = new mongodb.Db(DatabaseConfig.databaseName, this.server, { w: 1 });
+        this.db.open(() => {
             console.log("connected to database.");
         });
     }
 
-    public getCollection(collectionName: string, callBack : (collection: mongodb.Collection) => void) {
-        this._db.collection(collectionName, function(err, col ) {
-            if(err) { console.error(err); return; }
-        
-            callBack(col);
-        }); 
+    public getCollection(name: string) : mongodb.Collection {
+        return this.db.collection(name);
     }
 }
 
 export var Collections = {
-    roomtype : "Roomtype"
+    roomtype: "Roomtype"
 }

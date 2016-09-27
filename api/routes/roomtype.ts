@@ -8,46 +8,71 @@ import { ResponseResult } from "../../app/hotel/models/responseresults";
 import { ResultCode, Status } from "../../app/hotel/models/enum";
 
 var router = express.Router();
-let _roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
 
 router.get("/test", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    _roomtypeService.test();
+    let roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
+    roomtypeService.test();
     return res.json({ result: "test function." })
 });
 
 router.get("/", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    _roomtypeService.getRoomtype(
-        (roomtype) => {
-            var result = new ResponseResult(ResultCode.Success, roomtype, "");
+    let roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
+    roomtypeService.getRoomtype()
+        .then((data) => {
+            var result = new ResponseResult(ResultCode.Success, data, "");
             res.json(result);
-        }
-    );
+        })
+        .catch((err) => {
+            console.log("error occurred get data roomtype " + err);
+            var result = new ResponseResult(ResultCode.Error, null, "error occurred get data roomtype " + err);
+            res.json(result);
+        });
 });
 
 router.post("/add", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    var roomtype = req.body as Roomtype;
-    _roomtypeService.addNewRoomtype(roomtype,
-        (err) => {
-            var result = err ? new ResponseResult(ResultCode.Error, false, err.message) : new ResponseResult(ResultCode.Success, true, "");
+    let roomtype = req.body as Roomtype;
+    let roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
+
+    roomtypeService.addNewRoomtype(roomtype)
+        .then((data) => {
+            var result = data.result.ok ? new ResponseResult(ResultCode.Success, true, "") : new ResponseResult(ResultCode.Error, false, "error occurred insert data roomtype");
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log("error occurred insert data roomtype" + err);
+            var result = new ResponseResult(ResultCode.Error, false, "error occurred insert data roomtype " + err);
             res.json(result);
         });
 });
 
 router.post("/update", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    var roomtype = req.body as Roomtype;
-    this._roomtypeService.updateRoomtype(roomtype,
-        (err) => {
-            var result = err ? new ResponseResult(ResultCode.Error, false, err.message) : new ResponseResult(ResultCode.Success, true, "");
+    let roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
+    let roomtype = req.body as Roomtype;
+    roomtypeService.updateRoomtype(roomtype)
+        .then((data) => {
+            var result = data.result.ok ? new ResponseResult(ResultCode.Success, true, "") : new ResponseResult(ResultCode.Error, false, "error occurred update data roomtype");
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log("error occurred update data roomtype" + err);
+            var result = new ResponseResult(ResultCode.Error, false, "error occurred update data roomtype " + err);
             res.json(result);
         });
 });
 
 router.get("/delete/:id", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    var id = req.params.id as string;
-    var status = Status.Active;
-    this._roomtypeService.updateStatus(id, status,
-        (err) => {
-            var result = err ? new ResponseResult(ResultCode.Error, false, err.message) : new ResponseResult(ResultCode.Success, true, "");
+    let roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
+    let id = req.params.id as string;
+    let status = Status.Inactive;
+
+    roomtypeService.updateStatus(id, status)
+        .then((data) => {
+            var result = data.result.ok ? new ResponseResult(ResultCode.Success, true, "") : new ResponseResult(ResultCode.Error, false, "error occurred delete data roomtype");
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log("error occurred delete data roomtype" + err);
+            var result = new ResponseResult(ResultCode.Error, false, "error occurred delete data roomtype " + err);
             res.json(result);
         });
 });

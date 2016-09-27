@@ -36,7 +36,8 @@
     "mongodb": "^2.2.10",
     "inversify": "^2.0.0",
     "body-parser": "^1.15.2",
-    "cors": "^2.8.1"
+    "cors": "^2.8.1",
+    "bootbox": "4.4.0"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",

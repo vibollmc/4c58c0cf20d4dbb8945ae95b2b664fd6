@@ -6,6 +6,8 @@ import SystemConfig from "../shared/config";
 import { Roomtype } from "../models/roomtype";
 import { ResponseResult } from "../models/responseresults";
 
+declare var bootbox: BootboxStatic;
+
 @Injectable()
 export class RoomtypeService {
     private urlGet: string;
@@ -16,14 +18,15 @@ export class RoomtypeService {
         private http: Http
     ) {
         this.urlGet = SystemConfig.apiHost + "/roomtype";
-        this.urlAddNew = SystemConfig.apiHost + "/add";
-        this.urlUpdate = SystemConfig.apiHost + "/update";
-        this.urlDelete = SystemConfig.apiHost + "/delete";
+        this.urlAddNew = SystemConfig.apiHost + "/roomtype/add";
+        this.urlUpdate = SystemConfig.apiHost + "/roomtype/update";
+        this.urlDelete = SystemConfig.apiHost + "/roomtype/delete";
     }
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
+
+    private handleError(error: any) {
+        bootbox.alert("An error accurred " + error.message || error);
     }
+
     public get(): Promise<ResponseResult> {
         return this.http.get(this.urlGet)
             .toPromise()
@@ -43,7 +46,7 @@ export class RoomtypeService {
             .catch(this.handleError);
     }
     public delete(id: string): Promise<ResponseResult> {
-        return this.http.get(this.urlGet + "/" + id)
+        return this.http.get(this.urlDelete + "/" + id)
             .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);

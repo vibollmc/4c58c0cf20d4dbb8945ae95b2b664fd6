@@ -59,17 +59,20 @@ export class RoomtypeModel {
     public delete() {
         if (this.roomtype._id === undefined
             || this.roomtype._id === null) return;
-        
-        this.roomtypeService.delete(this.roomtype._id.toHexString()).then(
-            response => {
-                response => {
-                    if (response.data === true) {
-                        MessageProvider.deleteSuccess();
-                        this.loadData();
+
+        MessageProvider.confirmDelete(null,
+            (result) => {
+                if (result === false) return;
+
+                this.roomtypeService.delete(this.roomtype._id).then(
+                    response => {
+                        if (response.data === true) {
+                            MessageProvider.deleteSuccess();
+                            this.loadData();
+                        }
+                        else MessageProvider.deleteError(response.message);
                     }
-                    else MessageProvider.deleteError(response.message);
-                }
-            }
-        );
+                );
+            });
     }
 }

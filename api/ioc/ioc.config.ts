@@ -7,7 +7,7 @@ import { RoomtypeService } from "../services/roomtype.service";
 
 let kernel = new Kernel();
 
-kernel.bind<MongoDbAccess>(MongoDbAccess).toSelf();
+kernel.bind<MongoDbAccess>(MongoDbAccess).toSelf().inSingletonScope();
 kernel.bind<RoomtypeRepository>(RoomtypeRepository).toSelf();
 kernel.bind<RoomtypeService>(RoomtypeService).toSelf();
 
