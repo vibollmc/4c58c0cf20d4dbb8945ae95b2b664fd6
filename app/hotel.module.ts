@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
+import { MaterialModule } from '@angular/material';
 
 import { routing } from './app.routing';
 import { HotelComponent } from "./hotel.component";
@@ -15,6 +16,7 @@ import { RoomtypeModel } from "./hotel/roomtype/roomtype.model";
         BrowserModule,
         FormsModule,
         HttpModule,
+        MaterialModule,
         routing
     ],
     declarations: [

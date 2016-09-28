@@ -65,7 +65,7 @@ router.get("/delete/:id", (req: express.Request, res: express.Response, next: ex
     let id = req.params.id as string;
     let status = Status.Inactive;
 
-    roomtypeService.updateStatus(id, status)
+    roomtypeService.deleteRoomtype(id)
         .then((data) => {
             var result = data.result.ok ? new ResponseResult(ResultCode.Success, true, "") : new ResponseResult(ResultCode.Error, false, "error occurred delete data roomtype");
             res.json(result);
@@ -73,6 +73,23 @@ router.get("/delete/:id", (req: express.Request, res: express.Response, next: ex
         .catch((err) => {
             console.log("error occurred delete data roomtype" + err);
             var result = new ResponseResult(ResultCode.Error, false, "error occurred delete data roomtype " + err);
+            res.json(result);
+        });    
+});
+
+router.get("/status/:id/:status", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    let roomtypeService = kernel.get<RoomtypeService>(RoomtypeService);
+    let id = req.params.id as string;
+    let status = req.params.status as Status;
+
+    roomtypeService.updateStatus(id, status)
+        .then((data) => {
+            var result = data.result.ok ? new ResponseResult(ResultCode.Success, true, "") : new ResponseResult(ResultCode.Error, false, "error occurred update status roomtype");
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log("error occurred update status roomtype" + err);
+            var result = new ResponseResult(ResultCode.Error, false, "error occurred update status roomtype " + err);
             res.json(result);
         });
 });

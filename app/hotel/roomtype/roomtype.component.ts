@@ -1,6 +1,7 @@
-import {Component, OnInit, AfterViewChecked} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 import { RoomtypeModel } from "./roomtype.model";
+import { Status } from '../models/enum';
 import { Roomtype } from "../models/roomtype";
 
 declare var $: any;
@@ -11,21 +12,16 @@ declare var $: any;
     templateUrl: 'app/hotel/roomtype/roomtype.html'
 })
 
-export class RoomtypeComponent implements OnInit, AfterViewChecked {
+export class RoomtypeComponent implements OnInit {
     modalTitle: string;
     modalTextSave: string;
     constructor(
-        public vm : RoomtypeModel
+        public vm: RoomtypeModel
     ) { }
 
     ngOnInit() {
         this.vm.loadData();
     }
-    
-    ngAfterViewChecked() {
-        $('input[type=checkbox][data-toggle^=toggle]').bootstrapToggle();
-    }
-    
 
     public selectRoomtype(roomtype: Roomtype) {
         if (roomtype != undefined && roomtype !== null) {
@@ -33,11 +29,11 @@ export class RoomtypeComponent implements OnInit, AfterViewChecked {
             this.modalTextSave = " Cập nhật";
             this.vm.roomtype = roomtype;
         }
-        else { 
+        else {
             this.vm.roomtype = new Roomtype();
             this.modalTitle = "Thêm mới loại phòng";
             this.modalTextSave = " Tạo mới";
-        } 
+        }
     }
 
     public saveRoomtype() {
@@ -50,7 +46,7 @@ export class RoomtypeComponent implements OnInit, AfterViewChecked {
         this.vm.delete();
     }
 
-    public updateStatus(id: any, status: any) {
-        alert("id: " + id + " status: " + status);
+    public updateStatus(id: string, status: boolean) {
+        this.vm.updateStatus(id, status ? Status.Active : Status.Inactive);
     }
 }

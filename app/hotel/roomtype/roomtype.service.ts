@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 import SystemConfig from "../shared/config";
 import { Roomtype } from "../models/roomtype";
+import { Status } from "../models/enum";
 import { ResponseResult } from "../models/responseresults";
 
 declare var bootbox: BootboxStatic;
@@ -14,6 +15,7 @@ export class RoomtypeService {
     private urlAddNew: string;
     private urlUpdate: string;
     private urlDelete: string;
+    private urlUpdateStatus: string;
     constructor(
         private http: Http
     ) {
@@ -21,12 +23,11 @@ export class RoomtypeService {
         this.urlAddNew = SystemConfig.apiHost + "/roomtype/add";
         this.urlUpdate = SystemConfig.apiHost + "/roomtype/update";
         this.urlDelete = SystemConfig.apiHost + "/roomtype/delete";
+        this.urlUpdateStatus = SystemConfig.apiHost + "/roomtype/status";
     }
-
     private handleError(error: any) {
         bootbox.alert("An error accurred " + error.message || error);
     }
-
     public get(): Promise<ResponseResult> {
         return this.http.get(this.urlGet)
             .toPromise()
@@ -48,6 +49,11 @@ export class RoomtypeService {
     public delete(id: string): Promise<ResponseResult> {
         return this.http.get(this.urlDelete + "/" + id)
             .toPromise()
+            .then(response => response.json() as ResponseResult)
+            .catch(this.handleError);
+    }
+    public updateStatus(id: string, status: Status) {
+        return this.http.get(this.urlUpdateStatus + "/" + id + "/" + status).toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);
     }

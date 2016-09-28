@@ -1,12 +1,19 @@
 {
   "globalDependencies": {
+    "body-parser": "registry:dt/body-parser#0.0.0+20160619023215",
+    "bootbox": "registry:dt/bootbox#4.4.0+20160830081945",
     "core-js": "registry:dt/core-js#0.0.0+20160725163759",
+    "cors": "registry:dt/cors#0.0.0+20160708202709",
     "express": "registry:dt/express#4.0.0+20160708185218",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160923124352",
+    "hammerjs": "registry:dt/hammerjs#2.0.8+20160724063812",
     "inversify": "registry:dt/inversify#2.0.0-rc.12+20160830145920",
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
     "jquery": "registry:dt/jquery#1.10.0+20160908203239",
     "mongodb": "registry:dt/mongodb#2.1.0+20160602142941",
-    "node": "registry:dt/node#6.0.0+20160909174046"
+    "node": "registry:dt/node#6.0.0+20160909174046",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "toastr": "registry:dt/toastr#2.1.1+20160510010435"
   },
   "dependencies": {
     "mime": "registry:npm/mime#1.3.0+20160723033700"

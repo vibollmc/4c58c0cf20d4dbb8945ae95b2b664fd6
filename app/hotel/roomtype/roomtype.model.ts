@@ -34,7 +34,7 @@ export class RoomtypeModel {
 
     public save() {
         if (this.roomtype._id === undefined
-            || this.roomtype._id === null) {
+            || this.roomtype._id === null || this.roomtype._id === "") {
             this.roomtypeService.addNew(this.roomtype).then(
                 response => {
                     if (response.data === true) {
@@ -56,9 +56,16 @@ export class RoomtypeModel {
             );
         }
     }
+
+    public updateStatus(id: string, status: Status) {
+        if (id === undefined || id === null || id === "") return;
+
+        this.roomtypeService.updateStatus(id, status);
+    }
+
     public delete() {
         if (this.roomtype._id === undefined
-            || this.roomtype._id === null) return;
+            || this.roomtype._id === null || this.roomtype._id === "") return;
 
         MessageProvider.confirmDelete(null,
             (result) => {

@@ -1,7 +1,6 @@
 export enum Status {
-    Undefined = 0,
+    Inactive = 0,
     Active = 1,
-    Inactive = 2,
 }
 export enum ServiceType {
     Undefined = 0,

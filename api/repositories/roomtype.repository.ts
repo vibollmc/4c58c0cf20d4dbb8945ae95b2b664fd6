@@ -54,6 +54,12 @@ export class RoomtypeRepository {
         return dbCollection.updateOne(filter, update);
     }
 
+    public deleteRoomtype(id: string): Promise<mongodb.DeleteWriteOpResultObject> {
+        var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
+        var filter = { _id : new mongodb.ObjectID(id) };
+        return dbCollection.deleteOne(filter);
+    }
+
     public getRoomtype(): Promise<Roomtype[]> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
         return dbCollection.find().toArray();

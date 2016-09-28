@@ -25,6 +25,9 @@ export class RoomtypeService {
     public getRoomtype(): Promise<Roomtype[]> {
         return this.roomtypeRepository.getRoomtype();
     }
+    public deleteRoomtype(id: string): Promise<mongodb.DeleteWriteOpResultObject> {
+        return this.roomtypeRepository.deleteRoomtype(id);
+    }
 
     public test() {
         this.roomtypeRepository.test();
