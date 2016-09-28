@@ -11,6 +11,10 @@ import { RoomtypeComponent } from "./hotel/roomtype/roomtype.component";
 import { RoomtypeService } from "./hotel/roomtype/roomtype.service";
 import { RoomtypeModel } from "./hotel/roomtype/roomtype.model";
 
+import { LoginComponent } from "./hotel/login/login.component";
+import { LoginService } from "./hotel/login/login.service";
+import { LoginModel } from "./hotel/login/login.model";
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -23,10 +27,13 @@ import { RoomtypeModel } from "./hotel/roomtype/roomtype.model";
         HotelComponent,
         DashboardComponent,
         RoomtypeComponent,
+        LoginComponent,
     ],
     providers: [
         RoomtypeService,
-        RoomtypeModel
+        RoomtypeModel,
+        LoginModel,
+        LoginService
     ],
     bootstrap: [HotelComponent]
 })

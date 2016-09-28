@@ -1,16 +1,19 @@
 import mongodb = require('mongodb');
 import { injectable } from "inversify";
 
+import { BaseRepository } from "./base.repository";
 import { MongoDbAccess, Collections } from "../../dbservices/database.access";
+import { ResponseResult } from "../../app/hotel/models/responseresults";
 import { Roomtype } from "../../app/hotel/models/roomtype";
 import { Status } from "../../app/hotel/models/enum";
 
 @injectable()
-export class RoomtypeRepository {
+export class RoomtypeRepository extends BaseRepository {
     
     constructor(
         private mongoDbAccess: MongoDbAccess)
     {
+        super(Collections.roomtype);
     }
 
     public test() {
@@ -31,37 +34,47 @@ export class RoomtypeRepository {
             .catch((err) => {});
     }
 
-    public addNewRoomtype(roomtype: Roomtype): Promise<mongodb.InsertOneWriteOpResult> {
+    public addNewRoomtype(roomtype: Roomtype): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
         roomtype.createdAt = new Date();
 
-        return dbCollection.insertOne(roomtype);
+        return dbCollection.insertOne(roomtype)
+            .then(data => this.createResultFromInsert(data))
+            .catch(err => this.createResultFromError(err));
     }
 
-    public updateRoomtype(roomtype: Roomtype): Promise<mongodb.UpdateWriteOpResult> {
+    public updateRoomtype(roomtype: Roomtype): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
         roomtype.updatedAt = new Date();
-        console.log(roomtype);
+        
         var filter = { _id : new mongodb.ObjectID(roomtype._id) };
         roomtype._id = new mongodb.ObjectID(roomtype._id);
-        return dbCollection.replaceOne(filter, roomtype);
+        return dbCollection.replaceOne(filter, roomtype)
+            .then(data => this.createResultFromUpdate(data))
+            .catch(err => this.createResultFromError(err));
     }
 
-    public updateStatus(id: string, status: Status): Promise<mongodb.UpdateWriteOpResult> {
+    public updateStatus(id: string, status: Status): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
         var filter = { _id : new mongodb.ObjectID(id) };
         var update = { $set: { status: status, updatedAt: new Date() } };
-        return dbCollection.updateOne(filter, update);
+        return dbCollection.updateOne(filter, update)
+            .then(data => this.createResultFromUpdate(data))
+            .catch(err => this.createResultFromError(err));
     }
 
-    public deleteRoomtype(id: string): Promise<mongodb.DeleteWriteOpResultObject> {
+    public deleteRoomtype(id: string): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
         var filter = { _id : new mongodb.ObjectID(id) };
-        return dbCollection.deleteOne(filter);
+        return dbCollection.deleteOne(filter)
+            .then(data => this.createResultFromDelete(data))
+            .catch(err => this.createResultFromError(err));
     }
 
-    public getRoomtype(): Promise<Roomtype[]> {
+    public getRoomtype(): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
-        return dbCollection.find().toArray();
+        return dbCollection.find().toArray()
+            .then(data => this.createResultFromSelect(data))
+            .catch(err => this.createResultFromError(err));
     }
 }

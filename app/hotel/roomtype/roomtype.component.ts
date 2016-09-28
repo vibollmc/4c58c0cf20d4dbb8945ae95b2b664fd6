@@ -1,8 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 
 import { RoomtypeModel } from "./roomtype.model";
 import { Status } from '../models/enum';
 import { Roomtype } from "../models/roomtype";
+import { BaseComponent } from "../shared/base.component";
 
 declare var $: any;
 
@@ -12,14 +14,18 @@ declare var $: any;
     templateUrl: 'app/hotel/roomtype/roomtype.html'
 })
 
-export class RoomtypeComponent implements OnInit {
+export class RoomtypeComponent extends BaseComponent {
     modalTitle: string;
     modalTextSave: string;
     constructor(
-        public vm: RoomtypeModel
-    ) { }
+        public vm: RoomtypeModel,
+        protected router: Router
+    ) {
+        super(router);
+     }
 
     ngOnInit() {
+        super.ngOnInit();
         this.vm.loadData();
     }
 

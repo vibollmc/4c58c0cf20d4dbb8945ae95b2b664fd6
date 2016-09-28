@@ -473,6 +473,9 @@ table.dataTable thead .sorting:after {
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
+th.group-command {
+  width: 80px;
+}
 
 
 @media (max-width: 767px) {

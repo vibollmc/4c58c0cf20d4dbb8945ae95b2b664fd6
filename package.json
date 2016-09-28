@@ -1,5 +1,5 @@
 {
-  "name": "HMS",
+  "name": "hotelsystem",
   "version": "1.0.0",
   "scripts": {
     "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
@@ -32,14 +32,12 @@
     "toastr": "2.1.2",
     "font-awesome": "4.6.3",
     "jquery": "^3.1.0",
-    "jquery.nicescroll": "3.6.8",
     "express": "^4.14.0",
     "mongodb": "^2.2.10",
     "inversify": "^2.0.0",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "bootbox": "4.4.0",
-    "bootstrap-toggle": "2.2.2",
     "hammerjs": "^2.0.8"
   },
   "devDependencies": {

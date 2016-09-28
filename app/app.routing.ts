@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent }      from './hotel/dashboard/dashboard.component';
 import { RoomtypeComponent }      from './hotel/roomtype/roomtype.component';
+import { LoginComponent }      from './hotel/login/login.component';
 const appRoutes: Routes = [
   //{
   //  path: 'detail/:id',
@@ -24,6 +25,10 @@ const appRoutes: Routes = [
   {
     path: 'roomtype',
     component: RoomtypeComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 
