@@ -4,6 +4,7 @@
     "bootbox": "registry:dt/bootbox#4.4.0+20160830081945",
     "core-js": "registry:dt/core-js#0.0.0+20160725163759",
     "cors": "registry:dt/cors#0.0.0+20160708202709",
+    "crypto-js": "registry:dt/crypto-js#3.1.4+20160708041433",
     "express": "registry:dt/express#4.0.0+20160708185218",
     "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160923124352",
     "hammerjs": "registry:dt/hammerjs#2.0.8+20160724063812",
