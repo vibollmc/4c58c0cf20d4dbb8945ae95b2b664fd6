@@ -2,44 +2,43 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import SystemConfig from "../shared/config";
-import { Roomtype } from "../models/roomtype";
-import { ResponseResult } from "../models/responseresults";
 import { BaseService } from "../shared/base.service";
-
+import SystemConfig from "../shared/config";
+import { User } from "../models/user";
+import { ResponseResult } from "../models/responseresults";
 
 @Injectable()
-export class RoomtypeService extends BaseService  {
+export class AccountService extends BaseService {
     private readonly urlGet: string;
     private readonly urlAddNew: string;
     private readonly urlUpdate: string;
     private readonly urlDelete: string;
     private readonly urlUpdateStatus: string;
+
     constructor(
         private http: Http
     ) {
         super();
-        this.urlGet = SystemConfig.apiHost + "/roomtype";
-        this.urlAddNew = SystemConfig.apiHost + "/roomtype/add";
-        this.urlUpdate = SystemConfig.apiHost + "/roomtype/update";
-        this.urlDelete = SystemConfig.apiHost + "/roomtype/delete";
-        this.urlUpdateStatus = SystemConfig.apiHost + "/roomtype/status";
+        this.urlGet = SystemConfig.apiHost + "/user";
+        this.urlAddNew = SystemConfig.apiHost + "/user/add";
+        this.urlUpdate = SystemConfig.apiHost + "/user/update";
+        this.urlDelete = SystemConfig.apiHost + "/user/delete";
+        this.urlUpdateStatus = SystemConfig.apiHost + "/user/status";
     }
-    
     public get(): Promise<ResponseResult> {
         return this.http.get(this.urlGet)
             .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);
     }
-    public addNew(roomtype: Roomtype): Promise<ResponseResult> {
-        return this.http.post(this.urlAddNew, roomtype)
+    public addNew(user: User): Promise<ResponseResult> {
+        return this.http.post(this.urlAddNew, user)
             .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);
     }
-    public update(roomtype: Roomtype): Promise<ResponseResult> {
-        return this.http.post(this.urlUpdate, roomtype)
+    public update(user: User): Promise<ResponseResult> {
+        return this.http.post(this.urlUpdate, user)
             .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);

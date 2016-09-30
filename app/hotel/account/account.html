@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Tài khoản hệ thống
+            <button type="button" class="btn btn-xs btn-primary" (click)="selectUser(null)" data-toggle="modal" data-target="#usermodal">
+                <i class="fa fa-plus"></i> Thêm mới
+            </button>
+        </h1>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th> Tài khoản</th>
+                        <th> Tên</th>
+                        <th> Điện thoại</th>
+                        <th> CMND</th>
+                        <th> Giới tính</th>
+                        <th> Ngày sinh</th>
+                        <th> Nhóm tài khoản</th>
+                        <th> Đăng nhập gần nhất</th>
+                        <th> Trạng thái</th>
+                        <th class="group-command"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of vm.lstUser">
+                        <td> {{user.username}}</td>
+                        <td> {{user.fullName}}</td>
+                        <td> {{user.phoneNumber}}</td>
+                        <td> {{user.idNumber}}</td>
+                        <td> {{detectGender(user.gender)}}</td>
+                        <td> {{user.DOB}}</td>
+                        <td> {{detectGroupUser(user.group)}}</td>
+                        <td> {{user.lastLoginDate}}</td>
+                        <td>
+                            <md-slide-toggle [(ngModel)]="user.active" (change)="updateStatus(user._id, user.active)"></md-slide-toggle>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-primary" (click)="selectUser(null)" data-toggle="modal" data-target="#usermodal"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-success" (click)="selectUser(user)" data-toggle="modal" data-target="#usermodal"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-danger" (click)="deleteUser(user)"><i class="fa fa-times"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="usermodal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{modalTitle}}</h4>
+            </div>
+            <form (ngSubmit)="saveUser()" #userForm="ngForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tên đăng nhập</label>
+                                <input class="form-control" #username="ngModel" id="username" name="username" required [(ngModel)]="vm.user.username" [ngModelOptions]="{standalone: true}">
+                                <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
+                                    Yêu cầu nhập tên đăng nhập
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mật khẩu</label>
+                                <input class="form-control" type="password" #password="ngModel" id="password" name="password" required [(ngModel)]="vm.user.password" [ngModelOptions]="{standalone: true}">
+                                <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                                    Yêu cầu nhập tên loại phòng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tên đầy đủ</label>
+                                <input class="form-control" #fullName="ngModel" id="fullName" name="fullName" [(ngModel)]="vm.user.fullName" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Số điện thoại</label>
+                                <input class="form-control" #phoneNumber="ngModel" id="phoneNumber" name="phoneNumber" [(ngModel)]="vm.user.phoneNumber" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ngày sinh</label>
+                                <input class="form-control" #DOB="ngModel" id="DOB" name="DOB" [(ngModel)]="vm.user.DOB" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Chứng minh nhân dân</label>
+                                <input class="form-control" #idNumber="ngModel" id="idNumber" name="idNumber" [(ngModel)]="vm.user.idNumber" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Giới tính</label>
+                                <select class="form-control" #gender="ngModel" id="gender" name="gender" [(ngModel)]="vm.user.gender" [ngModelOptions]="{standalone: true}">
+                                    <option></option>
+                                    <option value="1"> Nam</option>
+                                    <option value="2"> Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thuộc nhóm</label>
+                                <select class="form-control" #group="ngModel" id="group" name="group" [(ngModel)]="vm.user.group" [ngModelOptions]="{standalone: true}">
+                                    <option></option>
+                                    <option value="1"> Quản trị hệ thống</option>
+                                    <option value="2"> Quản lý</option>
+                                    <option value="3"> Nhân viên</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" [disabled]="!userForm.form.valid" (click)="saveUser()" ><i class="fa fa-save"></i>{{modalTextSave}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
