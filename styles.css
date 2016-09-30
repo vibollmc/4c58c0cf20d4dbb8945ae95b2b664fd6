@@ -6,6 +6,9 @@
 body {
   background-color: #f8f8f8;
 }
+a {
+  cursor: pointer;
+}
 md-slide-toggle {margin: 0 !important; width: 38px !important;}
 md-slide-toggle .md-slide-toggle-container {cursor: pointer !important;}
 #wrapper {
@@ -476,7 +479,7 @@ table.dataTable thead .sorting:after {
 th.group-command {
   width: 80px;
 }
-
+.alert { padding: 6px 16px}
 
 @media (max-width: 767px) {
   ul.timeline:before {

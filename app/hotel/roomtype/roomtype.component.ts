@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { RoomtypeModel } from "./roomtype.model";
-import { Status } from '../models/enum';
 import { Roomtype } from "../models/roomtype";
 import { BaseComponent } from "../shared/base.component";
 
@@ -52,7 +51,7 @@ export class RoomtypeComponent extends BaseComponent {
         this.vm.delete();
     }
 
-    public updateStatus(id: string, status: boolean) {
-        this.vm.updateStatus(id, status ? Status.Active : Status.Inactive);
+    public updateStatus(id: string, active: boolean) {
+        this.vm.updateStatus(id, active);
     }
 }

@@ -6,7 +6,7 @@ import { BaseRepository } from "./base.repository";
 import { MongoDbAccess, Collections } from "../../dbservices/database.access";
 import { ResponseResult } from "../../app/hotel/models/responseresults";
 import { User } from "../../app/hotel/models/user";
-import { Status, GroupUser } from "../../app/hotel/models/enum";
+import { GroupUser } from "../../app/hotel/models/enum";
 
 @injectable()
 export class UserRepository extends BaseRepository {
@@ -17,8 +17,10 @@ export class UserRepository extends BaseRepository {
     }
 
     private hashMd5(password: string): string {
+        if (password.match(/[0-9a-f]{32}/g)) return password;
+
         var name = 'hmsbeta';
-        var hash = crypto.createHash('md5').update(password).digest('hex');
+        var hash = crypto.createHash('md5').update(password, 'utf8').digest('hex');
         return hash;
     }
     public test() {
@@ -28,7 +30,6 @@ export class UserRepository extends BaseRepository {
         testData.username = "admin";
         testData.fullName = "Administrator";
         testData.group = GroupUser.Administrator;
-        testData.status = Status.Active;
         testData.password = this.hashMd5("admin123");
 
         console.log(testData);
@@ -41,6 +42,7 @@ export class UserRepository extends BaseRepository {
     public addNewUser(user: User): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
         user.createdAt = new Date();
+        user.password = this.hashMd5(user.password);
 
         return dbCollection.insertOne(user)
             .then(data => this.createResultFromInsert(data))
@@ -50,7 +52,7 @@ export class UserRepository extends BaseRepository {
     public updateUser(user: User): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
         user.updatedAt = new Date();
-
+        user.password = this.hashMd5(user.password);
         var filter = { _id: new mongodb.ObjectID(user._id) };
         user._id = new mongodb.ObjectID(user._id);
         return dbCollection.replaceOne(filter, user)
@@ -58,10 +60,10 @@ export class UserRepository extends BaseRepository {
             .catch(err => this.createResultFromError(err));
     }
 
-    public updateStatus(id: string, status: Status): Promise<ResponseResult> {
+    public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
         var filter = { _id: new mongodb.ObjectID(id) };
-        var update = { $set: { status: status, updatedAt: new Date() } };
+        var update = { $set: { active: active, updatedAt: new Date() } };
         return dbCollection.updateOne(filter, update)
             .then(data => this.createResultFromUpdate(data))
             .catch(err => this.createResultFromError(err));
@@ -83,7 +85,7 @@ export class UserRepository extends BaseRepository {
     }
     public login(username: string, password: string): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
-        var filter = { username: username, password: this.hashMd5(password), status: Status.Active };
+        var filter = { username: username, password: this.hashMd5(password), active: true };
         return dbCollection.findOne(filter)
             .then(data => this.createResultFromSelect(data))
             .catch(err => this.createResultFromError(err));

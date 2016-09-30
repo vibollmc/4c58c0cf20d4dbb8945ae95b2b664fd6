@@ -2,7 +2,6 @@ import { injectable } from "inversify";
 
 import { RoomtypeRepository } from "../repositories/roomtype.repository";
 import { Roomtype } from "../../app/hotel/models/roomtype";
-import { Status } from "../../app/hotel/models/enum";
 import { ResponseResult } from "../../app/hotel/models/responseresults";
 
 @injectable()
@@ -19,8 +18,8 @@ export class RoomtypeService {
         return this.roomtypeRepository.updateRoomtype(roomtype);
     }
 
-    public updateStatus(id: string, status: Status): Promise<ResponseResult> {
-        return this.roomtypeRepository.updateStatus(id, status);
+    public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
+        return this.roomtypeRepository.updateStatus(id, active);
     } 
     public getRoomtype(): Promise<ResponseResult> {
         return this.roomtypeRepository.getRoomtype();

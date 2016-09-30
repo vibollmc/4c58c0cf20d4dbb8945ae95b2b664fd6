@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseComponent } from "./hotel/shared/base.component";
 
+import SystemConfig from "./hotel/shared/config";
 declare var $;
 @Component({
     selector: "hms-app",
@@ -26,7 +27,7 @@ export class HotelComponent extends BaseComponent implements AfterViewInit {
     }
 
     public logout() {
-        localStorage.clear();
+        localStorage.removeItem(SystemConfig.keyUserLogin);
         this.router.navigate(['login']);
     }
 }

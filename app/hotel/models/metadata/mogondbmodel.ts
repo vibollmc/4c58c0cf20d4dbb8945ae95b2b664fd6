@@ -1,8 +1,6 @@
-import {Status} from '../enum';
-
 export class MongodbModel {
     _id: any;
-    status: Status;
+    active: boolean;
 
     createdAt: Date;
     createdBy: string;
@@ -10,7 +8,7 @@ export class MongodbModel {
     updatedBy: string;
 
     constructor() {
-        this.status = Status.Active;
+        this.active = true;
         this.createdAt = new Date();
         this.createdBy = null;
         this.updatedAt = null;

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { RoomtypeService } from "./roomtype.service";
 
 import { Roomtype } from "../models/roomtype";
-import { Status } from "../models/enum";
 import { ResponseResult } from "../models/responseresults";
 import { ResultCode } from "../models/enum";
 import { MessageProvider } from "../shared/message";
@@ -57,10 +56,10 @@ export class RoomtypeModel {
         }
     }
 
-    public updateStatus(id: string, status: Status) {
+    public updateStatus(id: string, active: boolean) {
         if (id === undefined || id === null || id === "") return;
 
-        this.roomtypeService.updateStatus(id, status);
+        this.roomtypeService.updateStatus(id, active);
     }
 
     public delete() {

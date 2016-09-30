@@ -5,7 +5,6 @@ import { BaseRepository } from "./base.repository";
 import { MongoDbAccess, Collections } from "../../dbservices/database.access";
 import { ResponseResult } from "../../app/hotel/models/responseresults";
 import { Roomtype } from "../../app/hotel/models/roomtype";
-import { Status } from "../../app/hotel/models/enum";
 
 @injectable()
 export class RoomtypeRepository extends BaseRepository {
@@ -22,7 +21,6 @@ export class RoomtypeRepository extends BaseRepository {
         //testData._id = new mongodb.ObjectID();
         testData.createdAt = new Date();
         testData.name = "A";
-        testData.status = Status.Active;
         testData.formulaByDay = "1";
         testData.formulaByHalfDay = "12";
         testData.formulaByHour = "24";
@@ -54,10 +52,10 @@ export class RoomtypeRepository extends BaseRepository {
             .catch(err => this.createResultFromError(err));
     }
 
-    public updateStatus(id: string, status: Status): Promise<ResponseResult> {
+    public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(Collections.roomtype);
         var filter = { _id : new mongodb.ObjectID(id) };
-        var update = { $set: { status: status, updatedAt: new Date() } };
+        var update = { $set: { active: active, updatedAt: new Date() } };
         return dbCollection.updateOne(filter, update)
             .then(data => this.createResultFromUpdate(data))
             .catch(err => this.createResultFromError(err));

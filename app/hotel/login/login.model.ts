@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
+import CryptoJS = require("crypto-js");
 
+import SystemConfig from "../shared/config";
 import { LoginService } from "./login.service";
 import { User } from "../models/user";
 
@@ -28,11 +30,11 @@ export class LoginModel {
         this.loginService.login(this.username, this.password)
             .then((response) => {
                 if (response.data) {
-                    var data = response.data as User;
-                    localStorage.setItem('username', data.username);
-                    localStorage.setItem('id', data._id);
-                    localStorage.setItem('fullname', data.fullName);
-                    localStorage.setItem('urlimage', data.urlImage);
+                    var data = JSON.stringify(response.data);
+                    
+                    var enscryptText = CryptoJS.AES.encrypt(data, SystemConfig.keyEnscrypt).toString();
+
+                    localStorage.setItem(SystemConfig.keyUserLogin, JSON.stringify(enscryptText));
 
                     this.router.navigate(['dashboard']);
                 }

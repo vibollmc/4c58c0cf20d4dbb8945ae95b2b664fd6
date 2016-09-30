@@ -1,12 +1,9 @@
-import {md5} from "./md5";
+import CryptoJS = require("crypto-js");
 
 let SystemConfig = {
     apiHost : "http://localhost:8080/api",
-    keyUserId: md5("hms_id"),
-    keyUserName: md5("hms_username"),
-    keyFullName: md5("hms_fullname"),
-    keyUrlImage: md5("hms_urlimage"),
-    keyGroupUser: md5("hms_groupuser")
+    keyUserLogin: CryptoJS.MD5("hms_userlogin"),
+    keyEnscrypt: "hms1235"
 }
 
 export default SystemConfig;

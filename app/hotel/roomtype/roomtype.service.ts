@@ -4,7 +4,6 @@ import 'rxjs/add/operator/toPromise';
 
 import SystemConfig from "../shared/config";
 import { Roomtype } from "../models/roomtype";
-import { Status } from "../models/enum";
 import { ResponseResult } from "../models/responseresults";
 
 declare var bootbox: BootboxStatic;
@@ -52,8 +51,9 @@ export class RoomtypeService {
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);
     }
-    public updateStatus(id: string, status: Status) {
-        return this.http.get(this.urlUpdateStatus + "/" + id + "/" + status).toPromise()
+    public updateStatus(id: string, active: boolean) {
+        return this.http.post(this.urlUpdateStatus, {id: id, active: active})
+            .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);
     }

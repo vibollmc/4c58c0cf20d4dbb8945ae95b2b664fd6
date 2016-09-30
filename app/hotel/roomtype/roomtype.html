@@ -29,7 +29,7 @@
                         <td>{{roomtype.formulaByHalfDay}}</td>
                         <td>{{roomtype.formulaByDay}}</td>
                         <td>
-                            <md-slide-toggle [(ngModel)]="roomtype.status" (change)="updateStatus(roomtype._id, roomtype.status)"></md-slide-toggle>
+                            <md-slide-toggle [(ngModel)]="roomtype.active" (change)="updateStatus(roomtype._id, roomtype.active)"></md-slide-toggle>
                         </td>
                         <td>
                             <div class="btn-group btn-group-xs">

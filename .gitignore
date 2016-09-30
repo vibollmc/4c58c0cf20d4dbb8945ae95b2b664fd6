@@ -4,3 +4,4 @@
 *.js
 /typings
 /.vscode
+/npm-debug.*

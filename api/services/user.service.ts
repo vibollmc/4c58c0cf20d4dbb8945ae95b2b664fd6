@@ -2,7 +2,6 @@ import { injectable } from "inversify";
 
 import { UserRepository } from "../repositories/user.repository";
 import { User } from "../../app/hotel/models/user";
-import { Status } from "../../app/hotel/models/enum";
 import { ResponseResult } from "../../app/hotel/models/responseresults";
 
 @injectable()
@@ -19,8 +18,8 @@ export class UserService {
         return this.userRepository.updateUser(user);
     }
 
-    public updateStatus(id: string, status: Status): Promise<ResponseResult> {
-        return this.userRepository.updateStatus(id, status);
+    public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
+        return this.userRepository.updateStatus(id, active);
     } 
     public getUser(): Promise<ResponseResult> {
         return this.userRepository.getUser();
