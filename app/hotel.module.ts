@@ -8,8 +8,7 @@ import { routing } from './app.routing';
 import { HotelComponent } from "./hotel.component";
 import { DashboardComponent } from "./hotel/dashboard/dashboard.component";
 import { RoomtypeComponent } from "./hotel/roomtype/roomtype.component";
-import { RoomtypeService } from "./hotel/roomtype/roomtype.service";
-import { RoomtypeModel } from "./hotel/roomtype/roomtype.model";
+import { ListModel } from "./hotel/shared/list.model";
 
 import { LoginComponent } from "./hotel/login/login.component";
 import { LoginService } from "./hotel/login/login.service";
@@ -30,8 +29,7 @@ import { LoginModel } from "./hotel/login/login.model";
         LoginComponent,
     ],
     providers: [
-        RoomtypeService,
-        RoomtypeModel,
+        ListModel,
         LoginModel,
         LoginService
     ],

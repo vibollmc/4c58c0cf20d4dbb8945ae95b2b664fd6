@@ -1,4 +1,4 @@
-import {MongodbModel} from './metadata/mogondbmodel';
+import {MongodbModel} from './metadata/mongodbmodel';
 import {Gender, GroupUser} from './enum';
 export class User extends MongodbModel {
     

@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { RoomtypeModel } from "./roomtype.model";
+import { ListModel } from "../shared/list.model";
 import { Roomtype } from "../models/roomtype";
 import { BaseComponent } from "../shared/base.component";
 
@@ -17,7 +17,7 @@ export class RoomtypeComponent extends BaseComponent {
     modalTitle: string;
     modalTextSave: string;
     constructor(
-        public vm: RoomtypeModel,
+        public vm: ListModel<Roomtype>,
         protected router: Router
     ) {
         super(router);
@@ -25,6 +25,7 @@ export class RoomtypeComponent extends BaseComponent {
 
     ngOnInit() {
         super.ngOnInit();
+        this.vm.obj = new Roomtype();
         this.vm.loadData();
     }
 
@@ -32,10 +33,10 @@ export class RoomtypeComponent extends BaseComponent {
         if (roomtype != undefined && roomtype !== null) {
             this.modalTitle = "Thông tin loại phòng";
             this.modalTextSave = " Cập nhật";
-            this.vm.roomtype = roomtype;
+            this.vm.obj = roomtype;
         }
         else {
-            this.vm.roomtype = new Roomtype();
+            this.vm.obj = new Roomtype();
             this.modalTitle = "Thêm mới loại phòng";
             this.modalTextSave = " Tạo mới";
         }
@@ -47,7 +48,7 @@ export class RoomtypeComponent extends BaseComponent {
     }
 
     public deleteRoomtype(roomtype: Roomtype) {
-        this.vm.roomtype = roomtype;
+        this.vm.obj = roomtype;
         this.vm.delete();
     }
 

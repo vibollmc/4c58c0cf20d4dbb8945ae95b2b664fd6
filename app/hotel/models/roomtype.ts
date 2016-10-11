@@ -1,4 +1,4 @@
-import {MongodbModel} from './metadata/mogondbmodel';
+import {MongodbModel} from './metadata/mongodbmodel';
 
 export class Roomtype extends MongodbModel {
     name: string;

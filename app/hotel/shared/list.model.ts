@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { RoomtypeService } from "./roomtype.service";
+import { Http } from '@angular/http';
 
-import { Roomtype } from "../models/roomtype";
+import { ListService } from "../shared/list.service";
 import { ResponseResult } from "../models/responseresults";
+import { MongodbModel } from "../models/metadata/mongodbmodel";
 import { ResultCode } from "../models/enum";
 import { MessageProvider } from "../shared/message";
 
@@ -10,31 +11,34 @@ declare var toastr: any;
 declare var $: any;
 
 @Injectable()
-export class RoomtypeModel {
-    roomtype: Roomtype;
-    lstRoomtype: Roomtype[];
+export class ListModel<T extends MongodbModel> {
+    obj: T;
+    lstObj: T[];
+    private _roomtypeService: ListService<T>;
     constructor(
-        private roomtypeService: RoomtypeService
+        http: Http
     ) {
-        this.roomtype = new Roomtype();
+        this._roomtypeService = new ListService<T>(http, "Roomtype");
     }
 
     public loadData() {
-        this.roomtypeService.get().then(
+        this._roomtypeService.get().then(
             response => {
                 if (response.code === ResultCode.Success) {
-                    this.lstRoomtype = response.data as Roomtype[];
+                    this.lstObj = response.data as T[];
                 }
                 else {
-                    this.lstRoomtype = null;
+                    this.lstObj = null;
                 }
             });
     }
 
     public save() {
-        if (this.roomtype._id === undefined
-            || this.roomtype._id === null || this.roomtype._id === "") {
-            this.roomtypeService.addNew(this.roomtype).then(
+        if (this.obj === undefined || this.obj === null) return;
+
+        if (this.obj._id === undefined
+            || this.obj._id === null || this.obj._id === "") {
+            this._roomtypeService.addNew(this.obj).then(
                 response => {
                     if (response.data === true) {
                         MessageProvider.saveSuccess();
@@ -44,7 +48,7 @@ export class RoomtypeModel {
                 });
         }
         else {
-            this.roomtypeService.update(this.roomtype).then(
+            this._roomtypeService.update(this.obj).then(
                 response => {
                     if (response.data === true) {
                         MessageProvider.saveSuccess();
@@ -59,18 +63,18 @@ export class RoomtypeModel {
     public updateStatus(id: string, active: boolean) {
         if (id === undefined || id === null || id === "") return;
 
-        this.roomtypeService.updateStatus(id, active);
+        this._roomtypeService.updateStatus(id, active);
     }
 
     public delete() {
-        if (this.roomtype._id === undefined
-            || this.roomtype._id === null || this.roomtype._id === "") return;
+        if (this.obj._id === undefined
+            || this.obj._id === null || this.obj._id === "") return;
 
         MessageProvider.confirmDelete(null,
             (result) => {
                 if (result === false) return;
 
-                this.roomtypeService.delete(this.roomtype._id).then(
+                this._roomtypeService.delete(this.obj._id).then(
                     response => {
                         if (response.data === true) {
                             MessageProvider.deleteSuccess();

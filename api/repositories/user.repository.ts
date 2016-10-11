@@ -11,7 +11,7 @@ import { GroupUser } from "../../app/hotel/models/enum";
 @injectable()
 export class UserRepository extends BaseRepository {
     constructor(
-        private mongoDbAccess: MongoDbAccess
+        private _mongoDbAccess: MongoDbAccess
     ) {
         super(Collections.user);
     }
@@ -24,7 +24,7 @@ export class UserRepository extends BaseRepository {
         return hash;
     }
     public test() {
-        var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
+        var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         var testData = new User();
 
         testData.username = "admin";
@@ -40,7 +40,7 @@ export class UserRepository extends BaseRepository {
     }
 
     public addNewUser(user: User): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
+        var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         user.createdAt = new Date();
         user.password = this.hashMd5(user.password);
 
@@ -50,7 +50,7 @@ export class UserRepository extends BaseRepository {
     }
 
     public updateUser(user: User): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
+        var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         user.updatedAt = new Date();
         user.password = this.hashMd5(user.password);
         var filter = { _id: new mongodb.ObjectID(user._id) };
@@ -61,7 +61,7 @@ export class UserRepository extends BaseRepository {
     }
 
     public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
+        var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         var filter = { _id: new mongodb.ObjectID(id) };
         var update = { $set: { active: active, updatedAt: new Date() } };
         return dbCollection.updateOne(filter, update)
@@ -70,7 +70,7 @@ export class UserRepository extends BaseRepository {
     }
 
     public deleteUser(id: string): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
+        var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         var filter = { _id: new mongodb.ObjectID(id) };
         return dbCollection.deleteOne(filter)
             .then(data => this.createResultFromDelete(data))
@@ -78,13 +78,13 @@ export class UserRepository extends BaseRepository {
     }
 
     public getUser(): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
+        var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         return dbCollection.find().toArray()
             .then(data => this.createResultFromSelect(data))
             .catch(err => this.createResultFromError(err));
     }
     public login(username: string, password: string): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(Collections.user);
+        var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         var filter = { username: username, password: this.hashMd5(password), active: true };
         return dbCollection.findOne(filter)
             .then(data => this.createResultFromSelect(data))

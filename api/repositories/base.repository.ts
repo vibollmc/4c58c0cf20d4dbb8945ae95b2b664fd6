@@ -7,9 +7,9 @@ import { ResultCode } from "../../app/hotel/models/enum";
 @injectable()
 export class BaseRepository {
     
-    private collectionName: string;
+    protected collection: string;
     constructor(collection?: string) {
-        this.collectionName = collection;
+        this.collection = collection;
     }
 
     public errorHandler(err: any) {
@@ -25,19 +25,19 @@ export class BaseRepository {
     public createResultFromInsert(data: mongodb.InsertOneWriteOpResult, collection?: string): ResponseResult {
         return data.result.ok ? 
                 new ResponseResult(ResultCode.Success, true, "insert data successfully.") : 
-                new ResponseResult(ResultCode.Error, false, "error occurred insert data " + collection || this.collectionName);
+                new ResponseResult(ResultCode.Error, false, "error occurred insert data " + collection || this.collection);
     }
 
     public createResultFromUpdate(data: mongodb.UpdateWriteOpResult, collection?: string): ResponseResult {
         return data.result.ok ? 
                 new ResponseResult(ResultCode.Success, true, "update data successfully.") : 
-                new ResponseResult(ResultCode.Error, false, "error occurred update data " + collection || this.collectionName);
+                new ResponseResult(ResultCode.Error, false, "error occurred update data " + collection || this.collection);
     }
 
     public createResultFromDelete(data: mongodb.DeleteWriteOpResultObject, collection?: string): ResponseResult {
         return data.result.ok ? 
                 new ResponseResult(ResultCode.Success, true, "delete data successfully.") : 
-                new ResponseResult(ResultCode.Error, false, "error occurred delete data " + collection || this.collectionName);
+                new ResponseResult(ResultCode.Error, false, "error occurred delete data " + collection || this.collection);
     }
 
     public createResultFromSelect(data: any): ResponseResult {

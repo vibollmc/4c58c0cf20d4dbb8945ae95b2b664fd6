@@ -4,7 +4,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import cors = require('cors');
 
-import { roomtype } from "./api/routes/roomtype";
+import { listRouter } from "./api/routes/list";
 import { user } from "./api/routes/user";
 
 let api = express();
@@ -12,7 +12,7 @@ api.use(cors());
 api.use(bodyParser.urlencoded({ extended: true }));
 api.use(bodyParser.json());
 
-api.use("/api/roomtype", roomtype);
+api.use("/api/list", listRouter);
 api.use("/api/user", user);
 
 api.listen(8080, () => {

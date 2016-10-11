@@ -22,5 +22,6 @@ export class MongoDbAccess {
 
 export var Collections = {
     roomtype: "Roomtype",
-    user: "User"
+    user: "User",
+    systemSetting: "SystemSetting"
 }
