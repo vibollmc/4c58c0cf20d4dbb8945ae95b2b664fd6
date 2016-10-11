@@ -86,8 +86,9 @@ export class UserRepository extends BaseRepository {
     public login(username: string, password: string): Promise<ResponseResult> {
         var dbCollection = this._mongoDbAccess.getCollection(this.collection);
         var filter = { username: username, password: this.hashMd5(password), active: true };
-        return dbCollection.findOne(filter)
-            .then(data => this.createResultFromSelect(data))
+        var update = { $set: {lastLoginDate: new Date() }};
+        return dbCollection.findOneAndUpdate(filter, update)
+            .then(data => this.createResultFromFindAndUpdate(data))
             .catch(err => this.createResultFromError(err));
     }
 }

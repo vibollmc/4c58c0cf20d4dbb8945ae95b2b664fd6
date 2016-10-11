@@ -67,7 +67,7 @@ router.get("/delete/:id", (req: express.Request, res: express.Response, next: ex
         });    
 });
 
-router.get("/status", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.post("/status", (req: express.Request, res: express.Response, next: express.NextFunction) => {
     let userService = kernel.get<UserService>(UserService);
     let id = req.body.id as string;
     let active = req.body.active as boolean;
