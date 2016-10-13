@@ -32,5 +32,5 @@ export enum ResultCode {
     Undefined = 0,
     Error = 1,
     Success = 2,
-    Warning = 3
+    LoginFail = 3
 }

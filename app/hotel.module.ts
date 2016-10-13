@@ -5,6 +5,8 @@ import { HttpModule }    from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { routing } from './app.routing';
+import { HttpClient } from './hotel/shared/http.client';
+
 import { HotelComponent } from "./hotel.component";
 import { DashboardComponent } from "./hotel/dashboard/dashboard.component";
 
@@ -41,7 +43,8 @@ import { AccountModel } from "./hotel/account/account.model";
         LoginModel,
         LoginService,
         AccountService,
-        AccountModel
+        AccountModel,
+        HttpClient
     ],
     bootstrap: [HotelComponent]
 })

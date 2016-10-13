@@ -16,9 +16,9 @@ export class LoginModel {
         private loginService: LoginService,
         private router: Router
     ) {
-        if (localStorage.getItem('id') !== undefined &&
-            localStorage.getItem('id') !== null &&
-            localStorage.getItem('id') !== '') this.router.navigate(['dashboard']);
+        if (sessionStorage.getItem(SystemConfig.keyToken) !== undefined &&
+            sessionStorage.getItem(SystemConfig.keyToken) !== null &&
+            sessionStorage.getItem(SystemConfig.keyToken) !== '') this.router.navigate(['dashboard']);
 
         this.username = null;
         this.password = null;
@@ -30,12 +30,16 @@ export class LoginModel {
         this.loginService.login(this.username, this.password)
             .then((response) => {
                 if (response.data) {
+                    this.username = null;
+                    this.password = null;
+                    this.message = null;
+
                     var data = JSON.stringify(response.data);
                     
                     var enscryptText = CryptoJS.AES.encrypt(data, SystemConfig.keyEnscrypt).toString();
 
-                    localStorage.setItem(SystemConfig.keyUserLogin, JSON.stringify(enscryptText));
-
+                    sessionStorage.setItem(SystemConfig.keyUserLogin, JSON.stringify(enscryptText));
+                    sessionStorage.setItem(SystemConfig.keyToken, response.token)
                     this.router.navigate(['dashboard']);
                 }
                 else {

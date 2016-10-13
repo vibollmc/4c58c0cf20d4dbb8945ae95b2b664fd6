@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from './http.client';
 
-import { ListService } from "../shared/list.service";
+import { ListService } from "./list.service";
 import { ResponseResult } from "../models/responseresults";
 import { MongodbModel } from "../models/metadata/mongodbmodel";
 import { ResultCode } from "../models/enum";
@@ -16,7 +16,7 @@ export class ListModel<T extends MongodbModel> {
     lstObj: T[];
     private _roomtypeService: ListService<T>;
     constructor(
-        http: Http
+        http: HttpClient
     ) {
         this._roomtypeService = new ListService<T>(http, "Roomtype");
     }

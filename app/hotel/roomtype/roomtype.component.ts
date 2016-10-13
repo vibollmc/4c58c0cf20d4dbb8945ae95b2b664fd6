@@ -24,7 +24,6 @@ export class RoomtypeComponent extends BaseComponent {
      }
 
     ngOnInit() {
-        super.ngOnInit();
         this.vm.obj = new Roomtype();
         this.vm.loadData();
     }

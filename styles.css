@@ -11,6 +11,7 @@ a {
 }
 md-slide-toggle {margin: 0 !important; width: 38px !important;}
 md-slide-toggle .md-slide-toggle-container {cursor: pointer !important;}
+md-input {width: 100%;}
 #wrapper {
   width: 100%;
 }

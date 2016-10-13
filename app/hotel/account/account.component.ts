@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import * as moment from 'moment';
+import 'moment/locale/vi';
 
 import { AccountModel } from "./account.model";
 import { User } from "../models/user";
@@ -25,7 +27,6 @@ export class AccountComponent extends BaseComponent {
      }
 
     ngOnInit() {
-        super.ngOnInit();
         this.vm.loadData();
     }
 
@@ -40,6 +41,11 @@ export class AccountComponent extends BaseComponent {
         if (group == GroupUser.Receptionist) return "Nhân viên";
         return "";
     }
+    public detectLastLogin(lastLogin: string): string {
+        if (lastLogin === undefined || lastLogin === null || lastLogin === "") return "";
+
+        return moment(lastLogin).fromNow();
+    } 
 
     public selectUser(user: User) {
         if (user != undefined && user !== null) {

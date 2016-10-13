@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { HttpClient } from '../shared/http.client';
 import 'rxjs/add/operator/toPromise';
 
 import { BaseService } from "../shared/base.service";
@@ -16,7 +16,7 @@ export class AccountService extends BaseService {
     private readonly urlUpdateStatus: string;
 
     constructor(
-        private http: Http
+        private http: HttpClient
     ) {
         super();
         this.urlGet = SystemConfig.apiHost + "/user";

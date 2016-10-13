@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { HttpClient } from '../shared/http.client';
 import 'rxjs/add/operator/toPromise';
 
 import SystemConfig from "../shared/config";
@@ -15,7 +15,7 @@ export class ListService<T> {
     private _urlUpdateStatus: string;
     private _name: string;
     constructor(
-        private http: Http,
+        private http: HttpClient,
         name: string
     ) {
         this._urlGet = `${SystemConfig.apiHost}/list/${name}`;

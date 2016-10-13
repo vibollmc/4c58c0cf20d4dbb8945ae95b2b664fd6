@@ -48,7 +48,7 @@ export class BaseRepository {
     }
     public createResultFromFindAndUpdate(data: mongodb.FindAndModifyWriteOpResultObject, collection?: string): ResponseResult {
         if (data === undefined || data === null || !data.ok)
-            return new ResponseResult(ResultCode.Error, data, "cannot find any result.");
+            return new ResponseResult(ResultCode.Error, null, "cannot find any result.");
         
         return new ResponseResult(ResultCode.Success, data.value, "query data successfully.");
     }

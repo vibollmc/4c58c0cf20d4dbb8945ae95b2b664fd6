@@ -1,5 +1,7 @@
 import express = require("express");
+import jwt = require("jsonwebtoken");
 
+import ApiConfig from "../config";
 import kernel from "../ioc/ioc.config";
 import { UserService } from "../services/user.service";
 import { User } from "../../app/hotel/models/user";
@@ -89,13 +91,24 @@ router.post("/login", (req: express.Request, res: express.Response, next: expres
 
     userService.login(username, password)
         .then((data) => {
-            res.json(data);
+            if (data.data != null) {
+                var token = jwt.sign(data.data, ApiConfig.secret, {expiresIn: 86400});
+
+                res.json({
+                    code: ResultCode.Success,
+                    token: token,
+                    data: data.data,
+                    message: 'Successfully.'
+                })
+            }
+            else {
+                var result = new ResponseResult(ResultCode.Error, null, "login fail.");    
+            }
         })
         .catch((err) => {
             var result = new ResponseResult(ResultCode.Error, null, "error");
             res.json(result);
         });
 });
-
 
 export var user = router;

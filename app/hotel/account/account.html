@@ -35,7 +35,7 @@
                         <td> {{detectGender(user.gender)}}</td>
                         <td> {{user.DOB}}</td>
                         <td> {{detectGroupUser(user.group)}}</td>
-                        <td> {{user.lastLoginDate}}</td>
+                        <td> {{detectLastLogin(user.lastLoginDate)}}</td>
                         <td>
                             <md-slide-toggle [(ngModel)]="user.active" (change)="updateStatus(user._id, user.active)"></md-slide-toggle>
                         </td>
@@ -101,7 +101,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Ngày sinh</label>
-                                <input class="form-control" #DOB="ngModel" id="DOB" name="DOB" [(ngModel)]="vm.user.DOB" [ngModelOptions]="{standalone: true}">
+                                <input class="form-control" type="date" #DOB="ngModel" id="DOB" name="DOB" [(ngModel)]="vm.user.DOB" [ngModelOptions]="{standalone: true}">
                             </div>
                         </div>
                         <div class="col-md-6">
