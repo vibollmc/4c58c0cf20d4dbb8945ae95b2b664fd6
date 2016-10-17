@@ -33,11 +33,9 @@ export class RoomtypeComponent extends BaseComponent {
             this.modalTitle = "Thông tin loại phòng";
             this.modalTextSave = " Cập nhật";
             this.vm.obj = roomtype;
-            this.vm.obj.updatedBy = this.UserLogin._id;
         }
         else {
             this.vm.obj = new Roomtype();
-            this.vm.obj.createdBy = this.UserLogin._id;
             this.modalTitle = "Thêm mới loại phòng";
             this.modalTextSave = " Tạo mới";
         }

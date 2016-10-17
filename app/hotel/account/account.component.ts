@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import 'moment/locale/vi';
 
 import { AccountModel } from "./account.model";
+import { AccountService } from "./account.service";
 import { User } from "../models/user";
 import { Gender, GroupUser } from "../models/enum";
 import { BaseComponent } from "../shared/base.component";
@@ -13,6 +14,10 @@ declare var $: any;
 
 @Component({
     selector: 'account',
+    providers: [
+        AccountModel,
+        AccountService
+    ],
     templateUrl: 'app/hotel/account/account.html'
 })
 
@@ -52,11 +57,9 @@ export class AccountComponent extends BaseComponent {
             this.modalTitle = "Thông tin tài khoản";
             this.modalTextSave = " Cập nhật";
             this.vm.user = user;
-            this.vm.user.updatedBy = this.UserLogin._id;
         }
         else {
             this.vm.user = new User();
-            this.vm.user.createdBy = this.UserLogin._id;
             this.modalTitle = "Thêm mới tài khoản";
             this.modalTextSave = " Tạo mới";
         }

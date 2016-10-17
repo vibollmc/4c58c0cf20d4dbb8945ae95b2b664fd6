@@ -23,35 +23,34 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
             res.json(data);
         })
         .catch((err) => {
-            var result = new ResponseResult(ResultCode.Error, null, "error");
-            res.json(result);
+            res.json(new ResponseResult(ResultCode.Error, null, "error"));
         });
 });
 
 router.post("/add", (req: express.Request, res: express.Response, next: express.NextFunction) => {
     let user = req.body as User;
     let userService = kernel.get<UserService>(UserService);
-
+    user.createdBy = req.params.userid;
     userService.addNewUser(user)
         .then((data) => {
             res.json(data);
         })
         .catch((err) => {
-            var result = new ResponseResult(ResultCode.Error, null, "error");
-            res.json(result);
+            res.json(new ResponseResult(ResultCode.Error, null, "error"));
         });
 });
 
 router.post("/update", (req: express.Request, res: express.Response, next: express.NextFunction) => {
     let userService = kernel.get<UserService>(UserService);
     let user = req.body as User;
+    user.updatedBy = req.params.userid;
+    
     userService.updateUser(user)
         .then((data) => {
             res.json(data);
         })
         .catch((err) => {
-            var result = new ResponseResult(ResultCode.Error, null, "error");
-            res.json(result);
+            res.json(new ResponseResult(ResultCode.Error, null, "error"));
         });
 });
 
@@ -64,8 +63,7 @@ router.get("/delete/:id", (req: express.Request, res: express.Response, next: ex
             res.json(data);
         })
         .catch((err) => {
-            var result = new ResponseResult(ResultCode.Error, null, "error");
-            res.json(result);
+            res.json(new ResponseResult(ResultCode.Error, null, "error"));
         });    
 });
 
@@ -79,8 +77,7 @@ router.post("/status", (req: express.Request, res: express.Response, next: expre
             res.json(data);
         })
         .catch((err) => {
-            var result = new ResponseResult(ResultCode.Error, null, "error");
-            res.json(result);
+            res.json(new ResponseResult(ResultCode.Error, null, "error"));
         });
 });
 
@@ -94,20 +91,14 @@ router.post("/login", (req: express.Request, res: express.Response, next: expres
             if (data.data != null) {
                 var token = jwt.sign(data.data, ApiConfig.secret, {expiresIn: 86400});
 
-                res.json({
-                    code: ResultCode.Success,
-                    token: token,
-                    data: data.data,
-                    message: 'Successfully.'
-                })
+                res.json(new ResponseResult(ResultCode.Success, token, "Login Successfully."));
             }
             else {
-                var result = new ResponseResult(ResultCode.Error, null, "login fail.");    
+                res.json(new ResponseResult(ResultCode.Error, null, "login fail."));   
             }
         })
         .catch((err) => {
-            var result = new ResponseResult(ResultCode.Error, null, "error");
-            res.json(result);
+            res.json(new ResponseResult(ResultCode.Error, null, "error"));
         });
 });
 

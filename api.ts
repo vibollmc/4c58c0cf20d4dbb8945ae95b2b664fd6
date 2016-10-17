@@ -40,7 +40,10 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
         } else {
           // if everything is good, save to request for use in other routes
           if (req.url.toLocaleLowerCase() === '/api/user/logged') {
-            return res.json(new ResponseResult(ResultCode.Success, {fullName: decoded.fullName, group: decoded.group}, ""));
+            var name = decoded.fullName;
+            if (name == null) decoded.userName;
+            
+            return res.json(new ResponseResult(ResultCode.Success, {fullName: name, group: decoded.group}, ""));
           }
           else {
             req.params.userid = decoded._id
