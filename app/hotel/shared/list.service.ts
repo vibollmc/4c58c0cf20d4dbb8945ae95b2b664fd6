@@ -13,17 +13,21 @@ export class ListService<T> {
     private _urlUpdate: string;
     private _urlDelete: string;
     private _urlUpdateStatus: string;
-    private _name: string;
+
     constructor(
         private http: HttpClient,
-        name: string
     ) {
-        this._urlGet = `${SystemConfig.apiHost}/list/${name}`;
-        this._urlAddNew = `${SystemConfig.apiHost}/list/${name}/add`;
-        this._urlUpdate = `${SystemConfig.apiHost}/list/${name}/update`;
-        this._urlDelete = `${SystemConfig.apiHost}/list/${name}/delete`;
-        this._urlUpdateStatus = `${SystemConfig.apiHost}/list/${name}/status`;
+        
     }
+
+    public setUrlApi(collectionName: string) {
+        this._urlGet = `${SystemConfig.apiHost}/list/${collectionName}`;
+        this._urlAddNew = `${SystemConfig.apiHost}/list/${collectionName}/add`;
+        this._urlUpdate = `${SystemConfig.apiHost}/list/${collectionName}/update`;
+        this._urlDelete = `${SystemConfig.apiHost}/list/${collectionName}/delete`;
+        this._urlUpdateStatus = `${SystemConfig.apiHost}/list/${collectionName}/status`;
+    }
+
     private handleError(error: any) {
         bootbox.alert("An error accurred " + error.message || error);
     }

@@ -5,20 +5,13 @@ import { DashboardComponent } from './hotel/dashboard/dashboard.component';
 import { RoomtypeComponent } from './hotel/roomtype/roomtype.component';
 import { LoginComponent } from './hotel/login/login.component';
 import { AccountComponent } from './hotel/account/account.component';
+import { SettingComponent } from './hotel/setting/setting.component';
 const appRoutes: Routes = [
-  //{
-  //  path: 'detail/:id',
-  //  component: HeroDetailComponent
-  //},
   {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full'
   },
-  //{
-  //  path: 'heroes',
-  //  component: HeroesComponent
-  //},
   {
     path: 'dashboard',
     component: DashboardComponent
@@ -34,6 +27,10 @@ const appRoutes: Routes = [
   {
     path: 'account',
     component: AccountComponent
+  },
+  {
+    path: 'setting',
+    component: SettingComponent
   }
 ];
 

@@ -14,15 +14,19 @@ declare var $: any;
 export class ListModel<T extends MongodbModel> {
     obj: T;
     lstObj: T[];
-    private _roomtypeService: ListService<T>;
+    private _service: ListService<T>;
     constructor(
         http: HttpClient
     ) {
-        this._roomtypeService = new ListService<T>(http, "Roomtype");
+
+    }
+
+    public setCollection(collectionName: string) {
+        this._service.setUrlApi(collectionName);
     }
 
     public loadData() {
-        this._roomtypeService.get().then(
+        this._service.get().then(
             response => {
                 if (response.code === ResultCode.Success) {
                     this.lstObj = response.data as T[];
@@ -38,7 +42,7 @@ export class ListModel<T extends MongodbModel> {
 
         if (this.obj._id === undefined
             || this.obj._id === null || this.obj._id === "") {
-            this._roomtypeService.addNew(this.obj).then(
+            this._service.addNew(this.obj).then(
                 response => {
                     if (response.data === true) {
                         MessageProvider.saveSuccess();
@@ -48,7 +52,7 @@ export class ListModel<T extends MongodbModel> {
                 });
         }
         else {
-            this._roomtypeService.update(this.obj).then(
+            this._service.update(this.obj).then(
                 response => {
                     if (response.data === true) {
                         MessageProvider.saveSuccess();
@@ -63,7 +67,7 @@ export class ListModel<T extends MongodbModel> {
     public updateStatus(id: string, active: boolean) {
         if (id === undefined || id === null || id === "") return;
 
-        this._roomtypeService.updateStatus(id, active);
+        this._service.updateStatus(id, active);
     }
 
     public delete() {
@@ -74,7 +78,7 @@ export class ListModel<T extends MongodbModel> {
             (result) => {
                 if (result === false) return;
 
-                this._roomtypeService.delete(this.obj._id).then(
+                this._service.delete(this.obj._id).then(
                     response => {
                         if (response.data === true) {
                             MessageProvider.deleteSuccess();

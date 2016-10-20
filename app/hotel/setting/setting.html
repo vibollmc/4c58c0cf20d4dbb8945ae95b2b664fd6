@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Cấu hình hệ thống
+            <button type="button" class="btn btn-xs btn-primary" (click)="selectSetting(null)" data-toggle="modal" data-target="#settingmodal">
+                <i class="fa fa-plus"></i> Thêm mới
+            </button>
+        </h1>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th> Mã</th>
+                        <th> Giá trị</th>
+                        <th> Ghi chú</th>
+                        <th> Trạng thái</th>
+                        <th class="group-command"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let setting of vm.lstObj">
+                        <td>{{setting.type}}</td>
+                        <td>{{setting.value}}</td>
+                        <td>{{setting.description}}</td>
+                        <td>
+                            <md-slide-toggle [(ngModel)]="setting.active" (change)="updateStatus(setting._id, setting.active)"></md-slide-toggle>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-primary" (click)="selectSetting(null)" data-toggle="modal" data-target="#settingmodal"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-success" (click)="selectSetting(setting)" data-toggle="modal" data-target="#settingmodal"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-danger" (click)="deleteSetting(setting)"><i class="fa fa-times"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="settingmodal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{modalTitle}}</h4>
+            </div>
+            <form (ngSubmit)="saveSetting()" #settingForm="ngForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Mã</label>
+                        <input class="form-control" #type="ngModel" id="type" name="type" required [(ngModel)]="vm.obj.type">
+                        <div [hidden]="type.valid || type.pristine" class="alert alert-danger">
+                            Yêu cầu nhập mã
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Giá trị</label>
+                        <input class="form-control" #value="ngModel" id="value" name="value" required [(ngModel)]="vm.obj.value">
+                        <div [hidden]="value.valid || value.pristine" class="alert alert-danger">
+                            Yêu cầu nhập giá trị
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi chú</label>
+                        <textarea rows="2" class="form-control" #description="ngModel" id="description" name="description" [(ngModel)]="vm.obj.description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" [disabled]="!settingForm.form.valid" (click)="saveSetting()" ><i class="fa fa-save"></i>{{modalTextSave}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
