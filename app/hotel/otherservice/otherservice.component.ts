@@ -2,22 +2,22 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { ListModel } from "../shared/list.model";
-import { SystemSetting } from "../models/systemsetting";
+import { OtherService } from "../models/otherservice";
 import { BaseComponent } from "../shared/base.component";
 
 declare var $: any;
 
 
 @Component({
-    selector: 'setting',
-    templateUrl: 'app/hotel/setting/setting.html'
+    selector: 'otherservice',
+    templateUrl: 'app/hotel/otherservice/otherservice.html'
 })
 
-export class SettingComponent extends BaseComponent {
+export class OtherServiceComponent extends BaseComponent {
     modalTitle: string;
     modalTextSave: string;
     constructor(
-        public vm: ListModel<SystemSetting>,
+        public vm: ListModel<OtherService>,
         protected router: Router
     ) {
         super(router);
@@ -25,20 +25,20 @@ export class SettingComponent extends BaseComponent {
 
     ngOnInit() {
         super.ngOnInit();
-        this.vm.setCollection("SystemSetting");
-        this.vm.obj = new SystemSetting();
+        this.vm.setCollection("OtherService");
+        this.vm.obj = new OtherService();
         this.vm.loadData();
     }
 
-    public select(obj: SystemSetting) {
+    public select(obj: OtherService) {
         if (obj != undefined && obj !== null) {
-            this.modalTitle = "Thông tin cấu hình";
+            this.modalTitle = "Thông tin dịch vụ";
             this.modalTextSave = " Cập nhật";
             this.vm.obj = obj;
         }
         else {
-            this.vm.obj = new SystemSetting();
-            this.modalTitle = "Thêm mới cấu hình";
+            this.vm.obj = new OtherService();
+            this.modalTitle = "Thêm mới dịch vụ";
             this.modalTextSave = " Tạo mới";
         }
     }
@@ -48,7 +48,7 @@ export class SettingComponent extends BaseComponent {
         $("#editmodal").modal('hide');
     }
 
-    public delete(obj: SystemSetting) {
+    public delete(obj: OtherService) {
         this.vm.obj = obj;
         this.vm.delete();
     }

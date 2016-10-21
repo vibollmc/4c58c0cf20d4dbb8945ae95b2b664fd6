@@ -24,16 +24,17 @@ export class RoomtypeComponent extends BaseComponent {
      }
 
     ngOnInit() {
+        super.ngOnInit();
         this.vm.setCollection("Roomtype");
         this.vm.obj = new Roomtype();
         this.vm.loadData();
     }
 
-    public selectRoomtype(roomtype: Roomtype) {
-        if (roomtype != undefined && roomtype !== null) {
+    public select(obj: Roomtype) {
+        if (obj != undefined && obj !== null) {
             this.modalTitle = "Thông tin loại phòng";
             this.modalTextSave = " Cập nhật";
-            this.vm.obj = roomtype;
+            this.vm.obj = obj;
         }
         else {
             this.vm.obj = new Roomtype();
@@ -42,13 +43,13 @@ export class RoomtypeComponent extends BaseComponent {
         }
     }
 
-    public saveRoomtype() {
+    public save() {
         this.vm.save();
-        $("#roomtypemodal").modal('hide');
+        $("#editmodal").modal('hide');
     }
 
-    public deleteRoomtype(roomtype: Roomtype) {
-        this.vm.obj = roomtype;
+    public delete(obj: Roomtype) {
+        this.vm.obj = obj;
         this.vm.delete();
     }
 

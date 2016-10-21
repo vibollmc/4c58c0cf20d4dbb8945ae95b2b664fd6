@@ -39,7 +39,7 @@ router.post("/:collection/add", (req: express.Request, res: express.Response, ne
     listService.collectionName = collection;
 
     let obj = req.body;
-    obj.createdBy = req.params.userid;
+    obj.createdBy = req.userid;
     listService.addNew(obj)
         .then((data) => {
             res.json(data);
@@ -61,7 +61,8 @@ router.post("/:collection/update", (req: express.Request, res: express.Response,
     listService.collectionName = collection;
 
     let obj = req.body
-    obj.updatedBy = req.params.userid;
+    obj.updatedBy = req.userid;
+
     listService.update(obj)
         .then((data) => {
             res.json(data);

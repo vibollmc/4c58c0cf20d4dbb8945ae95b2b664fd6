@@ -46,7 +46,8 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
             return res.json(new ResponseResult(ResultCode.Success, {fullName: name, group: decoded.group}, ""));
           }
           else {
-            req.params.userid = decoded._id
+            console.log('user request: ' + decoded._id);
+            req.userid = decoded._id;
             next();
           }
           
@@ -61,7 +62,6 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
     }
   }
 });
-
 
 app.use("/api/list", listRouter);
 app.use("/api/user", user);

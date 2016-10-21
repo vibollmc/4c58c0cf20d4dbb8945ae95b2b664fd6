@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from './http.client';
 
 import { ListService } from "./list.service";
 import { ResponseResult } from "../models/responseresults";
@@ -14,9 +13,9 @@ declare var $: any;
 export class ListModel<T extends MongodbModel> {
     obj: T;
     lstObj: T[];
-    private _service: ListService<T>;
+    
     constructor(
-        http: HttpClient
+        private _service: ListService<T>
     ) {
 
     }

@@ -14,8 +14,8 @@ export class BaseComponent implements AfterContentChecked, OnInit {
 
     }
     private checkLogin() {
-        //if (!sessionStorage.getItem(SystemConfig.keyToken))
-            //this.router.navigate(['login']);
+        if (!sessionStorage.getItem(SystemConfig.keyToken))
+            this.router.navigate(['login']);
     }
     ngOnInit() {
         this.checkLogin();

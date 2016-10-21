@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+
 import { HttpClient } from '../shared/http.client';
 import 'rxjs/add/operator/toPromise';
 
@@ -7,6 +9,7 @@ import { ResponseResult } from "../models/responseresults";
 
 declare var bootbox: BootboxStatic;
 
+@Injectable()
 export class ListService<T> {
     private _urlGet: string;
     private _urlAddNew: string;

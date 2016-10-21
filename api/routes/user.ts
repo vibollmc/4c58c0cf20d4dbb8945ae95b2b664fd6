@@ -30,7 +30,7 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
 router.post("/add", (req: express.Request, res: express.Response, next: express.NextFunction) => {
     let user = req.body as User;
     let userService = kernel.get<UserService>(UserService);
-    user.createdBy = req.params.userid;
+    user.createdBy = req.userid;
     userService.addNewUser(user)
         .then((data) => {
             res.json(data);
@@ -43,7 +43,7 @@ router.post("/add", (req: express.Request, res: express.Response, next: express.
 router.post("/update", (req: express.Request, res: express.Response, next: express.NextFunction) => {
     let userService = kernel.get<UserService>(UserService);
     let user = req.body as User;
-    user.updatedBy = req.params.userid;
+    user.updatedBy = req.userid;
     
     userService.updateUser(user)
         .then((data) => {

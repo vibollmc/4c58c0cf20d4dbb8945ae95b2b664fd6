@@ -55,7 +55,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="usermodal" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tên đăng nhập</label>
-                                <input class="form-control" #username="ngModel" id="username" name="username" required [(ngModel)]="vm.user.username" [ngModelOptions]="{standalone: true}">
+                                <input class="form-control" #username="ngModel" id="username" name="username" required [(ngModel)]="vm.user.username">
                                 <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
                                     Yêu cầu nhập tên đăng nhập
                                 </div>
@@ -76,7 +76,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Mật khẩu</label>
-                                <input class="form-control" type="password" #password="ngModel" id="password" name="password" required [(ngModel)]="vm.user.password" [ngModelOptions]="{standalone: true}">
+                                <input class="form-control" type="password" #password="ngModel" id="password" name="password" required [(ngModel)]="vm.user.password">
                                 <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
                                     Yêu cầu nhập tên loại phòng
                                 </div>
@@ -87,13 +87,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tên đầy đủ</label>
-                                <input class="form-control" #fullName="ngModel" id="fullName" name="fullName" [(ngModel)]="vm.user.fullName" [ngModelOptions]="{standalone: true}">
+                                <input class="form-control" #fullName="ngModel" id="fullName" name="fullName" [(ngModel)]="vm.user.fullName">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input class="form-control" #phoneNumber="ngModel" id="phoneNumber" name="phoneNumber" [(ngModel)]="vm.user.phoneNumber" [ngModelOptions]="{standalone: true}">
+                                <input class="form-control" #phoneNumber="ngModel" id="phoneNumber" name="phoneNumber" [(ngModel)]="vm.user.phoneNumber">
                             </div>
                         </div>
                     </div>
@@ -101,13 +101,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Ngày sinh</label>
-                                <input class="form-control" type="date" #DOB="ngModel" id="DOB" name="DOB" [(ngModel)]="vm.user.DOB" [ngModelOptions]="{standalone: true}">
+                                <input class="form-control" type="date" #DOB="ngModel" id="DOB" name="DOB" [(ngModel)]="vm.user.DOB">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Chứng minh nhân dân</label>
-                                <input class="form-control" #idNumber="ngModel" id="idNumber" name="idNumber" [(ngModel)]="vm.user.idNumber" [ngModelOptions]="{standalone: true}">
+                                <input class="form-control" #idNumber="ngModel" id="idNumber" name="idNumber" [(ngModel)]="vm.user.idNumber">
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Giới tính</label>
-                                <select class="form-control" #gender="ngModel" id="gender" name="gender" [(ngModel)]="vm.user.gender" [ngModelOptions]="{standalone: true}">
+                                <select class="form-control" #gender="ngModel" id="gender" name="gender" [(ngModel)]="vm.user.gender">
                                     <option></option>
                                     <option value="1"> Nam</option>
                                     <option value="2"> Nữ</option>
@@ -125,11 +125,11 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Thuộc nhóm</label>
-                                <select class="form-control" #group="ngModel" id="group" name="group" [(ngModel)]="vm.user.group" [ngModelOptions]="{standalone: true}">
+                                <select class="form-control" #group="ngModel" id="group" name="group" [(ngModel)]="vm.user.group">
                                     <option></option>
-                                    <option value="1"> Quản trị hệ thống</option>
-                                    <option value="2"> Quản lý</option>
                                     <option value="3"> Nhân viên</option>
+                                    <option value="2"> Quản lý</option>
+                                    <option value="1"> Quản trị hệ thống</option>
                                 </select>
                             </div>
                         </div>

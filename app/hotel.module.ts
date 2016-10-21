@@ -17,6 +17,7 @@ import { RoomtypeComponent } from "./hotel/roomtype/roomtype.component";
 import { LoginComponent } from "./hotel/login/login.component";
 import { AccountComponent } from "./hotel/account/account.component";
 import { SettingComponent } from "./hotel/setting/setting.component";
+import { OtherServiceComponent } from './hotel/otherservice/otherservice.component';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { SettingComponent } from "./hotel/setting/setting.component";
         RoomtypeComponent,
         LoginComponent,
         AccountComponent,
-        SettingComponent
+        SettingComponent,
+        OtherServiceComponent
     ],
     providers: [
         ListModel,

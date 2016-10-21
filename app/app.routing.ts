@@ -6,6 +6,7 @@ import { RoomtypeComponent } from './hotel/roomtype/roomtype.component';
 import { LoginComponent } from './hotel/login/login.component';
 import { AccountComponent } from './hotel/account/account.component';
 import { SettingComponent } from './hotel/setting/setting.component';
+import { OtherServiceComponent } from './hotel/otherservice/otherservice.component';
 const appRoutes: Routes = [
   {
     path: '',
@@ -31,6 +32,10 @@ const appRoutes: Routes = [
   {
     path: 'setting',
     component: SettingComponent
+  },
+  {
+    path: 'otherservice',
+    component: OtherServiceComponent
   }
 ];
 
