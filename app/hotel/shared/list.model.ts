@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { ListService } from "./list.service";
-import { ResponseResult } from "../models/responseresults";
 import { MongodbModel } from "../models/metadata/mongodbmodel";
 import { ResultCode } from "../models/enum";
 import { MessageProvider } from "../shared/message";

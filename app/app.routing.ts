@@ -7,6 +7,9 @@ import { LoginComponent } from './hotel/login/login.component';
 import { AccountComponent } from './hotel/account/account.component';
 import { SettingComponent } from './hotel/setting/setting.component';
 import { OtherServiceComponent } from './hotel/otherservice/otherservice.component';
+import { CustomerComponent } from './hotel/customer/customer.component';
+import { RoomComponent } from './hotel/room/room.component';
+
 const appRoutes: Routes = [
   {
     path: '',
@@ -36,6 +39,14 @@ const appRoutes: Routes = [
   {
     path: 'otherservice',
     component: OtherServiceComponent
+  },
+  {
+    path: 'customer',
+    component: CustomerComponent
+  },
+  {
+    path: 'room',
+    component: RoomComponent
   }
 ];
 

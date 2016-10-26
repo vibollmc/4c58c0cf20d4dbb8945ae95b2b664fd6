@@ -61,10 +61,7 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label>Tên dịch vụ</label>
-								<input class="form-control" #name="ngModel" id="name" name="name" required [(ngModel)]="vm.obj.name">
-								<div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-									Yêu cầu nhập tên dịch vụ
-								</div>
+								<input class="form-control" name="name" required [(ngModel)]="vm.obj.name">
 							</div>
 						</div>
 					</div>
@@ -72,19 +69,13 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Đơn giá</label>
-								<input class="form-control" #price="ngModel" id="price" name="price" required [(ngModel)]="vm.obj.price">
-								<div [hidden]="price.valid || price.pristine" class="alert alert-danger">
-									Yêu cầu nhập đơn giá
-								</div>
+								<input class="form-control" name="price" required [(ngModel)]="vm.obj.price">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Đơn vị</label>
-								<input class="form-control" #unit="ngModel" id="unit" name="unit" required [(ngModel)]="vm.obj.unit">
-								<div [hidden]="unit.valid || unit.pristine" class="alert alert-danger">
-									Yêu cầu nhập đơn vị
-								</div>
+								<input class="form-control" name="unit" required [(ngModel)]="vm.obj.unit">
 							</div>
 						</div>
 					</div>
@@ -92,20 +83,17 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Tồn kho</label>
-								<input class="form-control" #inStock="ngModel" id="inStock" name="inStock" [(ngModel)]="vm.obj.inStock">
+								<input class="form-control" name="inStock" [(ngModel)]="vm.obj.inStock">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Loại dịch vụ</label>
-								<select class="form-control" #serviceType="ngModel" id="serviceType" name="serviceType" required [(ngModel)]="vm.obj.serviceType">
+								<select class="form-control" name="serviceType" required [(ngModel)]="vm.obj.serviceType">
                                     <option></option>
                                     <option value="1"> Bán</option>
                                     <option value="2"> Cho thuê</option>
                                 </select>
-                                <div [hidden]="serviceType.valid || serviceType.pristine" class="alert alert-danger">
-									Yêu cầu nhập loại dịch vụ
-								</div>
 							</div>
 						</div>
 					</div>

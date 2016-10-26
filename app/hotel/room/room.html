@@ -1,0 +1,77 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Danh sách phòng
+			<button type="button" class="btn btn-xs btn-primary" (click)="select(null)" data-toggle="modal" data-target="#editmodal">
+                <i class="fa fa-plus"></i> Thêm mới
+            </button>
+		</h1>
+	</div>
+</div>
+
+<div *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
+	<div class="row">
+		<div class="col-md-12">
+			<div *ngFor="let obj of selectRoom(floor)" class="btn btn-sq btn-info">
+				<strong>{{obj.name}}</strong>
+				<br>
+				<div class="btn-group btn-group-xs">
+					<md-slide-toggle [(ngModel)]="obj.active" (change)="updateStatus(obj._id, obj.active)"></md-slide-toggle>
+					<button class="btn btn-primary" (click)="select(null)" data-toggle="modal" data-target="#editmodal"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-success" (click)="select(obj)" data-toggle="modal" data-target="#editmodal"><i class="fa fa-pencil"></i></button>
+					<button class="btn btn-danger" (click)="delete(obj)"><i class="fa fa-times"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="editmodal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header modal-header-primary">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">{{modalTitle}}</h4>
+			</div>
+			<form (ngSubmit)="save()" #editForm="ngForm">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Mã phòng</label>
+								<input class="form-control" name="name" required [(ngModel)]="vm.obj.name">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Loại phòng</label>
+								<select class="form-control" name="roomtype" required [(ngModel)]="vm.obj.roomtype">
+                                    <option *ngFor="let roomtype of lstRoomtype" value="{{roomtype._id}}">{{roomtype.name}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Lầu</label>
+								<select class="form-control" name="value" required [(ngModel)]="vm.obj.floor">
+									<option *ngFor="let floor of lstFloor" value="{{floor}}">{{floor}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-9">
+							<div class="form-group">
+								<label>Ghi chú</label>
+								<input class="form-control" name="description" [(ngModel)]="vm.obj.description">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="save()"><i class="fa fa-save"></i>{{modalTextSave}}</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

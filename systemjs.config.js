@@ -27,6 +27,7 @@
       'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
       'crypto-js': 'npm:crypto-js',
       'moment': 'npm:moment',
+      'angular2-color-picker': 'npm:angular2-color-picker',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -51,6 +52,10 @@
       },
       'moment': {
         main: './moment.js',
+        defaultExtension: 'js'
+      },
+      'angular2-color-picker': {
+        main: './index.js',
         defaultExtension: 'js'
       }
     }

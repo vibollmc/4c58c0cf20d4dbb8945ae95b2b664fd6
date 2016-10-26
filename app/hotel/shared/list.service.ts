@@ -4,13 +4,13 @@ import { HttpClient } from '../shared/http.client';
 import 'rxjs/add/operator/toPromise';
 
 import SystemConfig from "../shared/config";
-import { Roomtype } from "../models/roomtype";
+import { MongodbModel } from "../models/metadata/mongodbmodel";
 import { ResponseResult } from "../models/responseresults";
 
 declare var bootbox: BootboxStatic;
 
 @Injectable()
-export class ListService<T> {
+export class ListService<T extends MongodbModel> {
     private _urlGet: string;
     private _urlAddNew: string;
     private _urlUpdate: string;

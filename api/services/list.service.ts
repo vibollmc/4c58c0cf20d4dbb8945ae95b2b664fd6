@@ -22,8 +22,8 @@ export class ListService {
     public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
         return this._listRepository.updateStatus(id, active);
     } 
-    public get(): Promise<ResponseResult> {
-        return this._listRepository.get();
+    public get(filter?: any): Promise<ResponseResult> {
+        return this._listRepository.get(filter);
     }
     public delete(id: string): Promise<ResponseResult> {
         return this._listRepository.delete(id);

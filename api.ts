@@ -39,6 +39,8 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
           return res.json(new ResponseResult(ResultCode.LoginFail, null, 'Failed to authenticate token.'));
         } else {
           // if everything is good, save to request for use in other routes
+          console.log('user request: ' + decoded._id);
+          
           if (req.url.toLocaleLowerCase() === '/api/user/logged') {
             var name = decoded.fullName;
             if (name == null) decoded.userName;
@@ -46,7 +48,6 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
             return res.json(new ResponseResult(ResultCode.Success, {fullName: name, group: decoded.group}, ""));
           }
           else {
-            console.log('user request: ' + decoded._id);
             req.userid = decoded._id;
             next();
           }

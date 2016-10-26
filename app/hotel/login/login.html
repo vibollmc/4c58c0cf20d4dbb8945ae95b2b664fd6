@@ -9,18 +9,10 @@
                     <form role="form">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Tên đăng nhập" #username="ngModel" id="username" name="username" required [(ngModel)]="vm.username"
-                                    autofocus>
-                                <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
-                                    Yêu cầu nhập mật khẩu
-                                </div>
+                                <input class="form-control" placeholder="Tên đăng nhập" name="username" required [(ngModel)]="vm.username" autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="mật khẩu" #password="ngModel" id="password" name="password" required [(ngModel)]="vm.password"
-                                    type="password">
-                                <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
-                                    Yêu cầu nhập mật khẩu
-                                </div>
+                                <input class="form-control" placeholder="mật khẩu" name="password" required [(ngModel)]="vm.password" type="password">
                             </div>
                             <div [hidden]="vm.message === null || vm.message === ''" class="alert alert-danger">
                                 {{vm.message}}

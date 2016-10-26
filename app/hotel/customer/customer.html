@@ -1,0 +1,138 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Danh mục khách hàng
+            <button type="button" class="btn btn-xs btn-primary" (click)="select(null)" data-toggle="modal" data-target="#editmodal">
+                <i class="fa fa-plus"></i> Thêm mới
+            </button>
+        </h1>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th> Tên khách hàng</th>
+                        <th> Số điện thoại</th>
+                        <th> Email</th>
+                        <th> Địa chỉ</th>
+                        <th> Trạng thái</th>
+                        <th class="group-command"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let obj of vm.lstObj">
+                        <td>{{obj.name}}</td>
+                        <td>{{obj.phoneNumber}}</td>
+                        <td>{{obj.email}}</td>
+                        <td>{{obj.address}}</td>
+                        <td>
+                            <md-slide-toggle [(ngModel)]="obj.active" (change)="updateStatus(obj._id, obj.active)"></md-slide-toggle>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-primary" (click)="select(null)" data-toggle="modal" data-target="#editmodal"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-success" (click)="select(obj)" data-toggle="modal" data-target="#editmodal"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-danger" (click)="delete(obj)"><i class="fa fa-times"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editmodal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header modal-header-primary">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">{{modalTitle}}</h4>
+			</div>
+			<form (ngSubmit)="save()" #editForm="ngForm">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Tên khách hàng</label>
+								<input class="form-control" name="name" required [(ngModel)]="vm.obj.name">
+							</div>
+						</div>
+                        <div class="col-md-6">
+							<div class="form-group">
+								<label>Chứng minh nhân dân</label>
+								<input class="form-control" name="idNumber" [(ngModel)]="vm.obj.idNumber">
+							</div>
+						</div>
+					</div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Địa chỉ</label>
+                                <input class="form-control" name="address" [(ngModel)]="vm.obj.address">
+                            </div>
+                        </div>
+                    </div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Số điện thoại</label>
+								<input class="form-control" name="phoneNumber" [(ngModel)]="vm.obj.phoneNumber">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Email</label>
+								<input class="form-control" name="email" [(ngModel)]="vm.obj.email">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Người đại diện</label>
+								<input class="form-control" name="representative" [(ngModel)]="vm.obj.representative">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Mã số thuế</label>
+								<input class="form-control" name="taxId" [(ngModel)]="vm.obj.taxId">
+							</div>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Số tài khoản ngân hàng</label>
+								<input class="form-control" name="bankAccount" [(ngModel)]="vm.obj.bankAccount">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Tên ngân hàng</label>
+								<input class="form-control" name="bankName" [(ngModel)]="vm.obj.bankName">
+							</div>
+						</div>
+					</div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Ghi chú</label>
+                                <textarea rows="1" class="form-control" name="description" [(ngModel)]="vm.obj.description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" [disabled]="!editForm.form.valid" (click)="save()"><i class="fa fa-save"></i>{{modalTextSave}}</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

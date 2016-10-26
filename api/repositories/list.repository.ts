@@ -55,8 +55,13 @@ export class ListRepository extends BaseRepository {
             .catch(err => this.createResultFromError(err));
     }
 
-    public get(): Promise<ResponseResult> {
+    public get(filter?: any): Promise<ResponseResult> {
         var dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        if (filter)
+            return dbCollection.find(filter).toArray()
+                .then(data => this.createResultFromSelect(data))
+                .catch(err => this.createResultFromError(err));
+
         return dbCollection.find().toArray()
             .then(data => this.createResultFromSelect(data))
             .catch(err => this.createResultFromError(err));

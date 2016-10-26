@@ -27,6 +27,31 @@ router.get("/:collection", (req: express.Request, res: express.Response, next: e
         });
 });
 
+router.post("/:collection", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    let listService = kernel.get<ListService>(ListService);
+    let collection = req.params.collection as string;
+
+    if (collection === undefined || collection === null || collection === "") {
+        console.log("collection cannot be null: " + req.url);
+        return;
+    }
+
+    listService.collectionName = collection;
+
+    let filter = req.body;
+
+    if (!filter) filter = {}; 
+
+    listService.get(filter)
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            var result = new ResponseResult(ResultCode.Error, null, "error");
+            res.json(result);
+        });
+});
+
 router.post("/:collection/add", (req: express.Request, res: express.Response, next: express.NextFunction) => {
     
     let listService = kernel.get<ListService>(ListService);

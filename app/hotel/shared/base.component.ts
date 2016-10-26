@@ -23,4 +23,11 @@ export class BaseComponent implements AfterContentChecked, OnInit {
     ngAfterContentChecked() {
         this.checkLogin();
     }
+
+    public makeArray(length: number): number[] {
+        let x=[];
+        let i=1;
+        while(x.push(i++)<length){};
+        return x
+    }
 }

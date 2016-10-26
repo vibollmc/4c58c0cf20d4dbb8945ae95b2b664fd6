@@ -3,6 +3,7 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 import { MaterialModule } from '@angular/material';
+import { ColorPickerModule } from 'angular2-color-picker';
 
 import { routing } from './app.routing';
 import { HttpClient } from './hotel/shared/http.client';
@@ -18,6 +19,8 @@ import { LoginComponent } from "./hotel/login/login.component";
 import { AccountComponent } from "./hotel/account/account.component";
 import { SettingComponent } from "./hotel/setting/setting.component";
 import { OtherServiceComponent } from './hotel/otherservice/otherservice.component';
+import { CustomerComponent } from './hotel/customer/customer.component';
+import { RoomComponent } from './hotel/room/room.component';
 
 @NgModule({
     imports: [
@@ -25,6 +28,7 @@ import { OtherServiceComponent } from './hotel/otherservice/otherservice.compone
         FormsModule,
         HttpModule,
         MaterialModule,
+        ColorPickerModule,
         routing
     ],
     declarations: [
@@ -34,7 +38,9 @@ import { OtherServiceComponent } from './hotel/otherservice/otherservice.compone
         LoginComponent,
         AccountComponent,
         SettingComponent,
-        OtherServiceComponent
+        OtherServiceComponent,
+        CustomerComponent,
+        RoomComponent
     ],
     providers: [
         ListModel,
