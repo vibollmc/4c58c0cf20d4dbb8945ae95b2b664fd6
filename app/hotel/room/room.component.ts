@@ -8,6 +8,7 @@ import { BaseComponent } from "../shared/base.component";
 import { ShareModel } from '../shared/share.model';
 
 declare var $: any;
+declare var toastr: Toastr;
 
 
 @Component({
@@ -20,12 +21,14 @@ export class RoomComponent extends BaseComponent {
     modalTextSave: string;
     lstRoomtype: Roomtype[];
     lstFloor: number[];
+    inactiveColor: string;
     constructor(
         public vm: ListModel<Room>,
         private sm: ShareModel,
         protected router: Router
     ) {
         super(router);
+        this.inactiveColor = "#c6c3c3";
         this.lstRoomtype = new Array<Roomtype>();
         this.lstFloor = new Array<number>();
      }
@@ -40,23 +43,46 @@ export class RoomComponent extends BaseComponent {
             this.lstRoomtype = result;
         });
 
+        this.sm.getSystemSetting("INACTIVE_COLOR", (result) => {
+            this.inactiveColor = result.value ? result.value : "#c6c3c3";
+        });
+
         this.sm.getSystemSetting("SO_TANG", (result) => {
             this.lstFloor = this.makeArray(result.value);
         });
     }
+    private getRoomColor(roomtypeId: string): string {
+        if (roomtypeId) {
+            var data = this.lstRoomtype.filter(x => x._id == roomtypeId);
+
+            if (data && data.length > 0) return data[0].color;
+        }
+
+        return this.inactiveColor;
+    }
 
     public selectRoom(floor: number): Room[] {
         if (this.vm.lstObj) 
-            return this.vm.lstObj.filter(x=> x.floor == floor);
+            return this.vm.lstObj.filter(x=> x.floor == floor)
+            .sort((a,b) => { 
+                if (a.name > b.name) return 1;
+                if (a.name < b.name) return -1;
+                return 0;
+            });
 
         return new Array<Room>();
+    }
+
+    public getStyle(roomtypeId: string, active: boolean): any {
+        let color = active ? this.getRoomColor(roomtypeId) : this.inactiveColor;
+        return {'background-color': color, 'border-color': color};
     }
 
     public select(obj: Room) {
         if (obj != undefined && obj !== null) {
             this.modalTitle = "Thông tin phòng";
             this.modalTextSave = " Cập nhật";
-            this.vm.obj = obj;
+            Object.assign(this.vm.obj, obj);
         }
         else {
             this.vm.obj = new Room();
@@ -66,6 +92,20 @@ export class RoomComponent extends BaseComponent {
     }
 
     public save() {
+        if (this.vm.obj._id) {
+            let filterObj = this.vm.lstObj.filter(x=> x._id != this.vm.obj._id && x.name == this.vm.obj.name);
+            if (filterObj && filterObj.length > 0) {
+                toastr.error("Tên phòng đã tồn tại, vui lòng kiểm tra lại.");
+                return;
+            }
+        } 
+        else {
+            let filterObj = this.vm.lstObj.filter(x=> x.name == this.vm.obj.name);
+            if (filterObj && filterObj.length > 0) {
+                toastr.error("Tên phòng đã tồn tại, vui lòng kiểm tra lại.");
+                return;
+            }
+        }
         this.vm.save();
         $("#editmodal").modal('hide');
     }

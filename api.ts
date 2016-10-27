@@ -4,6 +4,8 @@ import * as jwt from "jsonwebtoken";
 import * as cors from "cors";
 import * as morgan from "morgan";
 
+import kernel from "./api/ioc/ioc.config";
+import { MongoDbAccess } from "./dbservices/database.access";
 import ApiConfig from "./api/config";
 import { listRouter } from "./api/routes/list";
 import { user } from "./api/routes/user";
@@ -24,7 +26,7 @@ app.use(morgan('dev'));
 //check token
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
   // allow unauthenticate on login.
-  if (req.url.toLowerCase() === '/api/user/login') {
+  if (req.url.toLowerCase() === '/api/user/login' || req.url.toLowerCase() === '/api/user/test') {
     next();
   }
   else {
@@ -70,6 +72,10 @@ app.use("/api/user", user);
 
 app.listen(8080, () => {
   console.log("Api server listening on port %d in %s mode", 8080, app.settings.env);
+
+  //open connection
+  let dbAccess = kernel.get<MongoDbAccess>(MongoDbAccess);
+  dbAccess.connectToDb();
 });
 
 export var App = app;

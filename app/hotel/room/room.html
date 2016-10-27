@@ -7,11 +7,20 @@
 		</h1>
 	</div>
 </div>
-
+<div class="bs-docs-panel" panel-header="Các loại phòng">
+	<div class="row">
+		<div *ngFor="let roomtype of lstRoomtype" class="col-md-3">
+			<span class="btn btn-sq-xs btn-default" [ngStyle]="{'background-color': roomtype.color, 'border-color': roomtype.color}"></span><strong> {{roomtype.name}}</strong>
+		</div>
+		<div class="col-md-3">
+			<span class="btn btn-sq-xs btn-default" [ngStyle]="getStyle('', false)"></span><strong> Inactive</strong>
+		</div>
+	</div>
+</div>
 <div *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
 	<div class="row">
 		<div class="col-md-12">
-			<div *ngFor="let obj of selectRoom(floor)" class="btn btn-sq btn-info">
+			<div *ngFor="let obj of selectRoom(floor)" class="btn btn-sq btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
 				<strong>{{obj.name}}</strong>
 				<br>
 				<div class="btn-group btn-group-xs">

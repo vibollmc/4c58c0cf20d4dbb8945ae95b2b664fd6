@@ -56,7 +56,7 @@ export class AccountComponent extends BaseComponent {
         if (user != undefined && user !== null) {
             this.modalTitle = "Thông tin tài khoản";
             this.modalTextSave = " Cập nhật";
-            this.vm.user = user;
+            Object.assign(this.vm.user, user);
         }
         else {
             this.vm.user = new User();

@@ -34,7 +34,7 @@ export class OtherServiceComponent extends BaseComponent {
         if (obj != undefined && obj !== null) {
             this.modalTitle = "Thông tin dịch vụ";
             this.modalTextSave = " Cập nhật";
-            this.vm.obj = obj;
+            Object.assign(this.vm.obj, obj);
         }
         else {
             this.vm.obj = new OtherService();

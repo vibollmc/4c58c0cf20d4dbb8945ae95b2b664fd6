@@ -1,27 +1,40 @@
-import mongodb = require('mongodb');
+import * as mongodb from 'mongodb';
 import { injectable } from "inversify";
-
-import DatabaseConfig from "./config";
 
 @injectable()
 export class MongoDbAccess {
     private server: mongodb.Server;
     private db: mongodb.Db;
     constructor() {
-        this.server = new mongodb.Server(DatabaseConfig.host, DatabaseConfig.port);
-        this.db = new mongodb.Db(DatabaseConfig.databaseName, this.server, { w: 1 });
-        this.db.open(() => {
-            console.log("connected to database.");
-        });
+    }
+
+    public connectToDb() {
+        let mongoClient = new mongodb.MongoClient();
+        mongoClient.connect("mongodb://hmsadmin:hms123@ds023088.mlab.com:23088/hms_beta")
+            .then((result) => {
+                this.db = result;
+                console.info("connected to database.");
+            })
+            .catch((err) => {
+                this.db = null;
+                console.error("cannot connect to database, please check connection string.");
+            });
     }
 
     public getCollection(name: string) : mongodb.Collection {
-        return this.db.collection(name);
+        try {
+            return this.db.collection(name);    
+        } catch (error) {
+            console.error('error occur: ' + error.message || error);
+        }
     }
 }
 
 export var Collections = {
     roomtype: "Roomtype",
     user: "User",
-    systemSetting: "SystemSetting"
+    systemSetting: "SystemSetting",
+    otherService: "OtherService",
+    customer: "Customer",
+    room: "Room"
 }
