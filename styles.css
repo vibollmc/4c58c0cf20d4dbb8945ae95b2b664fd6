@@ -12,6 +12,7 @@ a {
 md-slide-toggle {margin: 0 !important; width: 38px !important;}
 md-slide-toggle .md-slide-toggle-container {cursor: pointer !important;}
 md-input {width: 100%;}
+md-progress-bar {position: fixed !important; z-index: 9999}
 #wrapper {
   width: 100%;
 }
@@ -470,13 +471,18 @@ table.dataTable thead .sorting:after {
      border-top-right-radius: 5px;
 }
 
+.ui-inputtext {width:100%}
+
 .ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid #42A948; /* green */
+  border-bottom-color: #f44336;
 }
 
 .ng-invalid:not(form)  {
-  border-left: 5px solid #a94442; /* red */
+  border-bottom-color: #f44336;
 }
+
+.form-control {height: 30px;}
+
 th.group-command {
   width: 80px;
 }
@@ -551,7 +557,6 @@ th.group-command {
     margin-left: 0;
     margin-right: 0;
 }
-
 
 @media (max-width: 767px) {
   ul.timeline:before {

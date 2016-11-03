@@ -1,3 +1,4 @@
+<md-progress-bar mode="indeterminate" color="accent" [ngStyle]="getDisplayProcessBar()"></md-progress-bar>
 <!-- Navigation -->
 <nav [hidden]="currentPage == 'login'" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
@@ -247,7 +248,7 @@
                     <a href="javascript:void(0)"><i class="fa fa-share-square-o fa-fw"></i> Trả phòng</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0)"><i class="fa fa-edit fa-fw"></i> Đặt phòng</a>
+                    <a routerLink="/booking"><i class="fa fa-edit fa-fw"></i> Đặt phòng</a>
                 </li>
                 <li>
                     <a href="javascript:void(0)"><i class="fa fa-codepen fa-fw"></i> Dịch vụ khác</a>

@@ -1,16 +1,15 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import * as moment from 'moment';
-import 'moment/locale/vi';
 
 import { AccountModel } from "./account.model";
 import { AccountService } from "./account.service";
 import { User } from "../models/user";
+import { DropDownObject } from "../models/metadata/dropdown.object";
 import { Gender, GroupUser } from "../models/enum";
 import { BaseComponent } from "../shared/base.component";
 
 declare var $: any;
-
+declare var moment: any;
 
 @Component({
     selector: 'account',
@@ -24,11 +23,23 @@ declare var $: any;
 export class AccountComponent extends BaseComponent {
     modalTitle: string;
     modalTextSave: string;
+    genderOption: DropDownObject[];
+    groupUserOption: DropDownObject[];
     constructor(
         public vm: AccountModel,
         protected router: Router
     ) {
         super(router);
+        this.genderOption = new Array<DropDownObject>();
+        this.genderOption.push(new DropDownObject("", ""));
+        this.genderOption.push(new DropDownObject("Nam", 1));
+        this.genderOption.push(new DropDownObject("Nữ", 1));
+
+        this.groupUserOption = new Array<DropDownObject>();
+        this.groupUserOption.push(new DropDownObject("", ""));
+        this.groupUserOption.push(new DropDownObject("Nhân viên", 3));
+        this.groupUserOption.push(new DropDownObject("Quản lý", 2));
+        this.groupUserOption.push(new DropDownObject("Quản trị hệ thống", 1));
      }
 
     ngOnInit() {

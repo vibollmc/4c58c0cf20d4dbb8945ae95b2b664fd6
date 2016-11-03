@@ -53,4 +53,10 @@ export class HotelComponent implements AfterViewInit, AfterContentChecked, After
         this.sm.loggedName = null;
         this.router.navigate(['login']);
     }
+    public getDisplayProcessBar() {
+        if (this.sm.isAjaxProcessing)
+            return {'display': ''};
+
+        return {'display': 'none'};
+    }
 }

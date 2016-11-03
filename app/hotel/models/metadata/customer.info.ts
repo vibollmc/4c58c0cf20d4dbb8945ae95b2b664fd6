@@ -1,7 +1,4 @@
-import {MongodbModel} from './metadata/mongodbmodel';
-
-export class Customer extends MongodbModel {
-    _id: any;
+export class CustomerInfo {
     name: string;
     phoneNumber: string;
     email: string;
@@ -12,9 +9,8 @@ export class Customer extends MongodbModel {
     taxId: string;
     idNumber: string;
     description: string;
-
+    
     constructor() {
-        super();
         this.name = null;
         this.phoneNumber = null;
         this.email = null;

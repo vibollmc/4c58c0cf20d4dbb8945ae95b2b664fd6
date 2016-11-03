@@ -33,7 +33,7 @@
                         <td> {{user.phoneNumber}}</td>
                         <td> {{user.idNumber}}</td>
                         <td> {{detectGender(user.gender)}}</td>
-                        <td> {{user.DOB}}</td>
+                        <td> {{user.DOB | date: 'dd/MM/yyyy'}}</td>
                         <td> {{detectGroupUser(user.group)}}</td>
                         <td> {{detectLastLogin(user.lastLoginDate)}}</td>
                         <td>
@@ -67,19 +67,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tên đăng nhập</label>
-                                <input class="form-control" #username="ngModel" id="username" name="username" required [(ngModel)]="vm.user.username">
-                                <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
-                                    Yêu cầu nhập tên đăng nhập
-                                </div>
+                                <input class="form-control" name="username" required [(ngModel)]="vm.user.username">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Mật khẩu</label>
-                                <input class="form-control" type="password" #password="ngModel" id="password" name="password" required [(ngModel)]="vm.user.password">
-                                <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
-                                    Yêu cầu nhập tên loại phòng
-                                </div>
+                                <input class="form-control" type="password" name="password" required [(ngModel)]="vm.user.password">
                             </div>
                         </div>
                     </div>
@@ -87,27 +81,28 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tên đầy đủ</label>
-                                <input class="form-control" #fullName="ngModel" id="fullName" name="fullName" [(ngModel)]="vm.user.fullName">
+                                <input class="form-control" name="fullName" [(ngModel)]="vm.user.fullName">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input class="form-control" #phoneNumber="ngModel" id="phoneNumber" name="phoneNumber" [(ngModel)]="vm.user.phoneNumber">
+                                <input class="form-control" name="phoneNumber" [(ngModel)]="vm.user.phoneNumber">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Ngày sinh</label>
-                                <input class="form-control" type="date" #DOB="ngModel" id="DOB" name="DOB" [(ngModel)]="vm.user.DOB">
+                                <label>Ngày sinh</label><br>
+                                <p-calendar [(ngModel)]="vm.user.DOB" dateFormat="dd/mm/yy" [locale]="vi" name="DOB" [showIcon]="true"
+                                    [monthNavigator]="true" [yearNavigator]="true" yearRange="1960:2016"></p-calendar>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Chứng minh nhân dân</label>
-                                <input class="form-control" #idNumber="ngModel" id="idNumber" name="idNumber" [(ngModel)]="vm.user.idNumber">
+                                <input class="form-control" name="idNumber" [(ngModel)]="vm.user.idNumber">
                             </div>
                         </div>
                     </div>
@@ -115,22 +110,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Giới tính</label>
-                                <select class="form-control" #gender="ngModel" id="gender" name="gender" [(ngModel)]="vm.user.gender">
-                                    <option></option>
-                                    <option value="1"> Nam</option>
-                                    <option value="2"> Nữ</option>
-                                </select>
+                                <p-dropdown [options]="genderOption" [(ngModel)]="vm.user.gender" [style]="{'width':'100%'}" name="gender"></p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Thuộc nhóm</label>
-                                <select class="form-control" #group="ngModel" id="group" name="group" [(ngModel)]="vm.user.group">
-                                    <option></option>
-                                    <option value="3"> Nhân viên</option>
-                                    <option value="2"> Quản lý</option>
-                                    <option value="1"> Quản trị hệ thống</option>
-                                </select>
+                                <p-dropdown [options]="groupUserOption" [(ngModel)]="vm.user.group" [style]="{'width':'100%'}" name="group"></p-dropdown>
                             </div>
                         </div>
                     </div>

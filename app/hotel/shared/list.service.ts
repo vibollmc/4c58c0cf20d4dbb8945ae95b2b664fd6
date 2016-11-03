@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '../shared/http.client';
 import 'rxjs/add/operator/toPromise';
 
+import { BaseService } from './base.service';
 import SystemConfig from "../shared/config";
 import { MongodbModel } from "../models/metadata/mongodbmodel";
 import { ResponseResult } from "../models/responseresults";
@@ -10,7 +11,7 @@ import { ResponseResult } from "../models/responseresults";
 declare var bootbox: BootboxStatic;
 
 @Injectable()
-export class ListService<T extends MongodbModel> {
+export class ListService<T extends MongodbModel> extends BaseService {
     private _urlGet: string;
     private _urlAddNew: string;
     private _urlUpdate: string;
@@ -20,7 +21,7 @@ export class ListService<T extends MongodbModel> {
     constructor(
         private http: HttpClient,
     ) {
-        
+        super();
     }
 
     public setUrlApi(collectionName: string) {
@@ -31,9 +32,6 @@ export class ListService<T extends MongodbModel> {
         this._urlUpdateStatus = `${SystemConfig.apiHost}/list/${collectionName}/status`;
     }
 
-    private handleError(error: any) {
-        bootbox.alert("An error accurred " + error.message || error);
-    }
     public get(): Promise<ResponseResult> {
         return this.http.get(this._urlGet)
             .toPromise()

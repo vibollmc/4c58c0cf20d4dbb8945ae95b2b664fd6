@@ -16,15 +16,25 @@ export class ShareModel {
         this.service.token = token;
     }
 
+    public get isAjaxProcessing(): boolean {
+        return this.service.isAjaxProcessing;
+    }
+
+    public set isAjaxProcessing(value: boolean) {
+        this.service.isAjaxProcessing = value;
+    }
+
     constructor(private service: ShareService) {
         this.getLoggedName();
-
     }
+
     public getLoggedName() {
         if (this.token)
             this.service.getUserLogged().then((response) => {
                 this.loggedName = response.data.fullName;
-            });
+                this.isAjaxProcessing = false;
+            })
+            .catch(()=> { this.isAjaxProcessing = false; });
         else this.loggedName = null;
     }
 
@@ -34,7 +44,8 @@ export class ShareModel {
 
     public getRoomTypeActive(callback: (result: Roomtype[]) => void) {
         this.service.getRoomTypeActive()
-            .then(response => callback(response.data as Roomtype[]));
+            .then(response => callback(response.data as Roomtype[]))
+            .catch()
     } 
 
     public getSystemSetting(type: string, callback: (result: SystemSetting) => void) {

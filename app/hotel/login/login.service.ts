@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
 
+import { BaseService } from '../shared/base.service';
+import { HttpClient} from "../shared/http.client";
 import SystemConfig from "../shared/config";
 import { ResponseResult } from "../models/responseresults";
 
 @Injectable()
-export class LoginService {
+export class LoginService extends BaseService {
 
     constructor(
-        private http: Http
-    ) { }
-
-    private handleError(error: any) {
-        bootbox.alert("An error accurred " + error.message || error);
+        private http: HttpClient
+    ) {
+        super()
     }
 
     public login(username: string, password: string): Promise<ResponseResult> {

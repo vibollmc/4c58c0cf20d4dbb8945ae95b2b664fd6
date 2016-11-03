@@ -4,6 +4,18 @@ import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { ColorPickerModule } from 'angular2-color-picker';
+import { 
+    CalendarModule, 
+    DropdownModule, 
+    InputTextModule, 
+    InputTextareaModule, 
+    ScheduleModule,
+    AutoCompleteModule,
+    ButtonModule,
+    StepsModule,
+    MenuItem,
+    CheckboxModule
+} from 'primeng/primeng';
 
 import { routing } from './app.routing';
 import { HttpClient } from './hotel/shared/http.client';
@@ -21,6 +33,7 @@ import { SettingComponent } from "./hotel/setting/setting.component";
 import { OtherServiceComponent } from './hotel/otherservice/otherservice.component';
 import { CustomerComponent } from './hotel/customer/customer.component';
 import { RoomComponent } from './hotel/room/room.component';
+import { BookingComponent } from './hotel/booking/booking.component';
 
 @NgModule({
     imports: [
@@ -29,6 +42,15 @@ import { RoomComponent } from './hotel/room/room.component';
         HttpModule,
         MaterialModule,
         ColorPickerModule,
+        CalendarModule,
+        DropdownModule,
+        InputTextModule,
+        InputTextareaModule,
+        ScheduleModule,
+        AutoCompleteModule,
+        ButtonModule,
+        StepsModule,
+        CheckboxModule,
         routing
     ],
     declarations: [
@@ -40,7 +62,8 @@ import { RoomComponent } from './hotel/room/room.component';
         SettingComponent,
         OtherServiceComponent,
         CustomerComponent,
-        RoomComponent
+        RoomComponent,
+        BookingComponent
     ],
     providers: [
         ListModel,
