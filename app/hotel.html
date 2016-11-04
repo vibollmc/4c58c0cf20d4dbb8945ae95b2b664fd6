@@ -1,6 +1,6 @@
-<md-progress-bar mode="indeterminate" color="accent" [ngStyle]="getDisplayProcessBar()"></md-progress-bar>
+<md-progress-bar mode="indeterminate" color="accent" *ngIf="sm.isAjaxProcessing"></md-progress-bar>
 <!-- Navigation -->
-<nav [hidden]="currentPage == 'login'" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav [hidden]="activeLoginPage" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -229,7 +229,7 @@
                 
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="text" class="form-control" style="height:34px;" placeholder="Search...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>

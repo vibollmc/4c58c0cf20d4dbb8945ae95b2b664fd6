@@ -7,6 +7,8 @@ import { Roomtype } from '../models/roomtype';
 import { BookingService } from './booking.service';
 import { BookingModel } from './booking.model';
 import { ShareModel } from '../shared/share.model';
+import { CustomerInfo } from '../models/metadata/customer.info';
+
 import { BaseComponent } from '../shared/base.component';
 
 @Component({
@@ -37,6 +39,8 @@ export class BookingComponent extends BaseComponent  {
     lstRoomtype: Roomtype[];
     lstFloor: number[];
 
+    filteredCustomer: CustomerInfo[];
+    customerSelected: CustomerInfo;
     constructor(
         private vm: BookingModel,
         private sm: ShareModel,
@@ -58,11 +62,36 @@ export class BookingComponent extends BaseComponent  {
         this.isAddnewCustomer = !this.isAddnewCustomer;
     }
     
-    filterCustomerSingle(event) {
+    filterCustomer(event) {
+        this.filteredCustomer = new Array<CustomerInfo>();
 
+        this.vm.lstCustomerInfo.forEach(cusInfo => {
+            if (cusInfo.name.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+                this.filteredCustomer.push(cusInfo);
+            }
+            else if (cusInfo.phoneNumber.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+                this.filteredCustomer.push(cusInfo);
+            }
+            else if (cusInfo.name.toLowerCase().indexOf(event.query.toLowerCase()) > 0) {
+                this.filteredCustomer.push(cusInfo);
+            }
+            else if (cusInfo.phoneNumber.toLowerCase().indexOf(event.query.toLowerCase()) > 0) {
+                this.filteredCustomer.push(cusInfo);
+            }
+        });
     }
-    handleDropdownClick(event) {
+    showDropDownFilter() {
+        
+        this.filteredCustomer = new Array<CustomerInfo>();
 
+        this.vm.lstCustomerInfo.forEach(customer => {
+            this.filteredCustomer.push(customer);
+        });
+
+        console.log(this.filteredCustomer.length);
+    }
+    selectedCustomer() {
+        this.vm.booking.customer = this.customerSelected;
     }
     selectBooking(obj: Booking) {
         if (obj) {
@@ -88,7 +117,6 @@ export class BookingComponent extends BaseComponent  {
 
     ngOnInit() {
         super.ngOnInit();
-
         this.stepActiveIndex = 0;
 
         this.sm.getRoomTypeActive((result) => {

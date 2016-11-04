@@ -7,7 +7,6 @@
     "crypto-js": "registry:dt/crypto-js#3.1.4+20160708041433",
     "express": "registry:dt/express#4.0.0+20160708185218",
     "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160923124352",
-    "hammerjs": "registry:dt/hammerjs#2.0.8+20160724063812",
     "inversify": "registry:dt/inversify#2.0.0-rc.12+20160830145920",
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
     "jquery": "registry:dt/jquery#1.10.0+20160908203239",

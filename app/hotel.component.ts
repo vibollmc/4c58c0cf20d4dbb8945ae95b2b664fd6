@@ -18,9 +18,9 @@ declare var $;
 })
 
 export class HotelComponent implements AfterViewInit, AfterContentChecked, AfterContentInit, AfterViewChecked {
-    public get currentPage() : string {
-        return location.pathname.substr(1).toLowerCase();
-    } 
+    public get activeLoginPage() : boolean {
+        return this.router.isActive('login', true);
+    }
     
     constructor(
         protected router: Router,
@@ -41,6 +41,7 @@ export class HotelComponent implements AfterViewInit, AfterContentChecked, After
         if (!this.router.isActive('login', true))
             if (!this.sm.token) this.router.navigate(['login']);
     }
+
     ngAfterContentInit() {
         //console.log('AfterContentInit');
     }
@@ -52,11 +53,5 @@ export class HotelComponent implements AfterViewInit, AfterContentChecked, After
         this.sm.token = null;
         this.sm.loggedName = null;
         this.router.navigate(['login']);
-    }
-    public getDisplayProcessBar() {
-        if (this.sm.isAjaxProcessing)
-            return {'display': ''};
-
-        return {'display': 'none'};
     }
 }

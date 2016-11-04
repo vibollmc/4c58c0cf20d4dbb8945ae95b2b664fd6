@@ -1,4 +1,5 @@
 export class CustomerInfo {
+    _id: any;
     name: string;
     phoneNumber: string;
     email: string;
@@ -11,7 +12,7 @@ export class CustomerInfo {
     description: string;
     
     constructor() {
-        this.name = null;
+        this.name = "";
         this.phoneNumber = null;
         this.email = null;
         this.representative = null;
