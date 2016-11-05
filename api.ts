@@ -9,6 +9,7 @@ import { MongoDbAccess } from "./dbservices/database.access";
 import ApiConfig from "./api/config";
 import { listRouter } from "./api/routes/list";
 import { user } from "./api/routes/user";
+import { bookingRouter } from "./api/routes/booking";
 import { ResultCode } from "./app/hotel/models/enum";
 import { ResponseResult } from "./app/hotel/models/responseresults";
 
@@ -68,7 +69,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 
 app.use("/api/list", listRouter);
 app.use("/api/user", user);
-
+app.use("/api/booking", bookingRouter);
 
 app.listen(8080, () => {
   console.log("Api server listening on port %d in %s mode", 8080, app.settings.env);

@@ -308,7 +308,7 @@
     <!-- /.navbar-static-side -->
 </nav>
 <!-- Page Content -->
-<div id="page-wrapper" [ngStyle]="currentPage == 'login' ? {'margin' : '0'} : {}">
+<div id="page-wrapper" [ngStyle]="activeLoginPage ? {'margin' : '0'} : {}">
     <div class="container-fluid">
         <router-outlet></router-outlet>
     </div>

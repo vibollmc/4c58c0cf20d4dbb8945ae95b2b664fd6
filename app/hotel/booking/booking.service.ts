@@ -15,12 +15,20 @@ export class BookingService extends BaseService {
         private http: HttpClient
     ) {
         super();
-        this._apiGetRoom = SystemConfig.apiHost + '/list/Room';
+        this._apiGetRoom = SystemConfig.apiHost + '/booking/roomavalidable';
         this._apiGetCustomer = SystemConfig.apiHost + '/list/Customer';
     }
 
     public getCustomer(): Promise<ResponseResult> {
         return this.http.post(this._apiGetCustomer, {active: true})
+            .toPromise()
+            .then(response => response.json() as ResponseResult)
+            .catch(this.handleError);
+    }
+
+    public getRoomAvalidable(fromDate: Date, toDate: Date): Promise<ResponseResult> {
+        return this.http.post(this._apiGetRoom, 
+            {fromDate: fromDate, toDate: toDate})
             .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);

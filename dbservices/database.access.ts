@@ -36,5 +36,6 @@ export var Collections = {
     systemSetting: "SystemSetting",
     otherService: "OtherService",
     customer: "Customer",
-    room: "Room"
+    room: "Room",
+    booking: "Booking"
 }

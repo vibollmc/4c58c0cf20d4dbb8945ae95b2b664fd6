@@ -4,6 +4,7 @@ import {MenuItem} from 'primeng/primeng';
 
 import { Booking } from '../models/booking';
 import { Roomtype } from '../models/roomtype';
+import { Room } from "../models/room";
 import { BookingService } from './booking.service';
 import { BookingModel } from './booking.model';
 import { ShareModel } from '../shared/share.model';
@@ -41,6 +42,7 @@ export class BookingComponent extends BaseComponent  {
 
     filteredCustomer: CustomerInfo[];
     customerSelected: CustomerInfo;
+    inactiveColor: string;
     constructor(
         private vm: BookingModel,
         private sm: ShareModel,
@@ -56,6 +58,49 @@ export class BookingComponent extends BaseComponent  {
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		};
+
+        this.sm.getSystemSetting("INACTIVE_COLOR", (result) => {
+            this.inactiveColor = result.value ? result.value : "#c6c3c3";
+        });
+    }
+
+    private getRoomColor(roomtypeId: string): string {
+        if (roomtypeId) {
+            var data = this.lstRoomtype.filter(x => x._id == roomtypeId);
+
+            if (data && data.length > 0) return data[0].color;
+        }
+
+        return this.inactiveColor;
+    }
+
+    public selectRoom(floor: number): Room[] {
+        if (this.vm.lstRoomAvalidable) 
+            return this.vm.lstRoomAvalidable.filter(x=> x.floor == floor)
+            .sort((a,b) => { 
+                if (a.name > b.name) return 1;
+                if (a.name < b.name) return -1;
+                return 0;
+            });
+
+        return new Array<Room>();
+    }
+
+    public getStyle(roomtypeId: string, active: boolean): any {
+        let color = active ? this.getRoomColor(roomtypeId) : this.inactiveColor;
+        return {'background-color': color, 'border-color': color};
+    }
+
+    disableNextButton(): boolean {
+        if (this.stepActiveIndex == 0) {
+            return !this.vm.booking.customer.name || this.vm.booking.customer.name == '';
+        }
+        else if (this.stepActiveIndex == 1) {
+            return !this.vm.booking.fromDate || !this.vm.booking.toDate; 
+        }
+        else {
+            return this.vm.booking.rooms.length == 0;
+        }
     }
 
     addNewCustomer() {
@@ -107,7 +152,7 @@ export class BookingComponent extends BaseComponent  {
     next() {
         this.stepActiveIndex++;
         if (this.stepActiveIndex == 2) {
-            //TODO: Load room here
+            this.vm.loadRoomAvalidable();
         }
         
     }

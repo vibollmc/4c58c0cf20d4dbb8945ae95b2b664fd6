@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BookingService } from './booking.service';
 import { Booking } from '../models/booking';
+import { Room } from '../models/room';
 import { CustomerInfo } from '../models/metadata/customer.info';
 import { Customer } from '../models/customer';
 import { ResultCode } from '../models/enum';
@@ -12,12 +13,13 @@ export class BookingModel {
     booking: Booking;
     lstBooking: Booking[];
     lstCustomerInfo: CustomerInfo[];
-
+    lstRoomAvalidable: Room[];
     constructor(
         private _service: BookingService 
     ) {
         this.booking = new Booking();
-        this.loadCustomerFiltered();
+        this.lstRoomAvalidable = new Array<Room>();
+        this.loadCustomer();
     }
 
     private convertToCustomerInfo(customer: Customer): CustomerInfo {
@@ -48,7 +50,7 @@ export class BookingModel {
         return listCustomerInfo;
     }
 
-    public loadCustomerFiltered(): void {
+    public loadCustomer(): void {
         this._service.getCustomer()
             .then((response) => {
 
@@ -57,6 +59,16 @@ export class BookingModel {
                 if (response.code == ResultCode.Success) {
                    this.lstCustomerInfo = this.convertToListCustomerInfo(response.data as Customer[]);
                 }
+            });
+    }
+
+    public loadRoomAvalidable(): void {
+        this._service.getRoomAvalidable(this.booking.fromDate, this.booking.toDate)
+            .then((response) => {
+                if (response.code == ResultCode.Success)
+                    this.lstRoomAvalidable = response.data as Room[];
+                else
+                    this.lstRoomAvalidable = new Array<Room>();
             });
     }
 }

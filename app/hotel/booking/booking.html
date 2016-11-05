@@ -26,8 +26,7 @@
 							<div class="form-group">
 								<label>Khách hàng</label>
 								<p-autoComplete [(ngModel)]="customerSelected" 
-									[suggestions]="filteredCustomer" 
-									[dropdown]="true"
+									[suggestions]="filteredCustomer"
 									[minLength]="1"
 									[disabled]="isAddnewCustomer"
 									[size]="30"
@@ -132,6 +131,9 @@
 							<div *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
 								<div class="row">
 									<div class="col-md-12">
+										<div *ngFor="let obj of selectRoom(floor)" class="btn btn-sq-sm btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
+											<strong>{{obj.name}}</strong>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -140,7 +142,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" *ngIf="stepActiveIndex != 0" (click)="prev()"><i class='fa fa-chevron-left'></i> Quay lại</button>
-					<button type="button" class="btn btn-success" *ngIf="stepActiveIndex != 3" (click)="next()">Tiếp tục <i class='fa fa-chevron-right'></i></button>
+					<button [disabled]="disableNextButton()" type="button" class="btn btn-success" *ngIf="stepActiveIndex != 3" (click)="next()">Tiếp tục <i class='fa fa-chevron-right'></i></button>
 					<button type="button" class="btn btn-primary" *ngIf="stepActiveIndex == 3" [disabled]="!bookingForm.form.valid" (click)="save()"><i class='fa fa-save'></i> Đặt phòng</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
 				</div>
