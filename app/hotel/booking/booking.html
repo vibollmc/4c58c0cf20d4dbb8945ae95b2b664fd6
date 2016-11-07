@@ -128,10 +128,20 @@
 									</div>
 								</div>
 							</div>
+							<div class="bs-docs-panel" panel-header="Phòng được chọn">
+								<div class="row">
+									<div class="col-md-12">
+										<div *ngFor="let obj of vm.booking.rooms" (click)="removedRoom(obj._id)" class="btn btn-sq-sm btn-info" [ngStyle]="getSelectedRoomStyle(obj.name)">
+											<strong>{{obj.name}}</strong>
+										</div>
+										<span *ngIf="vm.booking.rooms.length == 0">Chưa có phòng nào được chọn.</span>
+									</div>
+								</div>
+							</div>
 							<div *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
 								<div class="row">
 									<div class="col-md-12">
-										<div *ngFor="let obj of selectRoom(floor)" class="btn btn-sq-sm btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
+										<div *ngFor="let obj of roomOfFloor(floor)" (click)="selectedRoom(obj._id, obj.name)" class="btn btn-sq-sm btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
 											<strong>{{obj.name}}</strong>
 										</div>
 									</div>

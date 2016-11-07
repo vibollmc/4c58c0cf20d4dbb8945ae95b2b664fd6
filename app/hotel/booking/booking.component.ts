@@ -9,6 +9,7 @@ import { BookingService } from './booking.service';
 import { BookingModel } from './booking.model';
 import { ShareModel } from '../shared/share.model';
 import { CustomerInfo } from '../models/metadata/customer.info';
+import { RoomBooking } from '../models/metadata/room.booking';
 
 import { BaseComponent } from '../shared/base.component';
 
@@ -74,7 +75,28 @@ export class BookingComponent extends BaseComponent  {
         return this.inactiveColor;
     }
 
-    public selectRoom(floor: number): Room[] {
+    public selectedRoom(id: string, name: string) {
+        if (!this.vm.booking.rooms) this.vm.booking.rooms = new Array<RoomBooking>();
+
+        let roombooking = new RoomBooking();
+        roombooking._id = id;
+        roombooking.name = name;
+        this.vm.booking.rooms.push(roombooking);
+    }
+
+    public removedRoom(id: string) {
+        var temp = new Array<RoomBooking>();
+
+        this.vm.booking.rooms.forEach(r => {
+            if (r._id != id) {
+                temp.push(r);
+            }
+        });
+
+        this.vm.booking.rooms = temp;
+    }
+
+    public roomOfFloor(floor: number): Room[] {
         if (this.vm.lstRoomAvalidable) 
             return this.vm.lstRoomAvalidable.filter(x=> x.floor == floor)
             .sort((a,b) => { 
@@ -90,6 +112,13 @@ export class BookingComponent extends BaseComponent  {
         let color = active ? this.getRoomColor(roomtypeId) : this.inactiveColor;
         return {'background-color': color, 'border-color': color};
     }
+
+    public getSelectedRoomStyle(name: string): any {
+        let room = this.vm.lstRoomAvalidable.filter(x=> x.name == name)[0];
+
+        return this.getStyle(room.roomtype, room.active);
+    }
+
 
     disableNextButton(): boolean {
         if (this.stepActiveIndex == 0) {
