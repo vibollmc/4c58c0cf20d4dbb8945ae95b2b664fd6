@@ -10,13 +10,13 @@ import { Booking } from "../../app/hotel/models/booking";
 @injectable()
 export class BookingRepository extends BaseRepository {
     constructor(
-        protected mongodbAccess: MongoDbAccess
+        protected mongoDbAccess: MongoDbAccess
     ) {
         super(Collections.booking);
     }
 
     public getRoomsAvalidable(fromDate: Date, toDate: Date): Promise<ResponseResult> {
-        var dbCollection = this.mongodbAccess.getCollection(this.collection);
+        var dbCollection = this.mongoDbAccess.getCollection(this.collection);
 
         var filter = {
             $or: [
@@ -49,7 +49,7 @@ export class BookingRepository extends BaseRepository {
     }
 
     private getRoomAvalidableFromOldBooking(data: Booking[]): Promise<ResponseResult> {
-        let dbCollection = this.mongodbAccess.getCollection(Collections.room);
+        let dbCollection = this.mongoDbAccess.getCollection(Collections.room);
 
         let filter = {
             $and: [
@@ -67,6 +67,45 @@ export class BookingRepository extends BaseRepository {
 
         return dbCollection.find(filter).toArray()
             .then((data) => this.createResultFromSelect(data))
+            .catch(err => this.createResultFromError(err));
+    }
+
+    public addNew(booking: Booking): Promise<ResponseResult> {
+        let dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        booking.createdAt = new Date();
+
+        return dbCollection.insertOne(booking)
+            .then(data => this.createResultFromInsert(data))
+            .catch(err => this.createResultFromError(err));
+    }
+
+    public update(booking: Booking): Promise<ResponseResult> {
+        let dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        booking.updatedAt = new Date();
+
+        var filter = { _id: new mongodb.ObjectID(booking._id) };
+
+        booking._id = new mongodb.ObjectID(booking._id);
+
+        return dbCollection.replaceOne(filter, booking)
+            .then(data => this.createResultFromUpdate(data))
+            .catch(err => this.createResultFromError(err));
+    }
+
+    public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
+        var dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        var filter = { _id : new mongodb.ObjectID(id) };
+        var update = { $set: { active: active, updatedAt: new Date() } };
+        return dbCollection.updateOne(filter, update)
+            .then(data => this.createResultFromUpdate(data))
+            .catch(err => this.createResultFromError(err));
+    }
+
+    public delete(id: string): Promise<ResponseResult> {
+        var dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        var filter = { _id : new mongodb.ObjectID(id) };
+        return dbCollection.deleteOne(filter)
+            .then(data => this.createResultFromDelete(data))
             .catch(err => this.createResultFromError(err));
     }
 }

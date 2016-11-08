@@ -15,7 +15,7 @@ export class BookingModel {
     lstCustomerInfo: CustomerInfo[];
     lstRoomAvalidable: Room[];
     constructor(
-        private _service: BookingService 
+        private _service: BookingService
     ) {
         this.booking = new Booking();
         this.lstRoomAvalidable = new Array<Room>();
@@ -57,7 +57,7 @@ export class BookingModel {
                 this.lstCustomerInfo = new Array<CustomerInfo>();
 
                 if (response.code == ResultCode.Success) {
-                   this.lstCustomerInfo = this.convertToListCustomerInfo(response.data as Customer[]);
+                    this.lstCustomerInfo = this.convertToListCustomerInfo(response.data as Customer[]);
                 }
             });
     }
@@ -69,6 +69,57 @@ export class BookingModel {
                     this.lstRoomAvalidable = response.data as Room[];
                 else
                     this.lstRoomAvalidable = new Array<Room>();
+            });
+    }
+
+    public save(): void {
+        if (this.booking === undefined || this.booking === null) return;
+
+        if (this.booking._id) {
+            this._service.update(this.booking).then(
+                response => {
+                    if (response.data === true) {
+                        MessageProvider.saveSuccess();
+                        //Todo: refesh scheduler
+                    }
+                    else MessageProvider.saveError(response.message);
+                }
+            );
+        }
+        else {
+            this._service.addNew(this.booking).then(
+                response => {
+                    if (response.data === true) {
+                        MessageProvider.saveSuccess();
+                        //Todo: refesh scheduler
+                    }
+                    else MessageProvider.saveError(response.message);
+                });
+        }
+    }
+
+    public updateStatus(id: string, active: boolean) {
+        if (id === undefined || id === null || id === "") return;
+
+        this._service.updateStatus(id, active);
+    }
+
+    public delete() {
+        if (!this.booking._id) return;
+
+        MessageProvider.confirmDelete(null,
+            (result) => {
+                if (result === false) return;
+
+                this._service.delete(this.booking._id).then(
+                    response => {
+                        if (response.data === true) {
+                            MessageProvider.deleteSuccess();
+                            //Todo: refesh scheduler
+                        }
+                        else MessageProvider.deleteError(response.message);
+                    }
+                );
             });
     }
 }

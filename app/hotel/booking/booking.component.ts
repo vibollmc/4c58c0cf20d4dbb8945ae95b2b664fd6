@@ -10,8 +10,9 @@ import { BookingModel } from './booking.model';
 import { ShareModel } from '../shared/share.model';
 import { CustomerInfo } from '../models/metadata/customer.info';
 import { RoomBooking } from '../models/metadata/room.booking';
-
 import { BaseComponent } from '../shared/base.component';
+
+declare var $: any;
 
 @Component({
     selector: 'booking',
@@ -85,6 +86,8 @@ export class BookingComponent extends BaseComponent  {
     }
 
     public removedRoom(id: string) {
+        if (this.stepActiveIndex == 3) return;
+
         var temp = new Array<RoomBooking>();
 
         this.vm.booking.rooms.forEach(r => {
@@ -117,6 +120,14 @@ export class BookingComponent extends BaseComponent  {
         let room = this.vm.lstRoomAvalidable.filter(x=> x.name == name)[0];
 
         return this.getStyle(room.roomtype, room.active);
+    }
+
+    public getDisableRoom(name: string): boolean {
+        if (!this.vm.booking.rooms) return false;
+        let room = this.vm.booking.rooms.filter(x=> x.name == name);
+        if (!room) return false;
+
+        return room.length > 0;
     }
 
 
@@ -168,11 +179,17 @@ export class BookingComponent extends BaseComponent  {
         this.vm.booking.customer = this.customerSelected;
     }
     selectBooking(obj: Booking) {
+        this.stepActiveIndex = 0;
+
         if (obj) {
             this.modalTitle = "Đặt phòng";
+            Object.assign(this.vm.booking, obj);
+            this.customerSelected = this.vm.booking.customer;
         }
         else {
             this.modalTitle = "Đặt phòng";
+            this.vm.booking = new Booking();
+            this.customerSelected = null;
         }
     }
     prev() {
@@ -186,7 +203,8 @@ export class BookingComponent extends BaseComponent  {
         
     }
     save() {
-        //TO DO: Save function here
+        this.vm.save();
+        $("#bookingmodal").modal('hide');
     }
 
     ngOnInit() {
@@ -205,28 +223,24 @@ export class BookingComponent extends BaseComponent  {
                 label: 'Khách hàng',
                 command: (event: any) => {
                     this.stepActiveIndex = 0;
-                    this.modalTextSave = "Tiếp theo"
                 }
             },
             {
                 label: 'Thời gian',
                 command: (event: any) => {
                     this.stepActiveIndex = 1;
-                    this.modalTextSave = "Tiếp theo"
                 }
             },
             {
                 label: 'Chọn phòng',
                 command: (event: any) => {
                     this.stepActiveIndex = 2;
-                    this.modalTextSave = "Tiếp theo"
                 }
             },
             {
                 label: 'Xác nhận',
                 command: (event: any) => {
                     this.stepActiveIndex = 3;
-                    this.modalTextSave = "Xác nhận"
                 }
             }
         ];

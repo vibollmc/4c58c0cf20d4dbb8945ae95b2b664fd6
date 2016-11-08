@@ -7,6 +7,7 @@
 		</h1>
 	</div>
 </div>
+{{defaultDate}}
 
 <p-schedule [events]="events" [header]="headerConfig" [eventLimit]="4" [editable]="true"></p-schedule>
 
@@ -21,21 +22,13 @@
 			<p-steps [model]="stepsBooking" [(activeIndex)]="stepActiveIndex" styleClass="steps-basic"></p-steps>
 			<form #bookingForm="ngForm" novalidate>
 				<div class="modal-body">
-					<div class="row" [hidden]="stepActiveIndex != 0">
+					<div class="row" *ngIf="stepActiveIndex == 0">
 						<div class="col-md-12">
 							<div class="form-group">
 								<label>Khách hàng</label>
-								<p-autoComplete [(ngModel)]="customerSelected" 
-									[suggestions]="filteredCustomer"
-									[minLength]="1"
-									[disabled]="isAddnewCustomer"
-									[size]="30"
-									(completeMethod)="filterCustomer($event)"
-									(onDropdownClick)="showDropDownFilter()"
-									(onSelect)="selectedCustomer()"
-									field="name" 
-									placeholder="Tên hoặc số điện thoại"
-									[ngModelOptions]="{standalone: true}">
+								<p-autoComplete [(ngModel)]="customerSelected" [suggestions]="filteredCustomer" [minLength]="1" [disabled]="isAddnewCustomer"
+									[size]="30" (completeMethod)="filterCustomer($event)" (onDropdownClick)="showDropDownFilter()" (onSelect)="selectedCustomer()"
+									field="name" placeholder="Tên hoặc số điện thoại" [ngModelOptions]="{standalone: true}">
 									<template let-cus>
 										<strong>{{cus.name}}</strong> {{cus.phoneNumber}}
 									</template>
@@ -104,24 +97,57 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="row" [hidden]="stepActiveIndex == 0 || stepActiveIndex == 3">
-						<div class="col-md-6">
+					<div *ngIf="stepActiveIndex == 3" class="bs-docs-panel" panel-header="Khách hàng">
+						<div class="row">
+							<div class="col-md-6">
+								<span>Tên khách hàng: </span>
+								<strong>{{vm.booking.customer.name}} </strong>
+							</div>
+							<div class="col-md-6">
+								<span>Chứng minh nhân dân: </span>
+								<strong>{{vm.booking.customer.idNumber}} </strong>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<span>Số điện thoại: </span>
+								<strong>{{vm.booking.customer.phoneNumber}} </strong>
+							</div>
+							<div class="col-md-6">
+								<span>Email: </span>
+								<strong>{{vm.booking.customer.email}} </strong>
+							</div>
+						</div>
+					</div>
+					<div *ngIf="stepActiveIndex == 3" class="bs-docs-panel" panel-header="Thời gian">
+						<div class="row">
+							<div class="col-md-6">
+								<span>Từ ngày: </span>
+								<strong>{{vm.booking.fromDate | date: 'dd/MM/yyyy HH:mm'}}</strong>
+							</div>
+							<div class="col-md-6">
+								<span>Đến ngày: </span>
+								<strong>{{vm.booking.toDate | date: 'dd/MM/yyyy HH:mm'}}</strong>
+							</div>
+						</div>
+					</div>
+					<div class="row" *ngIf="stepActiveIndex != 0">
+						<div class="col-md-6" *ngIf="stepActiveIndex != 3">
 							<div class="form-group">
 								<label>Từ ngày</label>
-								<p-calendar [disabled]="stepActiveIndex==2" [locale]="vi" [(ngModel)]="vm.booking.fromDate" required dateFormat="dd/mm/yy"
+								<p-calendar [disabled]="stepActiveIndex!=1" [locale]="vi" [(ngModel)]="vm.booking.fromDate" required dateFormat="dd/mm/yy"
 									name="fromDate" [minDate]="minBookingDate" [showIcon]="true" [showTime]="true"></p-calendar>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-6" *ngIf="stepActiveIndex != 3">
 							<div class="form-group">
 								<label>Đến ngày</label>
-								<p-calendar [disabled]="stepActiveIndex==2" [locale]="vi" [(ngModel)]="vm.booking.toDate" required dateFormat="dd/mm/yy"
+								<p-calendar [disabled]="stepActiveIndex!=1" [locale]="vi" [(ngModel)]="vm.booking.toDate" required dateFormat="dd/mm/yy"
 									name="toDate" [minDate]="vm.booking.fromDate" [showIcon]="true" [showTime]="true"></p-calendar>
 							</div>
 						</div>
-						<div class="col-md-12" [hidden]="stepActiveIndex != 2">
-							<div class="bs-docs-panel" panel-header="Các loại phòng">
+						<div class="col-md-12" *ngIf="stepActiveIndex != 1">
+							<div *ngIf="stepActiveIndex != 3" class="bs-docs-panel" panel-header="Các loại phòng">
 								<div class="row">
 									<div *ngFor="let roomtype of lstRoomtype" class="col-md-3">
 										<span class="btn btn-sq-xs btn-default" [ngStyle]="{'background-color': roomtype.color, 'border-color': roomtype.color}"></span><strong> {{roomtype.name}}</strong>
@@ -138,12 +164,13 @@
 									</div>
 								</div>
 							</div>
-							<div *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
+							<div [hidden]="stepActiveIndex != 2" *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
 								<div class="row">
 									<div class="col-md-12">
-										<div *ngFor="let obj of roomOfFloor(floor)" (click)="selectedRoom(obj._id, obj.name)" class="btn btn-sq-sm btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
+										<button *ngFor="let obj of roomOfFloor(floor)" [disabled]="getDisableRoom(obj.name)" (click)="selectedRoom(obj._id, obj.name)"
+											class="btn btn-sq-sm btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
 											<strong>{{obj.name}}</strong>
-										</div>
+										</button>
 									</div>
 								</div>
 							</div>
@@ -153,7 +180,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" *ngIf="stepActiveIndex != 0" (click)="prev()"><i class='fa fa-chevron-left'></i> Quay lại</button>
 					<button [disabled]="disableNextButton()" type="button" class="btn btn-success" *ngIf="stepActiveIndex != 3" (click)="next()">Tiếp tục <i class='fa fa-chevron-right'></i></button>
-					<button type="button" class="btn btn-primary" *ngIf="stepActiveIndex == 3" [disabled]="!bookingForm.form.valid" (click)="save()"><i class='fa fa-save'></i> Đặt phòng</button>
+					<button type="button" class="btn btn-primary" *ngIf="stepActiveIndex == 3" (click)="save()"><i class='fa fa-save'></i> Đặt phòng</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
 				</div>
 			</form>
