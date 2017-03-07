@@ -84,4 +84,18 @@ router.post("/status", (req: express.Request, res: express.Response, next: expre
         });
 });
 
+router.post("/search", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    let service = kernel.get<BookingService>(BookingService);
+
+    let fromDate = req.body.fromDate as Date;
+    let toDate = req.body.toDate as Date;
+    let searchText = req.body.searchText as string;
+
+    service.search(fromDate, toDate, searchText)
+    .then(data => res.json(data))
+    .catch(err => {
+        res.json(new ResponseResult(ResultCode.Error, null, "error"));
+    });
+});
+
 export var bookingRouter = router;

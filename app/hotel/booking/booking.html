@@ -9,7 +9,7 @@
 </div>
 {{defaultDate}}
 
-<p-schedule [events]="events" [header]="headerConfig" [eventLimit]="4" [editable]="true"></p-schedule>
+<p-schedule (onViewRender)="handleViewRender($event)" [events]="events" [header]="headerConfig" [eventLimit]="4" [editable]="true"></p-schedule>
 
 <!-- Modal -->
 <div class="modal fade" id="bookingmodal" role="dialog">

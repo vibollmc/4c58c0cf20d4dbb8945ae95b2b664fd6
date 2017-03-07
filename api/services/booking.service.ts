@@ -28,4 +28,8 @@ export class BookingService {
     public delete(id: string): Promise<ResponseResult> {
         return this._bookingRepository.delete(id);
     }
+
+    public search(fromDate: Date, toDate: Date, searchText: string): Promise<ResponseResult> {
+        return this._bookingRepository.search(fromDate, toDate, searchText);
+    }
 }

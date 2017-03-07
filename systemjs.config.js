@@ -43,8 +43,8 @@
         defaultExtension: 'js'
       },
       '@angular/material': {
-        format: 'cjs',
-        main: './material.umd.js'
+        main: './bundles/material.umd.js',
+        defaultExtension: 'js'
       },
       'crypto-js': {
         main: './index.js',

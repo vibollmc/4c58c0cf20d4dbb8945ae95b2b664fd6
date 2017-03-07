@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from "@angular/router";
-import {MenuItem} from 'primeng/primeng';
+import { MenuItem } from 'primeng/primeng';
 
 import { Booking } from '../models/booking';
 import { Roomtype } from '../models/roomtype';
@@ -68,12 +68,19 @@ export class BookingComponent extends BaseComponent  {
 
     private getRoomColor(roomtypeId: string): string {
         if (roomtypeId) {
-            var data = this.lstRoomtype.filter(x => x._id == roomtypeId);
+            let data = this.lstRoomtype.filter(x => x._id == roomtypeId);
 
             if (data && data.length > 0) return data[0].color;
         }
 
         return this.inactiveColor;
+    }
+
+    public handleViewRender(e) {
+        //alert(e.view.name);// + view.start + ' ' + view.end);
+        //alert(e.view.start);
+        //alert(e.view.end);
+        //alert('A');
     }
 
     public selectedRoom(id: string, name: string) {
@@ -88,7 +95,7 @@ export class BookingComponent extends BaseComponent  {
     public removedRoom(id: string) {
         if (this.stepActiveIndex == 3) return;
 
-        var temp = new Array<RoomBooking>();
+        let temp = new Array<RoomBooking>();
 
         this.vm.booking.rooms.forEach(r => {
             if (r._id != id) {

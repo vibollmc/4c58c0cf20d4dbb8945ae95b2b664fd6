@@ -16,9 +16,9 @@ export class BookingRepository extends BaseRepository {
     }
 
     public getRoomsAvalidable(fromDate: Date, toDate: Date): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        let dbCollection = this.mongoDbAccess.getCollection(this.collection);
 
-        var filter = {
+        let filter = {
             $or: [
                 {
                     $and: [
@@ -83,7 +83,7 @@ export class BookingRepository extends BaseRepository {
         let dbCollection = this.mongoDbAccess.getCollection(this.collection);
         booking.updatedAt = new Date();
 
-        var filter = { _id: new mongodb.ObjectID(booking._id) };
+        let filter = { _id: new mongodb.ObjectID(booking._id) };
 
         booking._id = new mongodb.ObjectID(booking._id);
 
@@ -93,19 +93,68 @@ export class BookingRepository extends BaseRepository {
     }
 
     public updateStatus(id: string, active: boolean): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(this.collection);
-        var filter = { _id : new mongodb.ObjectID(id) };
-        var update = { $set: { active: active, updatedAt: new Date() } };
+        let dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        let filter = { _id : new mongodb.ObjectID(id) };
+        let update = { $set: { active: active, updatedAt: new Date() } };
         return dbCollection.updateOne(filter, update)
             .then(data => this.createResultFromUpdate(data))
             .catch(err => this.createResultFromError(err));
     }
 
     public delete(id: string): Promise<ResponseResult> {
-        var dbCollection = this.mongoDbAccess.getCollection(this.collection);
-        var filter = { _id : new mongodb.ObjectID(id) };
+        let dbCollection = this.mongoDbAccess.getCollection(this.collection);
+        let filter = { _id : new mongodb.ObjectID(id) };
         return dbCollection.deleteOne(filter)
             .then(data => this.createResultFromDelete(data))
+            .catch(err => this.createResultFromError(err));
+    }
+
+    public search(fromDate: Date, toDate: Date, searchText: string): Promise<ResponseResult> {
+        let filter;
+        if (searchText) {
+            filter = {
+                $and: [
+                    {
+                        $or: [
+                            {
+                                'toDate': { $gte: fromDate }
+                            },
+                            {
+                                'fromDate': { $lte: toDate }
+                            }
+                        ]
+                    },
+                    {
+                        $or: [
+                            {
+                                'customer.phone': "/" + searchText + "/"
+                            },
+                            {
+                                'customer.name': "/" + searchText + "/"
+                            }
+                        ]
+                    }
+                ]
+            };
+        }
+        else {
+            filter = 
+            {
+                $or: [
+                    {
+                        'toDate': { $gte: fromDate }
+                    },
+                    {
+                        'fromDate': { $lte: toDate }
+                    }
+                ]
+            };      
+        }
+
+        let dbCollection = this.mongoDbAccess.getCollection(this.collection); 
+
+        return dbCollection.find(filter).toArray()
+            .then(data => this.createResultFromSelect(data))
             .catch(err => this.createResultFromError(err));
     }
 }
