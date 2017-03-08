@@ -24,6 +24,10 @@ declare var $: any;
     styles: [`
         .ui-steps .ui-steps-item {
             width: 25%;
+        }`,`
+        .ui-autocomplete-list-item div {
+            border-bottom: 1px solid #e1e1e1;
+            padding-bottom: 8px;
         }`],
     encapsulation: ViewEncapsulation.None
 })
@@ -45,6 +49,7 @@ export class BookingComponent extends BaseComponent  {
     filteredCustomer: CustomerInfo[];
     customerSelected: CustomerInfo;
     inactiveColor: string;
+
     constructor(
         private vm: BookingModel,
         private sm: ShareModel,
@@ -81,6 +86,19 @@ export class BookingComponent extends BaseComponent  {
         //alert(e.view.start);
         //alert(e.view.end);
         //alert('A');
+
+        if (!this.vm.fromDateSelected || !this.vm.toDateSelected) {
+            this.vm.fromDateSelected = e.view.start;
+            this.vm.toDateSelected = e.view.end;
+
+            this.vm.search(this.vm.fromDateSelected, this.vm.toDateSelected, null);
+        }
+        else if (this.vm.fromDateSelected > e.view.start || this.vm.toDateSelected < e.view.start) {
+            this.vm.fromDateSelected = e.view.start;
+            this.vm.toDateSelected = e.view.end;
+
+            this.vm.search(this.vm.fromDateSelected, this.vm.toDateSelected, null);
+        }
     }
 
     public selectedRoom(id: string, name: string) {

@@ -14,12 +14,17 @@ export class BookingModel {
     lstBooking: Booking[];
     lstCustomerInfo: CustomerInfo[];
     lstRoomAvalidable: Room[];
+    bookingView: Array<any>;
+    fromDateSelected: Date;
+    toDateSelected: Date;
+
     constructor(
         private _service: BookingService
     ) {
         this.booking = new Booking();
         this.lstRoomAvalidable = new Array<Room>();
         this.loadCustomer();
+        this.bookingView = new Array<any>();
     }
 
     private convertToCustomerInfo(customer: Customer): CustomerInfo {
@@ -80,7 +85,8 @@ export class BookingModel {
                 response => {
                     if (response.data === true) {
                         MessageProvider.saveSuccess();
-                        //Todo: refesh scheduler
+
+                        this.search(this.fromDateSelected, this.toDateSelected, null);
                     }
                     else MessageProvider.saveError(response.message);
                 }
@@ -91,7 +97,8 @@ export class BookingModel {
                 response => {
                     if (response.data === true) {
                         MessageProvider.saveSuccess();
-                        //Todo: refesh scheduler
+
+                        this.search(this.fromDateSelected, this.toDateSelected, null);
                     }
                     else MessageProvider.saveError(response.message);
                 });
@@ -120,6 +127,27 @@ export class BookingModel {
                         else MessageProvider.deleteError(response.message);
                     }
                 );
+            });
+    }
+
+    public search(fromDate: Date, toDate: Date, searchText: string) {
+        this._service.search(fromDate, toDate, searchText)
+            .then(response => {
+                this.bookingView = new Array<any>();
+
+                if (response.code == ResultCode.Success) {
+                    if (response.data) {
+                        let booking = response.data as Booking[];
+                        booking.forEach(b => {
+                            this.bookingView.push({
+                                id: b._id,
+                                allDay: true,
+                                title: b.customer.name + ' - ' + b.customer.phoneNumber, 
+                                start: b.fromDate, 
+                                end: b.toDate});
+                        });
+                    }
+                }
             });
     }
 }

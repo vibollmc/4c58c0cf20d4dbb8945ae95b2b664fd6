@@ -117,10 +117,24 @@ export class BookingRepository extends BaseRepository {
                     {
                         $or: [
                             {
-                                'toDate': { $gte: fromDate }
+                                $and: [
+                                    {
+                                        'fromDate': { $gte: fromDate }
+                                    },
+                                    {
+                                        'fromDate': { $lte: toDate }
+                                    }
+                                ]
                             },
                             {
-                                'fromDate': { $lte: toDate }
+                                $and: [
+                                    {
+                                        'toDate': { $gte: fromDate }
+                                    },
+                                    {
+                                        'toDate': { $lte: toDate }
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -142,10 +156,24 @@ export class BookingRepository extends BaseRepository {
             {
                 $or: [
                     {
-                        'toDate': { $gte: fromDate }
+                        $and: [
+                            {
+                                'fromDate': { $gte: fromDate }
+                            },
+                            {
+                                'fromDate': { $lte: toDate }
+                            }
+                        ]
                     },
                     {
-                        'fromDate': { $lte: toDate }
+                        $and: [
+                            {
+                                'toDate': { $gte: fromDate }
+                            },
+                            {
+                                'toDate': { $lte: toDate }
+                            }
+                        ]
                     }
                 ]
             };      

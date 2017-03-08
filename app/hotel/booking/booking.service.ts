@@ -15,6 +15,7 @@ export class BookingService extends BaseService {
     private _apiUpdateBooking: string;
     private _apiDeleteBooking: string;
     private _apiUpdateStatusBooking: string;
+    private _apiSearchBooking: string;
 
     constructor(
         private http: HttpClient
@@ -26,6 +27,7 @@ export class BookingService extends BaseService {
         this._apiUpdateBooking = SystemConfig.apiHost + '/booking/update';
         this._apiDeleteBooking = SystemConfig.apiHost + '/booking/delete';
         this._apiUpdateStatusBooking = SystemConfig.apiHost + '/booking/status';
+        this._apiSearchBooking = SystemConfig.apiHost + '/booking/search';
     }
 
     public getCustomer(): Promise<ResponseResult> {
@@ -66,5 +68,11 @@ export class BookingService extends BaseService {
             .toPromise()
             .then(response => response.json() as ResponseResult)
             .catch(this.handleError);
+    }
+    public search(fromDate: Date, toDate: Date, searchText: string): Promise<ResponseResult> {
+        return this.http.post(this._apiSearchBooking, {fromDate: fromDate, toDate: toDate, searchText: searchText})
+            .toPromise()
+            .then(response => response.json() as ResponseResult)
+            .catch(this.handleError);   
     }
 }

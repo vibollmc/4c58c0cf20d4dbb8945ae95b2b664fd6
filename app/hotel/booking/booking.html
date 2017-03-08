@@ -9,7 +9,7 @@
 </div>
 {{defaultDate}}
 
-<p-schedule (onViewRender)="handleViewRender($event)" [events]="events" [header]="headerConfig" [eventLimit]="4" [editable]="true"></p-schedule>
+<p-schedule (onViewRender)="handleViewRender($event)" [events]="vm.bookingView" [header]="headerConfig" [eventLimit]="4" [editable]="false"></p-schedule>
 
 <!-- Modal -->
 <div class="modal fade" id="bookingmodal" role="dialog">
@@ -29,8 +29,10 @@
 								<p-autoComplete [(ngModel)]="customerSelected" [suggestions]="filteredCustomer" [minLength]="1" [disabled]="isAddnewCustomer"
 									[size]="30" (completeMethod)="filterCustomer($event)" (onDropdownClick)="showDropDownFilter()" (onSelect)="selectedCustomer()"
 									field="name" placeholder="Tên hoặc số điện thoại" [ngModelOptions]="{standalone: true}">
-									<template let-cus>
-										<strong>{{cus.name}}</strong> {{cus.phoneNumber}}
+									<template let-cus pTemplate="item">
+										<div>
+											<strong>{{cus.name}}</strong><br> {{cus.phoneNumber}}
+										</div>
 									</template>
 								</p-autoComplete>
 								<button pButton type="text" (click)="addNewCustomer()" icon="fa-user" label="Thêm mới"></button>
