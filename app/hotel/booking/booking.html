@@ -9,7 +9,7 @@
 </div>
 {{defaultDate}}
 
-<p-schedule (onViewRender)="handleViewRender($event)" [events]="vm.bookingView" [header]="headerConfig" [eventLimit]="4" [editable]="false"></p-schedule>
+<p-schedule (onEventClick)="handleEventClick($event)" (onViewRender)="handleViewRender($event)" [events]="vm.bookingView" [header]="headerConfig" [eventLimit]="4" [editable]="false"></p-schedule>
 
 <!-- Modal -->
 <div class="modal fade" id="bookingmodal" role="dialog">
@@ -159,7 +159,7 @@
 							<div class="bs-docs-panel" panel-header="Phòng được chọn">
 								<div class="row">
 									<div class="col-md-12">
-										<div *ngFor="let obj of vm.booking.rooms" (click)="removedRoom(obj._id)" class="btn btn-sq-sm btn-info" [ngStyle]="getSelectedRoomStyle(obj.name)">
+										<div *ngFor="let obj of vm.booking.rooms" (click)="removedRoom(obj._id)" class="btn btn-sq-sm btn-info" [ngStyle]="getStyle(obj.roomtype, true)">
 											<strong>{{obj.name}}</strong>
 										</div>
 										<span *ngIf="vm.booking.rooms.length == 0">Chưa có phòng nào được chọn.</span>
@@ -169,7 +169,7 @@
 							<div [hidden]="stepActiveIndex != 2" *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
 								<div class="row">
 									<div class="col-md-12">
-										<button *ngFor="let obj of roomOfFloor(floor)" [disabled]="getDisableRoom(obj.name)" (click)="selectedRoom(obj._id, obj.name)"
+										<button *ngFor="let obj of roomOfFloor(floor)" [disabled]="getDisableRoom(obj.name)" (click)="selectedRoom(obj)"
 											class="btn btn-sq-sm btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
 											<strong>{{obj.name}}</strong>
 										</button>

@@ -29,6 +29,7 @@ export class BookingModel {
 
     private convertToCustomerInfo(customer: Customer): CustomerInfo {
         let customerInfo = new CustomerInfo();
+
         customerInfo._id = customer._id;
         customerInfo.name = customer.name;
         customerInfo.phoneNumber = customer.phoneNumber;
@@ -41,11 +42,12 @@ export class BookingModel {
         customerInfo.idNumber = customer.idNumber;
         customerInfo.description = customer.description;
 
-        return customer;
+        return customerInfo;
     }
 
     private convertToListCustomerInfo(lstCustomer: Customer[]): CustomerInfo[] {
         let listCustomerInfo = new Array<CustomerInfo>();
+
         if (!lstCustomer) return listCustomerInfo;
 
         lstCustomer.forEach(customer => {
@@ -99,6 +101,10 @@ export class BookingModel {
                         MessageProvider.saveSuccess();
 
                         this.search(this.fromDateSelected, this.toDateSelected, null);
+
+                        if (!this.booking.customer._id) {
+                            this.loadCustomer();
+                        }
                     }
                     else MessageProvider.saveError(response.message);
                 });
@@ -122,7 +128,8 @@ export class BookingModel {
                     response => {
                         if (response.data === true) {
                             MessageProvider.deleteSuccess();
-                            //Todo: refesh scheduler
+                            
+                            this.search(this.fromDateSelected, this.toDateSelected, null);
                         }
                         else MessageProvider.deleteError(response.message);
                     }
@@ -137,14 +144,14 @@ export class BookingModel {
 
                 if (response.code == ResultCode.Success) {
                     if (response.data) {
-                        let booking = response.data as Booking[];
-                        booking.forEach(b => {
+                        this.lstBooking = response.data as Booking[];
+                        this.lstBooking.forEach(b => {
                             this.bookingView.push({
                                 id: b._id,
                                 allDay: true,
                                 title: b.customer.name + ' - ' + b.customer.phoneNumber, 
-                                start: b.fromDate, 
-                                end: b.toDate});
+                                start: new Date(b.fromDate), 
+                                end: new Date(b.toDate)});
                         });
                     }
                 }

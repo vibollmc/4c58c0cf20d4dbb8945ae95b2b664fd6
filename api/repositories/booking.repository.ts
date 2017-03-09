@@ -6,6 +6,8 @@ import { MongoDbAccess, Collections } from "../../dbservices/database.access";
 import { ResponseResult } from "../../app/hotel/models/responseresults";
 import { Room } from "../../app/hotel/models/room";
 import { Booking } from "../../app/hotel/models/booking";
+import { Customer } from "../../app/hotel/models/customer";
+import { CustomerInfo } from "../../app/hotel/models/metadata/customer.info";
 
 @injectable()
 export class BookingRepository extends BaseRepository {
@@ -70,12 +72,43 @@ export class BookingRepository extends BaseRepository {
             .catch(err => this.createResultFromError(err));
     }
 
+    private convertToCustomer(customerInfo: CustomerInfo): Customer {
+        let customer = new Customer();
+
+        customer._id = customerInfo._id;
+        customer.name = customerInfo.name;
+        customer.phoneNumber = customerInfo.phoneNumber;
+        customer.email = customerInfo.email;
+        customer.representative = customerInfo.representative;
+        customer.address = customerInfo.address;
+        customer.bankAccount = customerInfo.bankAccount;
+        customer.bankName = customerInfo.bankName;
+        customer.taxId = customerInfo.taxId;
+        customer.idNumber = customerInfo.idNumber;
+        customer.description = customerInfo.description;
+
+        return customer;
+    }
+
     public addNew(booking: Booking): Promise<ResponseResult> {
         let dbCollection = this.mongoDbAccess.getCollection(this.collection);
-        booking.createdAt = new Date();
 
-        return dbCollection.insertOne(booking)
-            .then(data => this.createResultFromInsert(data))
+        if (booking.customer._id)
+            return dbCollection.insertOne(booking)
+                .then(data => this.createResultFromInsert(data))
+                .catch(err => this.createResultFromError(err));
+        
+        let customerCollection = this.mongoDbAccess.getCollection(Collections.customer);
+        let customer = this.convertToCustomer(booking.customer);
+        customer.createdBy = booking.createdBy;
+
+        return customerCollection.insertOne(customer)
+            .then((data) => {
+                booking.customer._id = data.insertedId.toHexString();
+                return dbCollection.insertOne(booking)
+                    .then(data => this.createResultFromInsert(data))
+                    .catch(err => this.createResultFromError(err)); 
+            })
             .catch(err => this.createResultFromError(err));
     }
 

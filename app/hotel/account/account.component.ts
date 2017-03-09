@@ -68,6 +68,7 @@ export class AccountComponent extends BaseComponent {
             this.modalTitle = "Thông tin tài khoản";
             this.modalTextSave = " Cập nhật";
             Object.assign(this.vm.user, user);
+            this.vm.user.DOB = new Date(user.DOB);
         }
         else {
             this.vm.user = new User();

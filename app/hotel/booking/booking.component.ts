@@ -28,6 +28,9 @@ declare var $: any;
         .ui-autocomplete-list-item div {
             border-bottom: 1px solid #e1e1e1;
             padding-bottom: 8px;
+        }`,`
+        .fc-day-grid-event .fc-content {
+            white-space: normal;
         }`],
     encapsulation: ViewEncapsulation.None
 })
@@ -38,7 +41,6 @@ export class BookingComponent extends BaseComponent  {
     modalTitle: string;
     modalTextSave: string;
     today: Date;
-    events: any[];
     headerConfig: any;
     stepsBooking: MenuItem[];
     stepActiveIndex: number;
@@ -59,7 +61,6 @@ export class BookingComponent extends BaseComponent  {
         this.minBookingDate = new Date();
         this.isAddnewCustomer = false;
         this.today = new Date();
-        this.events = new Array<any>();
         this.headerConfig = {
 			left: 'prev,next today',
 			center: 'title',
@@ -88,25 +89,38 @@ export class BookingComponent extends BaseComponent  {
         //alert('A');
 
         if (!this.vm.fromDateSelected || !this.vm.toDateSelected) {
-            this.vm.fromDateSelected = e.view.start;
-            this.vm.toDateSelected = e.view.end;
+            this.vm.fromDateSelected = new Date(e.view.start);
+            this.vm.toDateSelected = new Date(e.view.end);
 
             this.vm.search(this.vm.fromDateSelected, this.vm.toDateSelected, null);
         }
-        else if (this.vm.fromDateSelected > e.view.start || this.vm.toDateSelected < e.view.start) {
-            this.vm.fromDateSelected = e.view.start;
-            this.vm.toDateSelected = e.view.end;
+        else if (this.vm.fromDateSelected > new Date(e.view.start) || this.vm.toDateSelected < new Date(e.view.end)) {
+            this.vm.fromDateSelected = new Date(e.view.start);
+            this.vm.toDateSelected = new Date(e.view.end);
 
             this.vm.search(this.vm.fromDateSelected, this.vm.toDateSelected, null);
         }
     }
 
-    public selectedRoom(id: string, name: string) {
+    public handleEventClick(e) {
+
+        let id = e.calEvent.id;
+        let booking = this.vm.lstBooking.find(x=> x._id == id);
+        
+        this.selectBooking(booking);
+
+        //console.log(this.vm.booking.rooms);
+
+        $("#bookingmodal").modal('show');
+    }
+
+    public selectedRoom(room: Room) {
         if (!this.vm.booking.rooms) this.vm.booking.rooms = new Array<RoomBooking>();
 
         let roombooking = new RoomBooking();
-        roombooking._id = id;
-        roombooking.name = name;
+        roombooking._id = room._id;
+        roombooking.name = room.name;
+        roombooking.roomtype = room.roomtype;
         this.vm.booking.rooms.push(roombooking);
     }
 
@@ -139,12 +153,6 @@ export class BookingComponent extends BaseComponent  {
     public getStyle(roomtypeId: string, active: boolean): any {
         let color = active ? this.getRoomColor(roomtypeId) : this.inactiveColor;
         return {'background-color': color, 'border-color': color};
-    }
-
-    public getSelectedRoomStyle(name: string): any {
-        let room = this.vm.lstRoomAvalidable.filter(x=> x.name == name)[0];
-
-        return this.getStyle(room.roomtype, room.active);
     }
 
     public getDisableRoom(name: string): boolean {
@@ -197,21 +205,23 @@ export class BookingComponent extends BaseComponent  {
         this.vm.lstCustomerInfo.forEach(customer => {
             this.filteredCustomer.push(customer);
         });
-
-        console.log(this.filteredCustomer.length);
     }
     selectedCustomer() {
         this.vm.booking.customer = this.customerSelected;
     }
     selectBooking(obj: Booking) {
-        this.stepActiveIndex = 0;
-
+        this.isAddnewCustomer = false;
         if (obj) {
-            this.modalTitle = "Đặt phòng";
+            this.modalTitle = "Chi tiết đặt phòng";
             Object.assign(this.vm.booking, obj);
             this.customerSelected = this.vm.booking.customer;
+            this.vm.booking.fromDate = new Date(obj.fromDate);
+            this.vm.booking.toDate = new Date(obj.toDate);
+
+            this.stepActiveIndex = 3
         }
         else {
+            this.stepActiveIndex = 0;
             this.modalTitle = "Đặt phòng";
             this.vm.booking = new Booking();
             this.customerSelected = null;
@@ -234,6 +244,7 @@ export class BookingComponent extends BaseComponent  {
 
     ngOnInit() {
         super.ngOnInit();
+
         this.stepActiveIndex = 0;
 
         this.sm.getRoomTypeActive((result) => {
@@ -267,31 +278,6 @@ export class BookingComponent extends BaseComponent  {
                 command: (event: any) => {
                     this.stepActiveIndex = 3;
                 }
-            }
-        ];
-
-        this.events = [
-            {
-                "title": "All Day Event",
-                "start": "2016-11-01"
-            },
-            {
-                "title": "Long Event",
-                "start": "2016-11-07",
-                "end": "2016-11-10"
-            },
-            {
-                "title": "Repeating Event",
-                "start": "2016-11-09T16:00:00"
-            },
-            {
-                "title": "Repeating Event",
-                "start": "2016-11-16T16:00:00"
-            },
-            {
-                "title": "Conference",
-                "start": "2016-11-11",
-                "end": "2016-11-13"
             }
         ];
     }
