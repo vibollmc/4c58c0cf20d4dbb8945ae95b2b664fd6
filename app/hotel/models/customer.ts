@@ -1,7 +1,6 @@
 import {MongodbModel} from './metadata/mongodbmodel';
 
 export class Customer extends MongodbModel {
-    _id: any;
     name: string;
     phoneNumber: string;
     email: string;

@@ -1,16 +1,15 @@
-import {MongodbModel} from './metadata/mongodbmodel';
-import { ServiceType } from './enum';
+import { ServiceType } from '../enum';
 
-export class OtherService extends MongodbModel {
+export class OtherServiceInfo {
     name: string;
-    inStock: number;
+    quantity: number;
     unit: string;
     price: number;
     serviceType: ServiceType;
+
     constructor() {
-        super();
         this.name = null;
-        this.inStock = null;
+        this.quantity = null;
         this.price = null;
         this.serviceType = null;
         this.unit = null;

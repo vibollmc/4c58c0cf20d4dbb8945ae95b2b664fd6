@@ -9,7 +9,7 @@ import { BookingService } from './booking.service';
 import { BookingModel } from './booking.model';
 import { ShareModel } from '../shared/share.model';
 import { CustomerInfo } from '../models/metadata/customer.info';
-import { RoomBooking } from '../models/metadata/room.booking';
+import { RoomInfo } from '../models/metadata/room.info';
 import { BaseComponent } from '../shared/base.component';
 
 declare var $: any;
@@ -47,6 +47,7 @@ export class BookingComponent extends BaseComponent  {
     checked: boolean = false;
     lstRoomtype: Roomtype[];
     lstFloor: number[];
+    editingBooking: boolean = true;
 
     filteredCustomer: CustomerInfo[];
     customerSelected: CustomerInfo;
@@ -115,9 +116,9 @@ export class BookingComponent extends BaseComponent  {
     }
 
     public selectedRoom(room: Room) {
-        if (!this.vm.booking.rooms) this.vm.booking.rooms = new Array<RoomBooking>();
+        if (!this.vm.booking.rooms) this.vm.booking.rooms = new Array<RoomInfo>();
 
-        let roombooking = new RoomBooking();
+        let roombooking = new RoomInfo();
         roombooking._id = room._id;
         roombooking.name = room.name;
         roombooking.roomtype = room.roomtype;
@@ -127,7 +128,7 @@ export class BookingComponent extends BaseComponent  {
     public removedRoom(id: string) {
         if (this.stepActiveIndex == 3) return;
 
-        let temp = new Array<RoomBooking>();
+        let temp = new Array<RoomInfo>();
 
         this.vm.booking.rooms.forEach(r => {
             if (r._id != id) {
@@ -164,7 +165,7 @@ export class BookingComponent extends BaseComponent  {
     }
 
 
-    disableNextButton(): boolean {
+    public disableNextButton(): boolean {
         if (this.stepActiveIndex == 0) {
             return !this.vm.booking.customer.name || this.vm.booking.customer.name == '';
         }
@@ -176,11 +177,11 @@ export class BookingComponent extends BaseComponent  {
         }
     }
 
-    addNewCustomer() {
+    public addNewCustomer() {
         this.isAddnewCustomer = !this.isAddnewCustomer;
     }
     
-    filterCustomer(event) {
+    public filterCustomer(event) {
         this.filteredCustomer = new Array<CustomerInfo>();
 
         this.vm.lstCustomerInfo.forEach(cusInfo => {
@@ -198,7 +199,7 @@ export class BookingComponent extends BaseComponent  {
             }
         });
     }
-    showDropDownFilter() {
+    public showDropDownFilter() {
         
         this.filteredCustomer = new Array<CustomerInfo>();
 
@@ -206,10 +207,10 @@ export class BookingComponent extends BaseComponent  {
             this.filteredCustomer.push(customer);
         });
     }
-    selectedCustomer() {
+    public selectedCustomer() {
         this.vm.booking.customer = this.customerSelected;
     }
-    selectBooking(obj: Booking) {
+    public selectBooking(obj: Booking) {
         this.isAddnewCustomer = false;
         if (obj) {
             this.modalTitle = "Chi tiết đặt phòng";
@@ -219,30 +220,38 @@ export class BookingComponent extends BaseComponent  {
             this.vm.booking.toDate = new Date(obj.toDate);
 
             this.stepActiveIndex = 3
+            this.editingBooking = false;
         }
         else {
+            this.editingBooking = true;
             this.stepActiveIndex = 0;
             this.modalTitle = "Đặt phòng";
             this.vm.booking = new Booking();
             this.customerSelected = null;
         }
     }
-    prev() {
+    public prev() {
         this.stepActiveIndex--;
     }
-    next() {
+    public next() {
         this.stepActiveIndex++;
         if (this.stepActiveIndex == 2) {
             this.vm.loadRoomAvalidable();
         }
         
     }
-    save() {
+    public save() {
         this.vm.save();
         $("#bookingmodal").modal('hide');
     }
-
-    ngOnInit() {
+    public edit() {
+        this.stepActiveIndex = 0;
+        this.editingBooking = true;
+    }
+    public checkIn() {
+        //TODO: Checking from booking here!!!
+    }
+    public ngOnInit() {
         super.ngOnInit();
 
         this.stepActiveIndex = 0;

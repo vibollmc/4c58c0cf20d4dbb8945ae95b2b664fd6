@@ -19,7 +19,7 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">{{modalTitle}}</h4>
 			</div>
-			<p-steps [model]="stepsBooking" [(activeIndex)]="stepActiveIndex" styleClass="steps-basic"></p-steps>
+			<p-steps *ngIf="editingBooking" [model]="stepsBooking" [(activeIndex)]="stepActiveIndex" styleClass="steps-basic"></p-steps>
 			<form #bookingForm="ngForm" novalidate>
 				<div class="modal-body">
 					<div class="row" *ngIf="stepActiveIndex == 0">
@@ -180,9 +180,11 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" *ngIf="stepActiveIndex != 0" (click)="prev()"><i class='fa fa-chevron-left'></i> Quay lại</button>
-					<button [disabled]="disableNextButton()" type="button" class="btn btn-success" *ngIf="stepActiveIndex != 3" (click)="next()">Tiếp tục <i class='fa fa-chevron-right'></i></button>
-					<button type="button" class="btn btn-primary" *ngIf="stepActiveIndex == 3" (click)="save()"><i class='fa fa-save'></i> Đặt phòng</button>
+					<button *ngIf="stepActiveIndex != 0 && editingBooking" type="button" class="btn btn-default" (click)="prev()"><i class='fa fa-chevron-left'></i> Quay lại</button>
+					<button *ngIf="stepActiveIndex != 3 && editingBooking" [disabled]="disableNextButton()" type="button" class="btn btn-success" (click)="next()">Tiếp tục <i class='fa fa-chevron-right'></i></button>
+					<button *ngIf="!editingBooking" type="button" class="btn btn-warning" (click)="checkIn()"><i class="fa fa-check-square-o"></i> Nhận phòng</button>
+					<button *ngIf="!editingBooking" type="button" class="btn btn-primary" (click)="edit()"><i class="fa fa-edit"></i> Sửa</button>
+					<button *ngIf="stepActiveIndex == 3 && editingBooking" type="button" class="btn btn-primary"(click)="save()"><i class='fa fa-save'></i> Đặt phòng</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-sign-out"></i> Đóng</button>
 				</div>
 			</form>

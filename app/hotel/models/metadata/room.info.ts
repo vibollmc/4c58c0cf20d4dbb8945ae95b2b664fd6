@@ -1,4 +1,4 @@
-export class RoomBooking {
+export class RoomInfo {
     _id: any;
     name: string;
     roomtype: string;
