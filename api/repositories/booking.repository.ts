@@ -92,7 +92,7 @@ export class BookingRepository extends BaseRepository {
 
     public addNew(booking: Booking): Promise<ResponseResult> {
         let dbCollection = this.mongoDbAccess.getCollection(this.collection);
-
+        booking.createdAt = new Date();
         if (booking.customer._id)
             return dbCollection.insertOne(booking)
                 .then(data => this.createResultFromInsert(data))

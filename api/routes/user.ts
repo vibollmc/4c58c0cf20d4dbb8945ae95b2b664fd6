@@ -102,4 +102,4 @@ router.post("/login", (req: express.Request, res: express.Response, next: expres
         });
 });
 
-export var user = router;
+export var userRouter = router;

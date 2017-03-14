@@ -61,7 +61,7 @@ export class RoomComponent extends BaseComponent {
         return this.inactiveColor;
     }
 
-    public selectRoom(floor: number): Room[] {
+    public getRoomByFloor(floor: number): Room[] {
         if (this.vm.lstObj) 
             return this.vm.lstObj.filter(x=> x.floor == floor)
             .sort((a,b) => { 

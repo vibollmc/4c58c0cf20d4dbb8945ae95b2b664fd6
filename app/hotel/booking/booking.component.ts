@@ -67,10 +67,6 @@ export class BookingComponent extends BaseComponent  {
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		};
-
-        this.sm.getSystemSetting("INACTIVE_COLOR", (result) => {
-            this.inactiveColor = result.value ? result.value : "#c6c3c3";
-        });
     }
 
     private getRoomColor(roomtypeId: string): string {
@@ -255,6 +251,10 @@ export class BookingComponent extends BaseComponent  {
         super.ngOnInit();
 
         this.stepActiveIndex = 0;
+
+        this.sm.getSystemSetting("INACTIVE_COLOR", (result) => {
+            this.inactiveColor = result.value ? result.value : "#c6c3c3";
+        });
 
         this.sm.getRoomTypeActive((result) => {
             this.lstRoomtype = result;

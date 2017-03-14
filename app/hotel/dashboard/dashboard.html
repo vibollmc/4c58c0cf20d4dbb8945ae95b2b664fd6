@@ -1,8 +1,39 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Dashboard</h1>
+        <h1 class="page-header"><i class="fa fa-home fa-fw"></i> Tiền sảnh</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
 <!-- todo: build content dashboard here -->
+
+<div class="bs-docs-panel" panel-header="Các loại phòng">
+	<div class="row">
+		<div *ngFor="let roomtype of lstRoomtype" class="col-md-3">
+			<span class="btn btn-sq-xs btn-default" [ngStyle]="{'background-color': roomtype.color, 'border-color': roomtype.color}"></span><strong> {{roomtype.name}}</strong>
+		</div>
+
+	</div>
+</div>
+
+<div class="bs-docs-panel" panel-header="Phòng sắp trả">
+	<div class="row">
+		
+	</div>
+</div>
+
+<div class="bs-docs-panel" panel-header="Đặt phòng sắp nhận phòng">
+	<div class="row">
+		
+	</div>
+</div>
+
+<div *ngFor="let floor of lstFloor" class="bs-docs-panel" attr.panel-header="Lầu {{floor}}">
+	<div class="row">
+		<div class="col-md-12">
+			<div *ngFor="let obj of getRoomByFloor(floor)" class="btn btn-sq-lg btn-info" [ngStyle]="getStyle(obj.roomtype, obj.active)">
+				<strong>{{obj.name}}</strong>
+			</div>
+		</div>
+	</div>
+</div>

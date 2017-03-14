@@ -5,13 +5,16 @@ import * as cors from "cors";
 import * as morgan from "morgan";
 
 import kernel from "./api/ioc/ioc.config";
-import { MongoDbAccess } from "./dbservices/database.access";
 import ApiConfig from "./api/config";
-import { listRouter } from "./api/routes/list";
-import { user } from "./api/routes/user";
-import { bookingRouter } from "./api/routes/booking";
+
+import { MongoDbAccess } from "./dbservices/database.access";
 import { ResultCode } from "./app/hotel/models/enum";
 import { ResponseResult } from "./app/hotel/models/responseresults";
+
+import { listRouter } from "./api/routes/list";
+import { userRouter } from "./api/routes/user";
+import { bookingRouter } from "./api/routes/booking";
+import { checkinRouter } from "./api/routes/checkin";
 
 let app = express();
 // allow CORS
@@ -68,8 +71,9 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 });
 
 app.use("/api/list", listRouter);
-app.use("/api/user", user);
+app.use("/api/user", userRouter);
 app.use("/api/booking", bookingRouter);
+app.use("/api/checkin", checkinRouter);
 
 app.listen(8080, () => {
   console.log("Api server listening on port %d in %s mode", 8080, app.settings.env);

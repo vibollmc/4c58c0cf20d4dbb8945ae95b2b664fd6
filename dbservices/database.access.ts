@@ -37,5 +37,6 @@ export var Collections = {
     otherService: "OtherService",
     customer: "Customer",
     room: "Room",
-    booking: "Booking"
+    booking: "Booking",
+    checkedIn: "checkedIn"
 }
